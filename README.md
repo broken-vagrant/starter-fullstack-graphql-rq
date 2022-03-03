@@ -19,15 +19,15 @@ npx msw init public/ --save
 # mswjs for node is already coded in `setupTests.ts`
 ```
 
-### Server
+### [Server](./packages/server)
 
 ```sh
-yarn server run watch
-yarn server run test
+yarn server run generate
+yarn server run dev
 yarn server run start
 ```
 
-### App
+### [App](./packages/app)
 
 ```sh
 yarn app run preview
