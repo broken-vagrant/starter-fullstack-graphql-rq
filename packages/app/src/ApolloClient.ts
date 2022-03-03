@@ -3,7 +3,7 @@ import fetch from "cross-fetch";
 const cache = new InMemoryCache();
 
 const link = new HttpLink({
-  uri: "https://jsonplaceholder.ir/graphql",
+  uri: "http://localhost:4000/graphql",
 
   // Use explicit `window.fetch` so tha outgoing requests
   // are captured and deferred until the Service Worker is ready.

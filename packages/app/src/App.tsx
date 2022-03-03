@@ -1,67 +1,38 @@
 import "./App.css";
 import * as React from "react";
-import fetch from "cross-fetch";
 import { gql, useLazyQuery } from "@apollo/client";
+import { GetAllUsers, GetAllUsers_allUsers } from "./__generated__/GetAllUsers";
 
-interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
-
-function App() {
-  const [posts, setPosts] = React.useState<Post[]>([]);
-  const [isLoading, setIsLoading] = React.useState(false);
-
-  const fetchPosts = async () => {
-    setIsLoading(true);
-    await fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((res) => res.json())
-      .then((posts) => setPosts(posts as Post[]));
-
-    setIsLoading(false);
-  };
-
-  // GraphQL API
-  const GET_POSTS = gql`
-    query posts {
-      posts {
-        userId
-        id
-        title
-        body
-      }
+const GET_ALL_USERS = gql`
+  query GetAllUsers {
+    allUsers {
+      name
+      id
     }
-  `;
-  const [postsGql, setPostsGql] = React.useState<Post[]>([]);
-  const [runQuery, { loading, data }] = useLazyQuery<{ posts: Post[] }>(
-    GET_POSTS,
-    { onCompleted: () => setPostsGql(data?.posts || []) }
+  }
+`;
+function App() {
+  // GraphQL API
+  const [users, setUsers] = React.useState<GetAllUsers["allUsers"] | []>([]);
+  const [runQuery, { loading, data }] = useLazyQuery<GetAllUsers>(
+    GET_ALL_USERS,
+    { onCompleted: () => setUsers(data?.allUsers || []) }
   );
 
   return (
-    <main className="App">
-      <h1>MSW Testing Library Example</h1>
-      {isLoading && <span aria-label="loading">Loading...</span>}
-      {posts.length > 0 &&
-        posts.map((post) => (
-          <article key={post.id}>
-            <h2>{post.title}</h2>
-            <p>{post.body}</p>
-          </article>
-        ))}
-      <button onClick={() => fetchPosts()}>Fetch Posts</button>
-      {loading && <span aria-label="loading">Loading...</span>}
-      {postsGql.length > 0 &&
-        postsGql.map((post) => (
-          <article key={post.id}>
-            <h2>{post.title}</h2>
-            <p>{post.body}</p>
-          </article>
-        ))}
-      <button onClick={() => runQuery()}>Fetch Posts GraphQL</button>
-    </main>
+    <div>
+      <button onClick={() => runQuery()}>Load users</button>
+      {loading && <div>Loding...</div>}
+      <ul>
+        {users.map((user) => {
+          return (
+            <li key={user.id}>
+              <pre>{JSON.stringify(user)}</pre>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 
