@@ -1,0 +1,38 @@
+{
+  "name": "starter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "app": "yarn workspace @starter/app",
+    "server": "yarn workspace @starter/server",
+    "prepare": "husky install",
+    "precommit": "lint-staged"
+  },
+  "devDependencies": {
+    "@types/node": "16.11.26",
+    "@typescript-eslint/eslint-plugin": "5.13.0",
+    "@typescript-eslint/parser": "5.13.0",
+    "concurrently": "7.0.0",
+    "eslint": "8.10.0",
+    "husky": "^7.0.0",
+    "lint-staged": "12.3.4",
+    "prettier": "2.5.1",
+    "typescript": "4.6.2"
+  },
+  "lint-staged": {
+    "./**/*.{js,jsx,ts,tsx}": [
+      "yarn server precommit",
+      "yarn app precommit"
+    ],
+    "./**/*.{json,md,css,scss}": [
+      "yarn app prettier",
+      "yarn server prettier"
+    ]
+  },
+  "packageManager": "yarn@3.2.0"
+}

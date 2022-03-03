@@ -1,0 +1,38 @@
+{
+  "name": "@starter/server",
+  "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev --no-notify --respawn --transpile-only src/server",
+    "start": "node dist/server",
+    "clean": "rm -rf dist",
+    "build": "npm -s run clean && npm -s run generate && tsc",
+    "generate": "npm -s run generate:prisma && npm -s run generate:nexus",
+    "generate:prisma": "prisma generate",
+    "generate:nexus": "ts-node --transpile-only src/schema",
+    "precommit": "yarn run prettier",
+    "prettier": "prettier --ignore-path .gitignore --write",
+    "lint": "tsc --noEmit && eslint  --quiet --fix --ignore-path .gitignore"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
+  "dependencies": {
+    "@prisma/client": "3.10.0",
+    "apollo-server": "3.6.3",
+    "graphql": "15.8.0",
+    "graphql-scalars": "1.14.1",
+    "nexus": "1.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "16.11.26",
+    "prisma": "3.10.0",
+    "ts-node": "10.6.0",
+    "ts-node-dev": "1.1.8",
+    "typescript": "4.6.2"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  }
+}
