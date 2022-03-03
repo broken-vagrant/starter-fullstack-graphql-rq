@@ -18,50 +18,20 @@ This example shows how to implement a **GraphQL server with TypeScript** with th
 
 ## Getting started
 
-### 1. Download example and install dependencies
-
-Download this example:
-
-```
-curl https://codeload.github.com/prisma/prisma-examples/tar.gz/latest | tar -xz --strip=2 prisma-examples-latest/typescript/graphql
-```
-
-Install npm dependencies:
-
-```
-cd graphql
-npm install
-```
-
-<details><summary><strong>Alternative:</strong> Clone the entire repo</summary>
-
-Clone this repository:
-
-```
-git clone git@github.com:prisma/prisma-examples.git --depth=1
-```
-
-Install npm dependencies:
-
-```
-cd prisma-examples/typescript/graphql
-npm install
-```
-
-</details>
-
-### 2. Create and seed the database
+### 1. Create and seed the database
 
 Run the following command to create your SQLite database file. This also creates the `User` and `Post` tables that are defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
 
 ```sh
 npx prisma db push
-npx ts-node prisma/seed.ts or npx prisma db seed
+npx ts-node prisma/seed.ts
+# or
+npx prisma db seed
 ```
 
-When `npx prisma migrate dev` is executed against a newly created database, seeding is also triggered. The seed file in [`prisma/seed.ts`](./prisma/seed.ts) will be executed and your database will be populated with the sample data.
+When `npx prisma db seed` is executed against a newly created database, seeding is also triggered. The seed file in [`prisma/seed.ts`](./prisma/seed.ts) will be executed and your database will be populated with the sample data.
 
-### 3. Start the GraphQL server
+### 2. Start the GraphQL server
 
 Launch your GraphQL server with this command:
 
