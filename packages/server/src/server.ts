@@ -2,21 +2,19 @@ import { ApolloServer } from 'apollo-server'
 import schema from './schema'
 import { context } from './context'
 import {
-  ApolloServerPluginLandingPageGraphQLPlayground, ApolloServerPluginLandingPageProductionDefault
+  ApolloServerPluginLandingPageGraphQLPlayground, ApolloServerPluginLandingPageProductionDefault,
+  ApolloServerPluginUsageReportingDisabled
 } from "apollo-server-core";
-
+import { isProd } from './constants'
 
 const server = new ApolloServer({
   schema: schema,
   context: context,
   plugins: [
-    process.env.NODE_ENV === 'production' ? ApolloServerPluginLandingPageProductionDefault() : ApolloServerPluginLandingPageGraphQLPlayground(),
+    isProd ?
+      ApolloServerPluginLandingPageProductionDefault() : ApolloServerPluginLandingPageGraphQLPlayground(),
+    !isProd ? ApolloServerPluginUsageReportingDisabled() : {}
   ],
 })
+export default server;
 
-server.listen().then(async ({ url }) => {
-  console.log(`\
-🚀 Server ready at: ${url}
-⭐️ See sample queries: http://pris.ly/e/ts/graphql#using-the-graphql-api
-  `)
-})

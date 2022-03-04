@@ -2,7 +2,7 @@
   "name": "@starter/server",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --no-notify --respawn --transpile-only src/server",
+    "dev": "ts-node-dev --no-notify --respawn --transpile-only src/index",
     "start": "node dist/server",
     "clean": "rm -rf dist",
     "build": "npm -s run clean && npm -s run generate && tsc",
@@ -12,7 +12,8 @@
     "publish:schema": "rover graph introspect http://localhost:4000 | rover graph publish starter-fullstack@current --schema -",
     "precommit": "yarn run prettier",
     "prettier": "prettier --ignore-path .gitignore --write",
-    "lint": "tsc --noEmit && eslint  --quiet --fix --ignore-path .gitignore"
+    "lint": "tsc --noEmit && eslint  --quiet --fix --ignore-path .gitignore",
+    "test": "rm -rf prisma/dev.db && prisma db push && jest "
   },
   "prettier": {
     "semi": false,
@@ -27,13 +28,33 @@
     "nexus": "1.2.0"
   },
   "devDependencies": {
+    "@types/jest": "^27.4.1",
     "@types/node": "16.11.26",
+    "get-port": "5.1.1",
+    "graphql-request": "^4.0.0",
+    "jest": "^27.5.1",
     "prisma": "3.10.0",
+    "ts-jest": "^27.1.3",
     "ts-node": "10.6.0",
     "ts-node-dev": "1.1.8",
     "typescript": "4.6.2"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testTimeout": 30000,
+    "testPathIgnorePatterns": [
+      "dist",
+      "node_modules"
+    ],
+    "testMatch": [
+      "**/?(*.)+(spec|test).[jt]s?(x)"
+    ],
+    "globals": {
+      "ts-jest": {}
+    },
+    "testEnvironment": "node"
   }
 }
