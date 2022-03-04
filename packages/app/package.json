@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "homepage": "https://zkindest.github.io/react-starter",
   "dependencies": {
-    "apollo": "^2.33.9",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "web-vitals": "2.1.4"
   },
   "scripts": {
-    "download-schema": "apollo service:download --endpoint=http://localhost:4000/ graphql-schema.json",
-    "codegen": "npm run download-schema && apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript ",
+    "apollo:prod:codegen": "apollo client:codegen --config=apollo.config.js --target=typescript",
+    "download:prod:schema": "apollo service:download --config=apollo.config.js graphql-schema-prod.json",
+    "download:local:schema": "apollo service:download --endpoint=http://localhost:4000/ graphql-schema.json",
+    "apollo:local:codegen": "yarn download:local:schema && apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
@@ -39,6 +40,7 @@
     "@types/react": "17.0.39",
     "@types/react-dom": "17.0.12",
     "@vitejs/plugin-react": "1.2.0",
+    "apollo": "^2.33.9",
     "cross-fetch": "3.1.5",
     "jsdom": "latest",
     "msw": "0.38.1",

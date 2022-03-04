@@ -471,6 +471,15 @@ const userWithUpdatedProfile = await prisma.user.update({
 
 </details>
 
+### 3. Publish updated schema to registry (optional)
+
+```sh
+# setup account on apollo studio
+# paste the apiKey after running below command
+npx rover config auth
+yarn server publish:schema
+```
+
 ## Switch to another database (e.g. PostgreSQL, MySQL, SQL Server, MongoDB)
 
 If you want to try this example with another database than SQLite, you can adjust the the database connection in [`prisma/schema.prisma`](./prisma/schema.prisma) by reconfiguring the `datasource` block.

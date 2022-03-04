@@ -1,7 +1,7 @@
 import "./App.css";
 import * as React from "react";
 import { gql, useLazyQuery } from "@apollo/client";
-import { GetAllUsers, GetAllUsers_allUsers } from "./__generated__/GetAllUsers";
+import { GetAllUsers } from "./__generated__/GetAllUsers";
 
 const GET_ALL_USERS = gql`
   query GetAllUsers {

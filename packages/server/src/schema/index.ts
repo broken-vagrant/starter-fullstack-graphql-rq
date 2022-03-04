@@ -12,8 +12,8 @@ export default makeSchema({
     Mutation,
   },
   outputs: {
-    schema: __dirname + '/../schema.graphql',
-    typegen: __dirname + '/generated/nexus.ts',
+    schema: __dirname + '/../../schema.graphql',
+    typegen: __dirname + '/../generated/nexus.ts',
   },
   contextType: {
     module: require.resolve('../context'),

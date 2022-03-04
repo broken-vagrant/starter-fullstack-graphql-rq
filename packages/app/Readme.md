@@ -13,10 +13,17 @@ yarn run preview
 yarn run test # run with vitest
 yarn run coverage # run with vitest
 
-# download the GraphQL schema from server, a file named `graphql-schema.json` will be generated
-yarn app download-schema
+# download the published GraphQL schema from apollo studio (Need to set API_KEY env var,check env.example)
+yarn app download:prod:schema
+#           or
+# download the GraphQL schema from a local development server (eg:http://localhost:4000)
+yarn app download:local:schema
 
-# Generate types for client Operations from server schema
-yarn app codegen
+# Generate static types for GraphQL queries. Can use the
+# published schema in the Apollo registry
+yarn app apollo:prod:codegen
+#  or a
+# downloaded schema
+yarn app apollo:local:codegen
 
 ```
