@@ -8,10 +8,10 @@
     "web-vitals": "2.1.4"
   },
   "scripts": {
-    "apollo:prod:codegen": "apollo client:codegen --config=apollo.config.js --target=typescript",
-    "download:prod:schema": "apollo service:download --config=apollo.config.js graphql-schema-prod.json",
-    "download:local:schema": "apollo service:download --endpoint=http://localhost:4000/ graphql-schema.json",
-    "apollo:local:codegen": "yarn download:local:schema && apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript",
+    "apollo:codegen": "apollo client:codegen --config=apollo.config.js --target=typescript",
+    "download:schema": "apollo service:download --config=apollo.config.js graphql-schema-prod.json",
+    "download:schema:local": "apollo service:download --endpoint=http://localhost:4000/ graphql-schema.json",
+    "apollo:codgen:local": "yarn download:local:schema && apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",

@@ -2,6 +2,6 @@
 module.exports = {
   client: {
     tagName: 'gql',
-    service: 'My-Graph-dnatel@prod',
+    service: process.env.APOLLO_GRAPH_REF,
   }
 }

@@ -9,7 +9,7 @@
     "generate": "npm -s run generate:prisma && npm -s run generate:nexus",
     "generate:prisma": "prisma generate",
     "generate:nexus": "ts-node --transpile-only src/schema",
-    "publish:schema": "rover graph introspect http://localhost:4000 | rover graph publish My-Graph-dnatel@prod --schema -",
+    "publish:schema": "rover graph introspect http://localhost:4000 | rover graph publish starter-fullstack@current --schema -",
     "precommit": "yarn run prettier",
     "prettier": "prettier --ignore-path .gitignore --write",
     "lint": "tsc --noEmit && eslint  --quiet --fix --ignore-path .gitignore"

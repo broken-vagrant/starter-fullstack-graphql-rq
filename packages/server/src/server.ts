@@ -2,7 +2,7 @@ import { ApolloServer } from 'apollo-server'
 import schema from './schema'
 import { context } from './context'
 import {
-  ApolloServerPluginLandingPageGraphQLPlayground
+  ApolloServerPluginLandingPageGraphQLPlayground, ApolloServerPluginLandingPageProductionDefault
 } from "apollo-server-core";
 
 
@@ -10,7 +10,7 @@ const server = new ApolloServer({
   schema: schema,
   context: context,
   plugins: [
-    ApolloServerPluginLandingPageGraphQLPlayground(),
+    process.env.NODE_ENV === 'production' ? ApolloServerPluginLandingPageProductionDefault() : ApolloServerPluginLandingPageGraphQLPlayground(),
   ],
 })
 

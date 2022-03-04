@@ -476,7 +476,10 @@ const userWithUpdatedProfile = await prisma.user.update({
 ```sh
 # setup account on apollo studio
 # paste the apiKey after running below command
+# source: https://studio.apollographql.com/
 npx rover config auth
+
+# change `starter-fullstack@current` in `server/package.json` to your <graph-id>@<variant>
 yarn server publish:schema
 ```
 
