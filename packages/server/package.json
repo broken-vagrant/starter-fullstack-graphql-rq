@@ -13,7 +13,7 @@
     "precommit": "yarn run prettier",
     "prettier": "prettier --ignore-path .gitignore --write",
     "lint": "tsc --noEmit && eslint  --quiet --fix --ignore-path .gitignore",
-    "test": "rm -rf prisma/dev.db && prisma db push && jest "
+    "test": "rm -rf prisma/dev.db && prisma db push && jest --silent"
   },
   "prettier": {
     "semi": false,
@@ -44,7 +44,7 @@
   },
   "jest": {
     "preset": "ts-jest",
-    "testTimeout": 30000,
+    "testTimeout": 10000,
     "testPathIgnorePatterns": [
       "dist",
       "node_modules"
