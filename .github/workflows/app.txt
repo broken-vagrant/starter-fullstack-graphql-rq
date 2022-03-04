@@ -1,14 +1,14 @@
 name: App
 
-# on:
-#   push:
-#     branches: [main, renovate/**]
-#     paths:
-#       - "packages/app/**"
-#   pull_request:
-#     paths:
-#       - "packages/app/**"
-#     branches: [main]
+on:
+  push:
+    branches: [main, renovate/**]
+    paths:
+      - "packages/app/**"
+  pull_request:
+    paths:
+      - "packages/app/**"
+    branches: [main]
 
 jobs:
   test:
