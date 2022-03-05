@@ -1,3 +1,5 @@
+# Full stack starter (Graphql)
+
 ## Requirements
 
 ### app
@@ -55,9 +57,17 @@ yarn app apollo:local:codegen
 
 ```
 
-### Possible Errors
+## Future
 
-1. `Cannot find module '/[redacted]/starter/.yarn/releases/yarn-berry.cjs`
+1. Add e2e tests
+2. Add user auth
+
+## Troubleshoot
+
+<details>
+<summary>
+Cannot find module '/[redacted]/starter/.yarn/releases/yarn-berry.cjs
+</summary>
 
 ```sh
 rm .yarnrc.yml
@@ -67,3 +77,5 @@ yarn set version berry
 nodeLinker: node-modules
 
 ```
+
+</details>
