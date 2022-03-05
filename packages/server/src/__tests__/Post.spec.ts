@@ -6,7 +6,7 @@ it('ensures that a user and their posts can be created', async () => {
   // Create a new draft
   const newUserResult = await ctx.client.request(`            # 1
   mutation {
-  signupUser(data: { email: "1@gmail.com", name: "one", posts: [] }) {
+  signupUser(data: { email: "1@gmail.com", name: "one",password: "123", posts: [] }) {
     id
     name
     email

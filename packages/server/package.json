@@ -13,7 +13,12 @@
     "precommit": "yarn run prettier",
     "prettier": "prettier --ignore-path .gitignore --write",
     "lint": "tsc --noEmit && eslint  --quiet --fix --ignore-path .gitignore",
-    "test": "rm -rf prisma/dev.db && prisma db push && jest --silent"
+    "test": "rm -rf prisma/dev.db && prisma db push && jest --silent",
+    "prisma:migrate:init": "prisma migrate dev --name init",
+    "prisma:migrate:dev": "prisma migrate dev",
+    "prisma:migrate:reset": "prisma migrate reset",
+    "prisma:migrate:deploy": "prisma migrate deploy",
+    "prisma:db:push": "prisma db push"
   },
   "prettier": {
     "semi": false,
@@ -23,12 +28,16 @@
   "dependencies": {
     "@prisma/client": "3.10.0",
     "apollo-server": "3.6.3",
+    "bcrypt": "^5.0.1",
     "graphql": "15.8.0",
     "graphql-scalars": "1.14.1",
+    "jsonwebtoken": "^8.5.1",
     "nexus": "1.2.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/jest": "^27.4.1",
+    "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "16.11.26",
     "get-port": "5.1.1",
     "graphql-request": "^4.0.0",

@@ -1,4 +1,5 @@
 import { PrismaClient, Prisma } from '@prisma/client'
+import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient()
 
@@ -6,6 +7,7 @@ const userData: Prisma.UserCreateInput[] = [
   {
     name: 'Alice',
     email: 'alice@prisma.io',
+    passwordHash: '123', // will be hashed
     posts: {
       create: [
         {
@@ -19,6 +21,7 @@ const userData: Prisma.UserCreateInput[] = [
   {
     name: 'Nilu',
     email: 'nilu@prisma.io',
+    passwordHash: '123',// will be hashed
     posts: {
       create: [
         {
@@ -33,6 +36,7 @@ const userData: Prisma.UserCreateInput[] = [
   {
     name: 'Mahmoud',
     email: 'mahmoud@prisma.io',
+    passwordHash: '123',// will be hashed
     posts: {
       create: [
         {
@@ -52,9 +56,11 @@ const userData: Prisma.UserCreateInput[] = [
 
 async function main() {
   console.log(`Start seeding ...`)
+
   for (const u of userData) {
+    const passwordHash = bcrypt.hashSync(u.passwordHash, 10)
     const user = await prisma.user.create({
-      data: u,
+      data: { ...u, passwordHash },
     })
     console.log(`Created user with id: ${user.id}`)
   }

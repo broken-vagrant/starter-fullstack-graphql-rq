@@ -11,7 +11,7 @@ type Mutation {
   createDraft(authorEmail: String!, data: PostCreateInput!): Post
   deletePost(id: Int!): Post
   incrementPostViewCount(id: Int!): Post
-  signupUser(data: UserCreateInput!): User!
+  signupUser(data: UserCreateWhereInput!): User!
   togglePublishPost(id: Int!): Post
 }
 
@@ -39,7 +39,9 @@ type Query {
   allUsers: [User!]!
   draftsByUser(userUniqueInput: UserUniqueInput!): [Post]
   feed(orderBy: PostOrderByUpdatedAtInput, searchString: String, skip: Int, take: Int): [Post!]!
+  login(data: UserLoginInput!): UserLoginResponse
   postById(id: Int): Post
+  whoami: User
 }
 
 enum SortOrder {
@@ -51,13 +53,25 @@ type User {
   email: String!
   id: Int!
   name: String
+  passwordHash: String!
   posts: [Post!]!
 }
 
-input UserCreateInput {
+input UserCreateWhereInput {
   email: String!
-  name: String
+  name: String!
+  password: String!
   posts: [PostCreateInput!]
+}
+
+input UserLoginInput {
+  email: String!
+  password: String!
+}
+
+type UserLoginResponse {
+  token: String!
+  user: User!
 }
 
 input UserUniqueInput {

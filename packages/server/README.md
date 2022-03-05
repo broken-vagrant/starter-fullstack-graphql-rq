@@ -23,20 +23,21 @@ This example shows how to implement a **GraphQL server with TypeScript** with th
 Run the following command to create your SQLite database file. This also creates the `User` and `Post` tables that are defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
 
 ```sh
-npx prisma db push
-npx ts-node prisma/seed.ts
-# or
-npx prisma db seed
-```
+# apply/create intial db migration
+yarn prisma:migrate:init
+# apply latest prisma schema to db
+yarn prisma:db:push
+# reset the database && undo manual changes or db push experiments
+yarn prisma:migrate:reset
 
-When `npx prisma db seed` is executed against a newly created database, seeding is also triggered. The seed file in [`prisma/seed.ts`](./prisma/seed.ts) will be executed and your database will be populated with the sample data.
+```
 
 ### 2. Start the GraphQL server
 
 Launch your GraphQL server with this command:
 
 ```
-npm run dev
+yarn run dev
 ```
 
 Navigate to [http://localhost:4000](http://localhost:4000) in your browser to explore the API of your GraphQL server in a [GraphQL Playground](https://github.com/prisma/graphql-playground).
@@ -361,7 +362,7 @@ export const schema = makeSchema({
 }
 ```
 
-Note that in order to resolve any type errors, your development server needs to be running so that the Nexus types can be generated. If it's not running, you can start it with `npm run dev`.
+Note that in order to resolve any type errors, your development server needs to be running so that the Nexus types can be generated. If it's not running, you can start it with `yarn run dev`.
 
 #### 2.2. Add a `createProfile` GraphQL mutation
 

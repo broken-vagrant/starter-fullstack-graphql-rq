@@ -7,6 +7,7 @@ const User = objectType({
     t.nonNull.int('id')
     t.string('name')
     t.nonNull.string('email')
+    t.nonNull.string('passwordHash')
     t.nonNull.list.nonNull.field('posts', {
       type: 'Post',
       resolve: (parent, _, context: Context) => {
