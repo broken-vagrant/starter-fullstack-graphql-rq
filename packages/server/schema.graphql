@@ -7,11 +7,17 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 """
 scalar DateTime
 
+type LogoutResponse {
+  ok: Boolean!
+}
+
 type Mutation {
   createDraft(authorEmail: String!, data: PostCreateInput!): Post
   deletePost(id: Int!): Post
   incrementPostViewCount(id: Int!): Post
-  signupUser(data: UserCreateWhereInput!): User!
+  login(data: UserLoginInput!): UserAuthResponse
+  refreshToken(data: RefreshTokenInput!): UserAuthResponse
+  signupUser(data: UserCreateWhereInput!): UserAuthResponse!
   togglePublishPost(id: Int!): Post
 }
 
@@ -39,9 +45,14 @@ type Query {
   allUsers: [User!]!
   draftsByUser(userUniqueInput: UserUniqueInput!): [Post]
   feed(orderBy: PostOrderByUpdatedAtInput, searchString: String, skip: Int, take: Int): [Post!]!
-  login(data: UserLoginInput!): UserLoginResponse
+  logout: LogoutResponse!
   postById(id: Int): Post
   whoami: User
+}
+
+input RefreshTokenInput {
+  fingerPrintHash: String!
+  refreshToken: String!
 }
 
 enum SortOrder {
@@ -55,6 +66,13 @@ type User {
   name: String
   passwordHash: String!
   posts: [Post!]!
+  refreshToken: String
+  refreshTokenExpiresAt: DateTime
+}
+
+type UserAuthResponse {
+  jwt: String!
+  refreshToken: String
 }
 
 input UserCreateWhereInput {
@@ -67,11 +85,6 @@ input UserCreateWhereInput {
 input UserLoginInput {
   email: String!
   password: String!
-}
-
-type UserLoginResponse {
-  token: String!
-  user: User!
 }
 
 input UserUniqueInput {

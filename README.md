@@ -6,6 +6,10 @@
 
 1. `node>=14` for `vitest`
 
+### server
+
+1. `node>=15` for `crypto.webcrypto`
+
 ## Available Scripts
 
 ### Init

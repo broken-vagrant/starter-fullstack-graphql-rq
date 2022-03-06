@@ -1,5 +1,5 @@
 import { arg, intArg, nonNull, ObjectDefinitionBlock, stringArg } from "nexus/dist/core"
-import { Context } from "../../context"
+import { Context } from "@/context"
 
 export default function postMutationDef(t: ObjectDefinitionBlock<'Mutation'>) {
   t.field('createDraft', {

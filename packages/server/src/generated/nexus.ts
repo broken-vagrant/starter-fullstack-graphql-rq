@@ -36,6 +36,10 @@ export interface NexusGenInputs {
   PostOrderByUpdatedAtInput: { // input type
     updatedAt: NexusGenEnums['SortOrder']; // SortOrder!
   }
+  RefreshTokenInput: { // input type
+    fingerPrintHash: string; // String!
+    refreshToken: string; // String!
+  }
   UserCreateWhereInput: { // input type
     email: string; // String!
     name: string; // String!
@@ -66,6 +70,9 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  LogoutResponse: { // root type
+    ok: boolean; // Boolean!
+  }
   Mutation: {};
   Post: { // root type
     content?: string | null; // String
@@ -82,10 +89,12 @@ export interface NexusGenObjects {
     id: number; // Int!
     name?: string | null; // String
     passwordHash: string; // String!
+    refreshToken?: string | null; // String
+    refreshTokenExpiresAt?: NexusGenScalars['DateTime'] | null; // DateTime
   }
-  UserLoginResponse: { // root type
-    token: string; // String!
-    user: NexusGenRootTypes['User']; // User!
+  UserAuthResponse: { // root type
+    jwt: string; // String!
+    refreshToken?: string | null; // String
   }
 }
 
@@ -100,11 +109,16 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  LogoutResponse: { // field return type
+    ok: boolean; // Boolean!
+  }
   Mutation: { // field return type
     createDraft: NexusGenRootTypes['Post'] | null; // Post
     deletePost: NexusGenRootTypes['Post'] | null; // Post
     incrementPostViewCount: NexusGenRootTypes['Post'] | null; // Post
-    signupUser: NexusGenRootTypes['User']; // User!
+    login: NexusGenRootTypes['UserAuthResponse'] | null; // UserAuthResponse
+    refreshToken: NexusGenRootTypes['UserAuthResponse'] | null; // UserAuthResponse
+    signupUser: NexusGenRootTypes['UserAuthResponse']; // UserAuthResponse!
     togglePublishPost: NexusGenRootTypes['Post'] | null; // Post
   }
   Post: { // field return type
@@ -121,7 +135,7 @@ export interface NexusGenFieldTypes {
     allUsers: NexusGenRootTypes['User'][]; // [User!]!
     draftsByUser: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
     feed: NexusGenRootTypes['Post'][]; // [Post!]!
-    login: NexusGenRootTypes['UserLoginResponse'] | null; // UserLoginResponse
+    logout: NexusGenRootTypes['LogoutResponse']; // LogoutResponse!
     postById: NexusGenRootTypes['Post'] | null; // Post
     whoami: NexusGenRootTypes['User'] | null; // User
   }
@@ -131,19 +145,26 @@ export interface NexusGenFieldTypes {
     name: string | null; // String
     passwordHash: string; // String!
     posts: NexusGenRootTypes['Post'][]; // [Post!]!
+    refreshToken: string | null; // String
+    refreshTokenExpiresAt: NexusGenScalars['DateTime'] | null; // DateTime
   }
-  UserLoginResponse: { // field return type
-    token: string; // String!
-    user: NexusGenRootTypes['User']; // User!
+  UserAuthResponse: { // field return type
+    jwt: string; // String!
+    refreshToken: string | null; // String
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  LogoutResponse: { // field return type name
+    ok: 'Boolean'
+  }
   Mutation: { // field return type name
     createDraft: 'Post'
     deletePost: 'Post'
     incrementPostViewCount: 'Post'
-    signupUser: 'User'
+    login: 'UserAuthResponse'
+    refreshToken: 'UserAuthResponse'
+    signupUser: 'UserAuthResponse'
     togglePublishPost: 'Post'
   }
   Post: { // field return type name
@@ -160,7 +181,7 @@ export interface NexusGenFieldTypeNames {
     allUsers: 'User'
     draftsByUser: 'Post'
     feed: 'Post'
-    login: 'UserLoginResponse'
+    logout: 'LogoutResponse'
     postById: 'Post'
     whoami: 'User'
   }
@@ -170,10 +191,12 @@ export interface NexusGenFieldTypeNames {
     name: 'String'
     passwordHash: 'String'
     posts: 'Post'
+    refreshToken: 'String'
+    refreshTokenExpiresAt: 'DateTime'
   }
-  UserLoginResponse: { // field return type name
-    token: 'String'
-    user: 'User'
+  UserAuthResponse: { // field return type name
+    jwt: 'String'
+    refreshToken: 'String'
   }
 }
 
@@ -188,6 +211,12 @@ export interface NexusGenArgTypes {
     }
     incrementPostViewCount: { // args
       id: number; // Int!
+    }
+    login: { // args
+      data: NexusGenInputs['UserLoginInput']; // UserLoginInput!
+    }
+    refreshToken: { // args
+      data: NexusGenInputs['RefreshTokenInput']; // RefreshTokenInput!
     }
     signupUser: { // args
       data: NexusGenInputs['UserCreateWhereInput']; // UserCreateWhereInput!
@@ -205,9 +234,6 @@ export interface NexusGenArgTypes {
       searchString?: string | null; // String
       skip?: number | null; // Int
       take?: number | null; // Int
-    }
-    login: { // args
-      data: NexusGenInputs['UserLoginInput']; // UserLoginInput!
     }
     postById: { // args
       id?: number | null; // Int

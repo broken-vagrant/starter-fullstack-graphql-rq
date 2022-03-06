@@ -3,11 +3,9 @@ import { createTestContext } from './__helpers'
 const ctx = createTestContext()
 
 it('ensures that a user and their posts can be created', async () => {
-  // Create a new draft
   const newUserResult = await ctx.client.request(`            # 1
   mutation {
   signupUser(data: { email: "1@gmail.com", name: "one",password: "123", posts: [] }) {
-    id
     name
     email
   }
@@ -19,7 +17,6 @@ it('ensures that a user and their posts can be created', async () => {
     Object {
       "signupUser": Object {
         "email": "1@gmail.com",
-        "id": 1,
         "name": "one",
       },
     }
@@ -32,7 +29,6 @@ it('ensures that a user and their posts can be created', async () => {
     data: { title: "First title", content: "This is test content." }
     authorEmail: "1@gmail.com"
   ) {
-    id
     title
     content
   }
@@ -43,7 +39,6 @@ it('ensures that a user and their posts can be created', async () => {
     Object {
       "createDraft": Object {
         "content": "This is test content.",
-        "id": 1,
         "title": "First title",
       },
     }

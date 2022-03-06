@@ -12,6 +12,8 @@ model User {
   email String  @unique
   name  String?
   passwordHash String
+  refreshToken String?
+  refreshTokenExpiresAt String?
   posts Post[]
 }
 

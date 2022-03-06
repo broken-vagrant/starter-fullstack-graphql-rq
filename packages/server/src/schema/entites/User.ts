@@ -8,6 +8,8 @@ const User = objectType({
     t.string('name')
     t.nonNull.string('email')
     t.nonNull.string('passwordHash')
+    t.string('refreshToken')
+    t.date('refreshTokenExpiresAt')
     t.nonNull.list.nonNull.field('posts', {
       type: 'Post',
       resolve: (parent, _, context: Context) => {

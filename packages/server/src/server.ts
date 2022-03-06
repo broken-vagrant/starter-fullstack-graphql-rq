@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { ApolloServer } from 'apollo-server'
 import schema from './schema'
 import { Context, context } from './context'
@@ -10,11 +11,18 @@ import { getUser } from './utils';
 
 const server = new ApolloServer({
   schema: schema,
-  context: ({ req }) => {
+  context: ({ req, res }) => {
     const token = req.headers['authorization'] || '';
     const user = getUser(token) as Context['user'];
+
     context.user = user;
+    context.req = req;
+    context.res = res;
     return context;
+  },
+  cors: {
+    origin: "http://localhost:3000",
+    credentials: true
   },
   plugins: [
     isProd ?

@@ -1,12 +1,17 @@
-import jwt from 'jsonwebtoken';
-import { getJwtSecret } from '../constants';
+import tokenGenerator from './TokenGenerator';
 
 export const getUser = (token: string) => {
   try {
-    const decoded = jwt.verify(token, getJwtSecret())
-    return decoded;
+    const decoded: any = tokenGenerator.verify(token);
+    const claims = decoded['https://hasura.io/jwt/claims'];
+
+    return {
+      id: claims['X-Hasura-User-Id'],
+      ...claims
+    }
   }
   catch (err) {
     return null;
   }
 }
+

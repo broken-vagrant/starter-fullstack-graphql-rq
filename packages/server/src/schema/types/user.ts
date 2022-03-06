@@ -8,7 +8,6 @@ export const UserUniqueInput = inputObjectType({
   },
 })
 
-
 export const UserCreateWhereInput = inputObjectType({
   name: 'UserCreateWhereInput',
   definition(t) {
@@ -27,10 +26,18 @@ export const UserLoginInput = inputObjectType({
   }
 })
 
-export const UserLoginResponse = objectType({
-  name: "UserLoginResponse",
+export const UserAuthResponse = objectType({
+  name: "UserAuthResponse",
   definition(t) {
-    t.nonNull.field('user', { type: 'User' });
-    t.nonNull.string('token');
+    t.nonNull.string('jwt')
+    t.string('refreshToken')
   }
 })
+export const RefreshTokenInput = inputObjectType({
+  name: "RefreshTokenInput",
+  definition(t) {
+    t.nonNull.string('refreshToken')
+    t.nonNull.string('fingerPrintHash')
+  }
+})
+

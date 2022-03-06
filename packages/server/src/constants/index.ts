@@ -8,3 +8,7 @@ export const getJwtSecret = () => {
   }
   return secret;
 };
+
+export const secretOrPrivateKey = process.env.JWT_SECRET_OR_PRIVATE_KEY;
+
+export const secretOrPublicKey = process.env.JWT_SECRET_OR_PUBLIC_KEY;

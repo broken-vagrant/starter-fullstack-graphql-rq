@@ -5,6 +5,13 @@
     "esModuleInterop": true,
     "lib": ["esnext"],
     "strict": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"] // to make path aliases work with ts-node
+  }
 }

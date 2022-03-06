@@ -1,6 +1,6 @@
 import { arg, intArg, nonNull, stringArg } from "nexus";
 import { ObjectDefinitionBlock } from "nexus/dist/core";
-import { Context } from "../../context";
+import { Context } from "@/context";
 
 export default function postQueryDef(t: ObjectDefinitionBlock<'Query'>) {
 
