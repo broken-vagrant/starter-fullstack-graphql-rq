@@ -1,39 +1,19 @@
 import "./App.css";
-import * as React from "react";
-import { gql, useLazyQuery } from "@apollo/client";
-import { GetAllUsers } from "./__generated__/GetAllUsers";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Demo from "./pages/Demo";
 
-const GET_ALL_USERS = gql`
-  query GetAllUsers {
-    allUsers {
-      name
-      id
-    }
-  }
-`;
-function App() {
-  // GraphQL API
-  const [users, setUsers] = React.useState<GetAllUsers["allUsers"] | []>([]);
-  const [runQuery, { loading, data }] = useLazyQuery<GetAllUsers>(
-    GET_ALL_USERS,
-    { onCompleted: () => setUsers(data?.allUsers || []) }
-  );
-
+const App = () => {
   return (
-    <div>
-      <button onClick={() => runQuery()}>Load users</button>
-      {loading && <div>Loding...</div>}
-      <ul>
-        {users.map((user) => {
-          return (
-            <li key={user.id}>
-              <pre>{JSON.stringify(user)}</pre>
-            </li>
-          );
-        })}
-      </ul>
+    <div className="App">
+      <BrowserRouter basename="time-slot">
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/demo" element={<Demo />}></Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;
