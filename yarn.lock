@@ -1523,6 +1523,7 @@ __metadata:
     apollo-link-token-refresh: ^0.4.0
     cross-fetch: 3.1.5
     deepmerge: ^4.2.2
+    graphql-ws: ^5.6.2
     jsdom: latest
     jwt-decode: ^3.1.2
     msw: 0.38.1
@@ -1532,6 +1533,7 @@ __metadata:
     vite: latest
     vitest: latest
     web-vitals: 2.1.4
+    zustand: ^3.7.1
   languageName: unknown
   linkType: soft
 
@@ -5614,6 +5616,15 @@ __metadata:
   peerDependencies:
     graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
   checksum: b15162a3d62f17b9b79302445b9ee330e041582f1c7faca74b9dec5daa74272c906ec1c34e1c50592bb6215e5c3eba80a309103f6ba9e4c1cddc350c46f010df
+  languageName: node
+  linkType: hard
+
+"graphql-ws@npm:^5.6.2":
+  version: 5.6.2
+  resolution: "graphql-ws@npm:5.6.2"
+  peerDependencies:
+    graphql: ">=0.11 <=16"
+  checksum: 976134edce52b1a4f381f3411760c6e8ed1a431a9c80456f99c71663fad9d39e15a434a965095ae5512967f31b2fa5a86d6abd519e2b1fff6b0999b9261d52cf
   languageName: node
   linkType: hard
 
@@ -10916,5 +10927,17 @@ __metadata:
   version: 0.8.15
   resolution: "zen-observable@npm:0.8.15"
   checksum: b7289084bc1fc74a559b7259faa23d3214b14b538a8843d2b001a35e27147833f4107590b1b44bf5bc7f6dfe6f488660d3a3725f268e09b3925b3476153b7821
+  languageName: node
+  linkType: hard
+
+"zustand@npm:^3.7.1":
+  version: 3.7.1
+  resolution: "zustand@npm:3.7.1"
+  peerDependencies:
+    react: ">=16.8"
+  peerDependenciesMeta:
+    react:
+      optional: true
+  checksum: 987a2cee95e0fd085c3556d21289a34bb1e9727155837c480617dee839453858523d6321abf3b18de4867fb07d14f5ff7abf9a8404357baa7ec73dffec6dd4f7
   languageName: node
   linkType: hard

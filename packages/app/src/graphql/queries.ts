@@ -8,3 +8,19 @@ export const GET_ALL_USERS = gql`
     }
   }
 `;
+export const WHO_AM_I = gql`
+  query WhoAmI {
+    whoami {
+      id
+      name
+    }
+  }
+`
+
+export const LOGOUT = gql`
+  query Logout {
+    logout {
+      ok
+    }
+  }
+`

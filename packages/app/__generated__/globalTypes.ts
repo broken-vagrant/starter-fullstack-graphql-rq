@@ -7,6 +7,12 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface UserCreateWhereInput {
+  email: string;
+  name: string;
+  password: string;
+}
+
 //==============================================================
 // END Enums and Input Objects
 //==============================================================

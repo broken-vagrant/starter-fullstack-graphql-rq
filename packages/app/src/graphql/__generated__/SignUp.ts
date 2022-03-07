@@ -3,21 +3,22 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
+import { UserCreateWhereInput } from "./../../../__generated__/globalTypes";
+
 // ====================================================
-// GraphQL mutation operation: Login
+// GraphQL mutation operation: SignUp
 // ====================================================
 
-export interface Login_login {
+export interface SignUp_signupUser {
   __typename: "UserAuthResponse";
   jwt: string;
   refreshToken: string;
 }
 
-export interface Login {
-  login: Login_login | null;
+export interface SignUp {
+  signupUser: SignUp_signupUser;
 }
 
-export interface LoginVariables {
-  email: string;
-  password: string;
+export interface SignUpVariables {
+  data: UserCreateWhereInput;
 }

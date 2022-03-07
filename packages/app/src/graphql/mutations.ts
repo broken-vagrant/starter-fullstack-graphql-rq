@@ -11,11 +11,12 @@ export const LOGIN = gql`
     }
   }
 `
+
 export const SIGNUP = gql`
-mutation {
-  signupUser($data: ) {
+mutation SignUp($data: UserCreateWhereInput!) {
+  signupUser(data: $data) {
     jwt
-   refreshToken
+    refreshToken
   }
 }
-`
+`;

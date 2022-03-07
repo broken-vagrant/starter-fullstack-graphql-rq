@@ -31,23 +31,24 @@ export function makeTokenRefreshLink() {
       const refreshToken = getRefreshToken()
       const fingerPrintHash = jwt?.["https://hasura.io/jwt/claims"]?.["X-User-Fingerprint"]
 
-      const request = await fetch(process.env["BACKEND_URL"], {
+      const request = await fetch(import.meta.env["VITE_BACKEND_URL"], {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           query: `
-                  query RefreshJwtToken($refreshToken: String!,$fingerPrintHash: String!) {
-                    refreshJwtToken(refreshToken: $refreshToken,fingerPrintHash: $fingerPrintHash) {
+                  query RefreshJwtToken($data: RefreshTokenInput!) {
+                    refreshToken(data: $data) {
                       jwt
-                      refreshToken
                     }
                   }
                 `,
           variables: {
-            refreshToken,
-            fingerPrintHash
+            data: {
+              refreshToken,
+              fingerPrintHash
+            }
           },
         }),
       })

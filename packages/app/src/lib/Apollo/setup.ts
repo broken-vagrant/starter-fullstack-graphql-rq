@@ -1,17 +1,18 @@
 import merge from "deepmerge"
 import { ApolloClient, InMemoryCache, HttpLink, ApolloLink, Operation, NormalizedCacheObject } from "@apollo/client"
-import { WebSocketLink } from "@apollo/client/link/ws"
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { getMainDefinition } from "@apollo/client/utilities"
 
 import { getJwtToken } from "./auth"
 import { makeTokenRefreshLink } from "./apolloTokenRefresh"
+import { createClient } from "graphql-ws";
 
-let apolloClient: ApolloClient<any>;
+let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 function getHeaders() {
-  const headers = new Headers();
+  const headers: HeadersInit = {};
   const token = getJwtToken()
-  if (token) headers.set("Authorization", `Bearer ${token}`)
+  if (token) headers['authorization'] = `Bearer ${token}`;
   return headers
 }
 
@@ -23,22 +24,18 @@ function operationIsSubscription(operation: Operation): boolean {
 
 let wsLink: any
 function getOrCreateWebsocketLink() {
-  wsLink ??= new WebSocketLink({
-    uri: process.env["BACKEND_URL"].replace("http", "ws").replace("https", "wss"),
-    options: {
-      reconnect: true,
-      timeout: 30000,
-      connectionParams: () => {
-        return { headers: getHeaders() }
-      },
+  wsLink ??= new GraphQLWsLink(createClient({
+    url: import.meta.env["VITE_BACKEND_URL"].replace("http", "ws").replace("https", "wss"),
+    connectionParams: () => {
+      return { headers: getHeaders() }
     },
-  })
+  }))
   return wsLink
 }
 
 function createLink() {
   const httpLink = new HttpLink({
-    uri: process.env["BACKEND_URL"],
+    uri: import.meta.env["VITE_BACKEND_URL"],
     // credentials: "include" is REQUIRED for cookies to work
     credentials: "include",
   })
@@ -73,7 +70,9 @@ function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === "undefined",
     link: createLink(),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      addTypename: false,
+    }),
   })
 }
 
