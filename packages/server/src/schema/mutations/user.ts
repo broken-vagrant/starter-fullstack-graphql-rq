@@ -5,6 +5,7 @@ import { checkPassword, FINGERPRINT_COOKIE_NAME, hashPassword, sha256, uuidv4 } 
 import { setFingerprintCookieAndSignJwt } from "@/utils/crypto";
 import { AuthenticationError } from "apollo-server";
 import tokenGenerator from "@/utils/TokenGenerator";
+import { getCookie } from "@/utils";
 
 export default function userMutationDef(t: ObjectDefinitionBlock<'Mutation'>) {
   t.nonNull.field('signupUser', {
@@ -78,7 +79,6 @@ export default function userMutationDef(t: ObjectDefinitionBlock<'Mutation'>) {
       }
       // Update user refresh token and refresh token expiration
       const refreshToken = uuidv4()
-      console.log("updating user refresh token", refreshToken)
       await context.prisma.user.update({
         where: {
           id: user.id
@@ -96,7 +96,6 @@ export default function userMutationDef(t: ObjectDefinitionBlock<'Mutation'>) {
       // https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html#token-sidejacking
       const jwt = setFingerprintCookieAndSignJwt(fingerprint, context.res, user)
 
-      console.log("returning jwt", jwt)
       return {
         jwt, refreshToken
       };
@@ -110,7 +109,8 @@ export default function userMutationDef(t: ObjectDefinitionBlock<'Mutation'>) {
     resolve: async (_, args, context) => {
       const { refreshToken, fingerPrintHash } = args.data;
 
-      const fingerprintCookie = context.req.cookies[FINGERPRINT_COOKIE_NAME];
+
+      const fingerprintCookie = getCookie(context.req.headers.cookie, FINGERPRINT_COOKIE_NAME);
       console.log({ fingerprintCookie })
       if (!fingerprintCookie) throw new AuthenticationError('Unable to refresh JWT token');
 

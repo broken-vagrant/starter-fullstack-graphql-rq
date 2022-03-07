@@ -36,9 +36,11 @@ export function makeTokenRefreshLink() {
         headers: {
           "Content-Type": "application/json",
         },
+        // credentials: "include" is REQUIRED for cookies to work
+        credentials: 'include',
         body: JSON.stringify({
           query: `
-                  query RefreshJwtToken($data: RefreshTokenInput!) {
+                  mutation RefreshJwtToken($data: RefreshTokenInput!) {
                     refreshToken(data: $data) {
                       jwt
                     }
@@ -69,7 +71,7 @@ export function makeTokenRefreshLink() {
       //    access_token: 'token string here'
       // }
       console.log("handleResponse", { operation, accessTokenField, response })
-      return { access_token: response.refreshToken.jwt }
+      return { access_token: response.data.refreshToken.jwt }
     },
     handleError: (err) => {
       console.warn("Your refresh token is invalid. Try to reauthenticate.")

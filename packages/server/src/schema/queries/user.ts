@@ -11,6 +11,7 @@ export default function userQueryDef(t: ObjectDefinitionBlock<'Query'>) {
       if (!context.user) {
         return null;
       }
+
       const user = await context.prisma.user.findUnique({
         where: {
           id: Number(context.user.id)

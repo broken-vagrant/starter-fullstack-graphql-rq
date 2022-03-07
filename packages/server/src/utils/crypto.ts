@@ -40,7 +40,7 @@ export function setFingerprintCookieAndSignJwt(fingerprint: string, res: Respons
     serialize(FINGERPRINT_COOKIE_NAME, fingerprint, {
       path: "/",
       maxAge: FINGERPRINT_COOKIE_MAX_AGE,
-      httpOnly: false,
+      httpOnly: true,
       secure: process.env.NODE_ENV === "production",
     })
   )

@@ -58,12 +58,12 @@ class TokenGenerator {
       },
     }
     return this.sign(payload, {
-      expiresIn: params.expiresIn || '1m',
+      expiresIn: params.expiresIn || '10000',
     })
   }
 
 }
 
-const tokenGenerator = new TokenGenerator(secretOrPrivateKey, secretOrPublicKey, { algorithm: 'HS256', keyid: '1', noTimestamp: false, expiresIn: '1m' })
+const tokenGenerator = new TokenGenerator(secretOrPrivateKey, secretOrPublicKey, { algorithm: 'HS256', keyid: '1', noTimestamp: false, expiresIn: '10000' })
 
 export default tokenGenerator;
