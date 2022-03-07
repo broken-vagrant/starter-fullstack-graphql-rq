@@ -12,7 +12,8 @@ import { getUser } from './utils';
 const server = new ApolloServer({
   schema: schema,
   context: ({ req, res }) => {
-    const token = req.headers['authorization'] || '';
+    const rawToken = req.headers['authorization'] || '';
+    const token = rawToken.split(' ')[1];
     const user = getUser(token) as Context['user'];
 
     context.user = user;
@@ -21,7 +22,7 @@ const server = new ApolloServer({
     return context;
   },
   cors: {
-    origin: "http://localhost:3000",
+    origin: process.env.FRONTEND_URL,
     credentials: true
   },
   plugins: [

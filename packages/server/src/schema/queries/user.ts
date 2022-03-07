@@ -1,6 +1,5 @@
 import { Context } from "@/context";
 import { FINGERPRINT_COOKIE_NAME } from "@/utils/crypto";
-import { AuthenticationError } from "apollo-server-core";
 import { serialize } from "cookie";
 import { ObjectDefinitionBlock, objectType } from "nexus/dist/core";
 
@@ -9,10 +8,8 @@ export default function userQueryDef(t: ObjectDefinitionBlock<'Query'>) {
   t.field('whoami', {
     type: 'User',
     resolve: async (_, _args, context) => {
-      console.log("FingerPrint OBject:", context.user);
-
       if (!context.user) {
-        throw new AuthenticationError('Invalid Token')
+        return null;
       }
       const user = await context.prisma.user.findUnique({
         where: {
@@ -20,7 +17,7 @@ export default function userQueryDef(t: ObjectDefinitionBlock<'Query'>) {
         }
       })
       if (!user) {
-        throw new AuthenticationError('Invalid Token')
+        return null;
       }
       return user;
     }

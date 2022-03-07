@@ -17,16 +17,13 @@ export default function userMutationDef(t: ObjectDefinitionBlock<'Mutation'>) {
       ),
     },
     resolve: async (_, args, context: Context) => {
-      const postData = args.data.posts?.map((post) => {
-        return { title: post.title, content: post.content || undefined }
-      })
       const user = await context.prisma.user.findFirst({
         where: {
           email: args.data.email
         }
       })
       if (user) {
-        throw new Error(`user with email: ${args.data.email} already Exists`);
+        throw new Error(`User with Email: ${args.data.email} already Exists`);
       }
       const { email, name, password } = args.data;
 
@@ -38,7 +35,7 @@ export default function userMutationDef(t: ObjectDefinitionBlock<'Mutation'>) {
           email,
           passwordHash: await hashPassword(password),
           posts: {
-            create: postData,
+            create: [],
           },
         },
       })
@@ -72,7 +69,7 @@ export default function userMutationDef(t: ObjectDefinitionBlock<'Mutation'>) {
         }
       })
       if (!user) {
-        throw new AuthenticationError(`user with email: ${email} doesn't Exist`);
+        throw new AuthenticationError("User not found");
       }
       const validPassword = await checkPassword(password, user.passwordHash);
 
@@ -106,7 +103,7 @@ export default function userMutationDef(t: ObjectDefinitionBlock<'Mutation'>) {
     }
   })
   t.field('refreshToken', {
-    type: 'UserAuthResponse',
+    type: 'RefreshTokenResponse',
     args: {
       data: nonNull(arg({ type: 'RefreshTokenInput' }))
     },

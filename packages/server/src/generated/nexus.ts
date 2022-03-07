@@ -44,7 +44,6 @@ export interface NexusGenInputs {
     email: string; // String!
     name: string; // String!
     password: string; // String!
-    posts?: NexusGenInputs['PostCreateInput'][] | null; // [PostCreateInput!]
   }
   UserLoginInput: { // input type
     email: string; // String!
@@ -84,6 +83,9 @@ export interface NexusGenObjects {
     viewCount: number; // Int!
   }
   Query: {};
+  RefreshTokenResponse: { // root type
+    jwt: string; // String!
+  }
   User: { // root type
     email: string; // String!
     id: number; // Int!
@@ -94,7 +96,7 @@ export interface NexusGenObjects {
   }
   UserAuthResponse: { // root type
     jwt: string; // String!
-    refreshToken?: string | null; // String
+    refreshToken: string; // String!
   }
 }
 
@@ -117,7 +119,7 @@ export interface NexusGenFieldTypes {
     deletePost: NexusGenRootTypes['Post'] | null; // Post
     incrementPostViewCount: NexusGenRootTypes['Post'] | null; // Post
     login: NexusGenRootTypes['UserAuthResponse'] | null; // UserAuthResponse
-    refreshToken: NexusGenRootTypes['UserAuthResponse'] | null; // UserAuthResponse
+    refreshToken: NexusGenRootTypes['RefreshTokenResponse'] | null; // RefreshTokenResponse
     signupUser: NexusGenRootTypes['UserAuthResponse']; // UserAuthResponse!
     togglePublishPost: NexusGenRootTypes['Post'] | null; // Post
   }
@@ -139,6 +141,9 @@ export interface NexusGenFieldTypes {
     postById: NexusGenRootTypes['Post'] | null; // Post
     whoami: NexusGenRootTypes['User'] | null; // User
   }
+  RefreshTokenResponse: { // field return type
+    jwt: string; // String!
+  }
   User: { // field return type
     email: string; // String!
     id: number; // Int!
@@ -150,7 +155,7 @@ export interface NexusGenFieldTypes {
   }
   UserAuthResponse: { // field return type
     jwt: string; // String!
-    refreshToken: string | null; // String
+    refreshToken: string; // String!
   }
 }
 
@@ -163,7 +168,7 @@ export interface NexusGenFieldTypeNames {
     deletePost: 'Post'
     incrementPostViewCount: 'Post'
     login: 'UserAuthResponse'
-    refreshToken: 'UserAuthResponse'
+    refreshToken: 'RefreshTokenResponse'
     signupUser: 'UserAuthResponse'
     togglePublishPost: 'Post'
   }
@@ -184,6 +189,9 @@ export interface NexusGenFieldTypeNames {
     logout: 'LogoutResponse'
     postById: 'Post'
     whoami: 'User'
+  }
+  RefreshTokenResponse: { // field return type name
+    jwt: 'String'
   }
   User: { // field return type name
     email: 'String'

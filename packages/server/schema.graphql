@@ -16,7 +16,7 @@ type Mutation {
   deletePost(id: Int!): Post
   incrementPostViewCount(id: Int!): Post
   login(data: UserLoginInput!): UserAuthResponse
-  refreshToken(data: RefreshTokenInput!): UserAuthResponse
+  refreshToken(data: RefreshTokenInput!): RefreshTokenResponse
   signupUser(data: UserCreateWhereInput!): UserAuthResponse!
   togglePublishPost(id: Int!): Post
 }
@@ -55,6 +55,10 @@ input RefreshTokenInput {
   refreshToken: String!
 }
 
+type RefreshTokenResponse {
+  jwt: String!
+}
+
 enum SortOrder {
   asc
   desc
@@ -72,14 +76,13 @@ type User {
 
 type UserAuthResponse {
   jwt: String!
-  refreshToken: String
+  refreshToken: String!
 }
 
 input UserCreateWhereInput {
   email: String!
   name: String!
   password: String!
-  posts: [PostCreateInput!]
 }
 
 input UserLoginInput {

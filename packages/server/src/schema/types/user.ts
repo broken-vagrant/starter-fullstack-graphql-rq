@@ -14,7 +14,6 @@ export const UserCreateWhereInput = inputObjectType({
     t.nonNull.string('email')
     t.nonNull.string('name')
     t.nonNull.string('password')
-    t.list.nonNull.field('posts', { type: 'PostCreateInput' })
   },
 })
 
@@ -30,9 +29,16 @@ export const UserAuthResponse = objectType({
   name: "UserAuthResponse",
   definition(t) {
     t.nonNull.string('jwt')
-    t.string('refreshToken')
+    t.nonNull.string('refreshToken')
   }
 })
+export const RefreshTokenResponse = objectType({
+  name: "RefreshTokenResponse",
+  definition(t) {
+    t.nonNull.string('jwt')
+  }
+})
+
 export const RefreshTokenInput = inputObjectType({
   name: "RefreshTokenInput",
   definition(t) {
