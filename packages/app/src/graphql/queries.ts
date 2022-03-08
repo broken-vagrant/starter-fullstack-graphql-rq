@@ -24,3 +24,20 @@ export const LOGOUT = gql`
     }
   }
 `
+export const LOGIN = gql`
+  query Login($email: String!,$password: String!) {
+    login(data: {
+      email: $email,
+      password: $password
+    }) {
+    jwt
+    refreshToken
+    }
+  }
+`
+export const REFRESH_JWT_TOKEN = gql`
+  query RefreshJwtToken($data: RefreshTokenInput!) { refreshToken(data: $data) {
+      jwt
+    }
+  }
+`

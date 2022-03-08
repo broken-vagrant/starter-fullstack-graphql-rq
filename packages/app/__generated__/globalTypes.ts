@@ -7,6 +7,11 @@
 // START Enums and Input Objects
 //==============================================================
 
+export interface RefreshTokenInput {
+  refreshToken: string;
+  fingerPrintHash: string;
+}
+
 export interface UserCreateWhereInput {
   email: string;
   name: string;

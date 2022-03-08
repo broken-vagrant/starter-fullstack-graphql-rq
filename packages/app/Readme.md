@@ -7,7 +7,7 @@
 ## Usage
 
 ```sh
-yarn run dev # dev
+yarn run dev
 yarn run build
 yarn run preview
 yarn run test # run with vitest
@@ -19,11 +19,13 @@ yarn app download:prod:schema
 # download the GraphQL schema from a local development server (eg:http://localhost:4000)
 yarn app download:local:schema
 
-# Generate static types for GraphQL queries. Can use the
-# published schema in the Apollo registry
+# Generate static types for GraphQL queries. Use the
+# published schema from Apollo registry
 yarn app apollo:prod:codegen
-#  or a
-# downloaded schema
+
+# Generate static types for GraphQL queries. Use the downloaded schema
 yarn app apollo:local:codegen
 
+# setup mswjs for browser
+yarn app msw:init
 ```

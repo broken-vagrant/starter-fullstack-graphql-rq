@@ -1,7 +1,6 @@
 import { expect, it } from "vitest";
 
-import { ApolloProvider } from "@apollo/client";
-import { client } from "@/ApolloClient";
+import ApolloProvider from "@/lib/Apollo";
 import {
   render,
   screen,
@@ -13,7 +12,7 @@ import { posts } from "@/mocks/handlers";
 
 it("Should return posts when clicking fetch button", async () => {
   render(
-    <ApolloProvider client={client}>
+    <ApolloProvider>
       <App />
     </ApolloProvider>
   );
@@ -39,7 +38,7 @@ it("Should return posts when clicking fetch button", async () => {
 
 it("Should return posts when clicking fetch with graphql button", async () => {
   render(
-    <ApolloProvider client={client}>
+    <ApolloProvider>
       <App />
     </ApolloProvider>
   );

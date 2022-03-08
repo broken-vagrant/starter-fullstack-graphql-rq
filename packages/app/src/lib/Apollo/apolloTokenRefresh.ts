@@ -2,6 +2,7 @@ import { TokenRefreshLink } from "apollo-link-token-refresh"
 import { JwtPayload } from "jwt-decode"
 import { getJwtToken, getRefreshToken, setJwtToken } from "./auth";
 import decodeJWT from "jwt-decode";
+import { RefreshJwtToken } from "@/graphql/__generated__/RefreshJwtToken";
 
 export function makeTokenRefreshLink() {
   return new TokenRefreshLink({
@@ -40,7 +41,7 @@ export function makeTokenRefreshLink() {
         credentials: 'include',
         body: JSON.stringify({
           query: `
-                  mutation RefreshJwtToken($data: RefreshTokenInput!) {
+                  query RefreshJwtToken($data: RefreshTokenInput!) {
                     refreshToken(data: $data) {
                       jwt
                     }
@@ -63,7 +64,7 @@ export function makeTokenRefreshLink() {
       console.log("handleFetch", { accessToken, claims })
       setJwtToken(accessToken)
     },
-    handleResponse: (operation, accessTokenField) => (response: any) => {
+    handleResponse: (operation, accessTokenField) => (response: Response & { data?: RefreshJwtToken }) => {
       // here you can parse response, handle errors, prepare returned token to
       // further operations
       // returned object should be like this:
@@ -71,11 +72,11 @@ export function makeTokenRefreshLink() {
       //    access_token: 'token string here'
       // }
       console.log("handleResponse", { operation, accessTokenField, response })
-      return { access_token: response.data.refreshToken.jwt }
+      return { access_token: response.data?.refreshToken?.jwt || '' }
     },
     handleError: (err) => {
       console.warn("Your refresh token is invalid. Try to reauthenticate.")
-      console.error(err)
+      // console.error(err)
       // Remove invalid tokens
       localStorage.removeItem("jwt")
       localStorage.removeItem("refreshToken")

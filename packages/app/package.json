@@ -25,7 +25,8 @@
     "coverage": "vitest run --coverage",
     "lint": "eslint  --quiet --fix --ignore-path .gitignore",
     "prettier": "prettier --ignore-path .gitignore --write",
-    "precommit": "yarn run prettier"
+    "precommit": "yarn run prettier",
+    "msw:init": "msw init public/ --save"
   },
   "browserslist": {
     "production": [

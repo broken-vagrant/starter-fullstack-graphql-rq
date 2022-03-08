@@ -1,11 +1,10 @@
-import { LOGIN } from "@/graphql/mutations";
-import { WHO_AM_I } from "@/graphql/queries";
+import { LOGIN, WHO_AM_I } from "@/graphql/queries";
 import { Login, LoginVariables } from "@/graphql/__generated__/Login";
 import { WhoAmI } from "@/graphql/__generated__/WhoAmI";
 import { setJwtToken, setRefreshToken } from "@/lib/Apollo/auth";
 import useStore from "@/store/useStore";
 import { getErrorMessage } from "@/utils";
-import { useApolloClient, useLazyQuery, useMutation } from "@apollo/client";
+import { useApolloClient, useLazyQuery } from "@apollo/client";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
@@ -24,7 +23,7 @@ function App() {
       }
     },
   });
-  const [login, { loading, error }] = useMutation<Login, LoginVariables>(
+  const [login, { loading, error }] = useLazyQuery<Login, LoginVariables>(
     LOGIN,
     {
       onCompleted: async (data) => {
