@@ -13,7 +13,7 @@ This example shows how to implement a **GraphQL server with TypeScript** with th
 - [Getting Started](#getting-started)
 - [Using the GraphQL API](#using-the-graphql-api)
 - [Evolving the app](#evolving-the-app)
-- [Switch to another database (e.g. PostgreSQL, MySQL, SQL Server)](#switch-to-another-database-eg-postgresql-mysql-sql-server)
+- [Switch to another database (e.g. PostgreSQL, MySQL, SQL Server)](#switch-to-another-database)
 - [Next steps](#next-steps)
 
 ## Getting started
@@ -25,15 +25,15 @@ Run the following command to create your SQLite database file. This also creates
 ```sh
 #----- DB (managed by Prisma) ----- #
 # apply/create intial db migration
-yarn server prisma:migrate:init
+yarn prisma:migrate:init
 # apply latest prisma schema to db
-yarn server prisma:db:push
+yarn prisma:db:push
 # reset the database && undo manual changes or db push experiments
-yarn server prisma:migrate:reset
+yarn prisma:migrate:reset
 # made changes to schema,run migrate
-yarn server prisma:migrate:dev
-# deploy migrations (in productsion)
-yarn server prisma:migrate:deploy
+yarn prisma:migrate:dev
+# deploy migrations (in production)
+yarn prisma:migrate:deploy
 
 ```
 
@@ -290,7 +290,7 @@ Once you've updated your data model, you can execute the changes against your da
 
 ```sh
 yarn run prisma:migrate:dev
-# give a name when prompts (eg: add profile)
+# give a name when prompts (eg: "add profile")
 ```
 
 This adds another migration to the `prisma/migrations` directory and creates the new `Profile` table in the database.
@@ -323,8 +323,10 @@ First, add a new GraphQL type via Nexus' `objectType` function:
 +    })
 +  },
 +})
+```
 
-// update relations (eg: ./src/schema/entities/User.ts)
+```diff
+// update relations with existing types if any (eg: in `./src/schema/entities/User.ts`)
 const User = objectType({
   name: 'User',
   definition(t) {
@@ -350,9 +352,11 @@ const User = objectType({
 +   })
   },
 })
+export default User;
+
 ```
 
-Don't forget to include the new type in the `index.ts` array that's passed to `makeSchema`:
+Don't forget to include the new type in the `@/schema/entities/index.ts` like 👇:
 
 ```diff
 import User from "./User";
@@ -370,12 +374,10 @@ Note that in order to resolve any type errors, your development server needs to 
 ```diff
 // create ./src/schema/mutations/profile.ts
 
-+const Mutation = objectType({
-+  name: 'Mutation',
-+  definition(t) {
-+
-+    // other mutations
++import { arg, nonNull, ObjectDefinitionBlock } from "nexus/dist/core"
++import { Context } from "../../context"
 
+export default function userMutationDef(t: ObjectDefinitionBlock<'Mutation'>) {
 +   t.field('addProfileForUser', {
 +     type: 'Profile',
 +     args: {
@@ -400,9 +402,29 @@ Note that in order to resolve any type errors, your development server needs to 
 +       })
 +     }
 +   })
++}
+```
 
-+  }
-+})
+Don't forget to include the new Mutation definitions in the `@/schema/mutations/index.ts` like 👇:
+```diff
+// @/schema/mutations/index.ts
+
+import { objectType } from "nexus";
+import postMutationDef from "./post";
+import userMutationDef from "./user";
++import profileMutationDef from "./profile";
+
+
+const Mutation = objectType({
+  name: 'Mutation',
+  definition(t) {
+    userMutationDef(t)
+    postMutationDef(t)
++   profileMutationDef(t)
+  }
+})
+
++export default Mutation;
 ```
 
 Finally, you can test the new mutation like this:
@@ -482,10 +504,11 @@ const userWithUpdatedProfile = await prisma.user.update({
 npx rover config auth
 
 # change `starter-fullstack@current` in `server/package.json` (publish:schema command) to your <graph-id>@<variant>
-yarn server publish:schema
+yarn publish:schema
 ```
 
-## Switch to another database (e.g. PostgreSQL, MySQL, SQL Server, MongoDB)
+## Switch to another database
+**Examples:** PostgreSQL, MySQL, SQL Server, MongoDB
 
 If you want to try this example with another database than SQLite, you can adjust the the database connection in [`prisma/schema.prisma`](./prisma/schema.prisma) by reconfiguring the `datasource` block.
 
