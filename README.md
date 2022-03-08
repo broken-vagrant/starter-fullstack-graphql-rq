@@ -1,4 +1,4 @@
-# Full stack starter (Graphql)
+# Typescript Full stack starter (Graphql)
 
 ## Requirements
 
