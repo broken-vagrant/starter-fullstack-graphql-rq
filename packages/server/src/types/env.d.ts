@@ -7,6 +7,8 @@ declare global {
       JWT_SECRET_OR_PRIVATE_KEY: string;
       JWT_SECRET_OR_PUBLIC_KEY: string;
       FRONTEND_URL: string;
+      JWT_TOKEN_EXPIRES_IN: string;
+      JWT_REFRESH_TOKEN_EXPIRES_IN: string;
     }
   }
 }

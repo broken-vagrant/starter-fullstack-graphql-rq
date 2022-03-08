@@ -6,21 +6,15 @@ it('ensures that a user and their posts can be created', async () => {
   const newUserResult = await ctx.client.request(`            # 1
   mutation {
   signupUser(data: { email: "1@gmail.com", name: "one",password: "123", posts: [] }) {
-    name
-    email
+  jwt
+  refreshToken
   }
 }
 
   `)
-  // Snapshot that draft and expect `published` to be false
-  expect(newUserResult).toMatchInlineSnapshot(`
-    Object {
-      "signupUser": Object {
-        "email": "1@gmail.com",
-        "name": "one",
-      },
-    }
-  `) // 3
+  expect(newUserResult).toHaveProperty('signupUser');
+  expect(newUserResult.signupUser).toHaveProperty('jwt');
+  expect(newUserResult.signupUser).toHaveProperty('refreshToken');
   // Publish the previously created draft
 
   const publishResult = await ctx.client.request(`

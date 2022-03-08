@@ -6,7 +6,7 @@ import {
   ApolloServerPluginLandingPageGraphQLPlayground, ApolloServerPluginLandingPageProductionDefault,
   ApolloServerPluginUsageReportingDisabled
 } from "apollo-server-core";
-import { isProd } from './constants'
+import { IS_PROD } from './constants'
 import { getUser } from './utils';
 
 const server = new ApolloServer({
@@ -26,9 +26,9 @@ const server = new ApolloServer({
     credentials: true
   },
   plugins: [
-    isProd ?
+    IS_PROD ?
       ApolloServerPluginLandingPageProductionDefault() : ApolloServerPluginLandingPageGraphQLPlayground(),
-    !isProd ? ApolloServerPluginUsageReportingDisabled() : {}
+    !IS_PROD ? ApolloServerPluginUsageReportingDisabled() : {}
   ],
 })
 export default server;

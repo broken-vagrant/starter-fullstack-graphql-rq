@@ -1,8 +1,10 @@
+import 'dotenv/config';
+import { FINGERPRINT_COOKIE_MAX_AGE, FINGERPRINT_COOKIE_NAME, IS_PROD, JWT_TOKEN_EXPIRES_IN } from "@/constants";
 import { serialize } from "cookie";
-import crypto from "crypto"
-import { promisify } from "util"
-import tokenGenerator from "./TokenGenerator";
+import crypto from "crypto";
 import { Response } from 'express';
+import { promisify } from "util";
+import tokenGenerator from "./TokenGenerator";
 
 const scrypt = promisify(crypto.scrypt)
 
@@ -32,8 +34,6 @@ export function uuidv4(): string {
   )
 }
 
-export const FINGERPRINT_COOKIE_NAME = "__User-Fgp"
-export const FINGERPRINT_COOKIE_MAX_AGE = 60 * 60 * 8 // 8 hours
 export function setFingerprintCookieAndSignJwt(fingerprint: string, res: Response, user: { id: number }) {
   res.setHeader(
     "Set-Cookie",
@@ -41,14 +41,14 @@ export function setFingerprintCookieAndSignJwt(fingerprint: string, res: Respons
       path: "/",
       maxAge: FINGERPRINT_COOKIE_MAX_AGE,
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: IS_PROD,
     })
   )
 
   return tokenGenerator.signWithClaims({
     allowedRoles: ["user"],
     defaultRole: "user",
-    expiresIn: "5m",
+    expiresIn: JWT_TOKEN_EXPIRES_IN,
     otherClaims: {
       "X-Hasura-User-Id": String(user.id),
       "X-User-Fingerprint": sha256(fingerprint),

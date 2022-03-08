@@ -5,30 +5,23 @@ const ctx = createTestContext()
 it('ensure that a user can be created and logged in/out', async () => {
   const newUserResult = await ctx.client.request(`            # 1
   mutation {
-  signupUser(data: { email: "2@gmail.com", name: "two",password: "123", posts: [] }) {
-    name
-    email
+  signupUser(data: { email: "1@gmail.com", name: "one",password: "123", posts: [] }) {
+  jwt
+  refreshToken
   }
 }
 
   `)
-  expect(newUserResult).toMatchInlineSnapshot(`
-    Object {
-      "signupUser": Object {
-        "email": "2@gmail.com",
-        "name": "two",
-      },
-    }
-  `)
+  expect(newUserResult).toHaveProperty('signupUser');
+  expect(newUserResult.signupUser).toHaveProperty('jwt');
+  expect(newUserResult.signupUser).toHaveProperty('refreshToken');
+
   const loggedUser = await ctx.client.request(
     `
   query Login($data: UserLoginInput!) {
   login(data: $data) {
-    token
-    user {
-      email
-      name
-    }
+    jwt
+    refreshToken
   }
 }
   `,
@@ -40,13 +33,10 @@ it('ensure that a user can be created and logged in/out', async () => {
     },
   )
 
-  expect(loggedUser).toHaveProperty('login')
-  expect(loggedUser.login).toHaveProperty('token')
-  expect(loggedUser.login).toHaveProperty('user')
-  expect(loggedUser.login.user).toMatchObject({
-    email: '2@gmail.com',
-    name: 'two',
-  })
+  expect(loggedUser).toHaveProperty('login');
+  expect(loggedUser.login).toHaveProperty('jwt');
+  expect(loggedUser.login.jwt).not.toBeNull();
+  expect(loggedUser.login).toHaveProperty('refreshToken');
 
   const user = await ctx.client.request(
     `
@@ -59,7 +49,7 @@ it('ensure that a user can be created and logged in/out', async () => {
   `,
     {},
     {
-      Authorization: loggedUser.login.token,
+      Authorization: `Bearer ${loggedUser.login.jwt}`,
     },
   )
   expect(user).toMatchInlineSnapshot(`

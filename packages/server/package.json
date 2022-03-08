@@ -18,7 +18,8 @@
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:migrate:reset": "prisma migrate reset",
     "prisma:migrate:deploy": "prisma migrate deploy",
-    "prisma:db:push": "prisma db push"
+    "prisma:db:push": "prisma db push",
+    "gen:env-types": "gen-env-types .env -o src/types/env.d.ts -e ."
   },
   "prettier": {
     "semi": false,
@@ -41,6 +42,7 @@
     "@types/jest": "^27.4.1",
     "@types/jsonwebtoken": "^8.5.8",
     "@types/node": "16.11.26",
+    "gen-env-types": "^1.3.2",
     "get-port": "5.1.1",
     "graphql-request": "^4.0.0",
     "jest": "^27.5.1",

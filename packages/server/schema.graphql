@@ -15,8 +15,6 @@ type Mutation {
   createDraft(authorEmail: String!, data: PostCreateInput!): Post
   deletePost(id: Int!): Post
   incrementPostViewCount(id: Int!): Post
-  login(data: UserLoginInput!): UserAuthResponse
-  refreshToken(data: RefreshTokenInput!): RefreshTokenResponse
   signupUser(data: UserCreateWhereInput!): UserAuthResponse!
   togglePublishPost(id: Int!): Post
 }
@@ -45,8 +43,10 @@ type Query {
   allUsers: [User!]!
   draftsByUser(userUniqueInput: UserUniqueInput!): [Post]
   feed(orderBy: PostOrderByUpdatedAtInput, searchString: String, skip: Int, take: Int): [Post!]!
+  login(data: UserLoginInput!): UserAuthResponse
   logout: LogoutResponse!
   postById(id: Int): Post
+  refreshToken(data: RefreshTokenInput!): RefreshTokenResponse
   whoami: User
 }
 

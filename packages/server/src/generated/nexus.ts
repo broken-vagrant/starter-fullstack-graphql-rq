@@ -118,8 +118,6 @@ export interface NexusGenFieldTypes {
     createDraft: NexusGenRootTypes['Post'] | null; // Post
     deletePost: NexusGenRootTypes['Post'] | null; // Post
     incrementPostViewCount: NexusGenRootTypes['Post'] | null; // Post
-    login: NexusGenRootTypes['UserAuthResponse'] | null; // UserAuthResponse
-    refreshToken: NexusGenRootTypes['RefreshTokenResponse'] | null; // RefreshTokenResponse
     signupUser: NexusGenRootTypes['UserAuthResponse']; // UserAuthResponse!
     togglePublishPost: NexusGenRootTypes['Post'] | null; // Post
   }
@@ -137,8 +135,10 @@ export interface NexusGenFieldTypes {
     allUsers: NexusGenRootTypes['User'][]; // [User!]!
     draftsByUser: Array<NexusGenRootTypes['Post'] | null> | null; // [Post]
     feed: NexusGenRootTypes['Post'][]; // [Post!]!
+    login: NexusGenRootTypes['UserAuthResponse'] | null; // UserAuthResponse
     logout: NexusGenRootTypes['LogoutResponse']; // LogoutResponse!
     postById: NexusGenRootTypes['Post'] | null; // Post
+    refreshToken: NexusGenRootTypes['RefreshTokenResponse'] | null; // RefreshTokenResponse
     whoami: NexusGenRootTypes['User'] | null; // User
   }
   RefreshTokenResponse: { // field return type
@@ -167,8 +167,6 @@ export interface NexusGenFieldTypeNames {
     createDraft: 'Post'
     deletePost: 'Post'
     incrementPostViewCount: 'Post'
-    login: 'UserAuthResponse'
-    refreshToken: 'RefreshTokenResponse'
     signupUser: 'UserAuthResponse'
     togglePublishPost: 'Post'
   }
@@ -186,8 +184,10 @@ export interface NexusGenFieldTypeNames {
     allUsers: 'User'
     draftsByUser: 'Post'
     feed: 'Post'
+    login: 'UserAuthResponse'
     logout: 'LogoutResponse'
     postById: 'Post'
+    refreshToken: 'RefreshTokenResponse'
     whoami: 'User'
   }
   RefreshTokenResponse: { // field return type name
@@ -220,12 +220,6 @@ export interface NexusGenArgTypes {
     incrementPostViewCount: { // args
       id: number; // Int!
     }
-    login: { // args
-      data: NexusGenInputs['UserLoginInput']; // UserLoginInput!
-    }
-    refreshToken: { // args
-      data: NexusGenInputs['RefreshTokenInput']; // RefreshTokenInput!
-    }
     signupUser: { // args
       data: NexusGenInputs['UserCreateWhereInput']; // UserCreateWhereInput!
     }
@@ -243,8 +237,14 @@ export interface NexusGenArgTypes {
       skip?: number | null; // Int
       take?: number | null; // Int
     }
+    login: { // args
+      data: NexusGenInputs['UserLoginInput']; // UserLoginInput!
+    }
     postById: { // args
       id?: number | null; // Int
+    }
+    refreshToken: { // args
+      data: NexusGenInputs['RefreshTokenInput']; // RefreshTokenInput!
     }
   }
 }

@@ -1,6 +1,6 @@
 // source: https://gist.github.com/ziluvatar/a3feb505c4c0ec37059054537b38fc48
 import jwt, { SignOptions, VerifyOptions } from 'jsonwebtoken';
-import { secretOrPrivateKey, secretOrPublicKey } from '../constants';
+import { JWT_SECRET_OR_PRIVATE_KEY, JWT_SECRET_OR_PUBLIC_KEY, JWT_TOKEN_EXPIRES_IN } from '../constants';
 
 interface RefreshOptions {
   verify?: Exclude<VerifyOptions, 'jwtid'>,
@@ -20,10 +20,15 @@ class TokenGenerator {
   constructor(secretOrPrivateKey: string, secretOrPublicKey: string, options: SignOptions) {
     this.secretOrPrivateKey = secretOrPrivateKey;
     this.secretOrPublicKey = secretOrPublicKey;
+    if (!options.expiresIn) {
+      throw new Error('Token Expiration Time is not provided');
+    }
     this.options = options;
+
   }
   sign(payload: string | object | Buffer, signOptions: SignOptions) {
-    const jwtSignOptions = Object.assign({}, signOptions, this.options);
+    // priority: signOptions > this.options
+    const jwtSignOptions = Object.assign({}, this.options, signOptions);
     return jwt.sign(payload, this.secretOrPrivateKey, jwtSignOptions);
   }
   verify(token: string, options?: VerifyOptions & { complete?: boolean }) {
@@ -58,12 +63,12 @@ class TokenGenerator {
       },
     }
     return this.sign(payload, {
-      expiresIn: params.expiresIn || '10000',
+      expiresIn: params.expiresIn || this.options.expiresIn,
     })
   }
 
 }
 
-const tokenGenerator = new TokenGenerator(secretOrPrivateKey, secretOrPublicKey, { algorithm: 'HS256', keyid: '1', noTimestamp: false, expiresIn: '10000' })
+const tokenGenerator = new TokenGenerator(JWT_SECRET_OR_PRIVATE_KEY, JWT_SECRET_OR_PUBLIC_KEY, { algorithm: 'HS256', noTimestamp: false, expiresIn: JWT_TOKEN_EXPIRES_IN })
 
 export default tokenGenerator;
