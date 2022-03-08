@@ -15,24 +15,44 @@
 ### Init
 
 ```sh
+
 # setup husky to run defined `precommit` script
 npx husky-init && yarn
 npx husky add .husky/pre-commit 'yarn run precommit'
-
-# setup mswjs for browser
-cd packages/app
-npx msw init public/ --save
-
-# mswjs for node is already coded in `setupTests.ts`
 ```
 
 ### [Server](./packages/server)
 
 ```sh
+
+#----- DB (managed by Prisma) ----- #
+# apply/create intial db migration
+yarn server prisma:migrate:init
+# apply latest prisma schema to db
+yarn server prisma:db:push
+# reset the database && undo manual changes or db push experiments
+yarn server prisma:migrate:reset
+# made changes to schema,run migrate
+yarn server prisma:migrate:dev
+# deploy migrations (in productsion)
+yarn server prisma:migrate:deploy
+
+# Generate artifacts (Prisma Client & Nexus Types)
 yarn server run generate
-yarn server run publish:schema # publish to apollo schema registry: https://studio.apollographql.com/sandbox/explorer
-yarn server run dev
-yarn server run start
+
+# Publish schema to Apollo schema registry (Needs Development server running)
+# source: https://studio.apollographql.com/sandbox/explorer
+yarn server run publish:schema
+
+yarn server dev
+yarn server test
+yarn server start
+
+# Misc
+yarn server prettier
+yarn server lint
+# Generate env types(src/types/env.d.ts) from .env file
+yarn server gen:env-types
 ```
 
 > Check [Server](./packages/server) for more info.
@@ -40,24 +60,29 @@ yarn server run start
 ### [App](./packages/app)
 
 ```sh
-yarn run dev # dev
+
+# download the published GraphQL schema from apollo studio
+# (Need to set API_KEY env var,check env.example)
+yarn app download:prod:schema
+#           or
+# download the GraphQL schema from a running local development server (eg:http://localhost:4000)
+yarn app download:local:schema
+
+# Generate static types for GraphQL queries using the
+# published schema from Apollo registry
+yarn app apollo:prod:codegen
+
+# Generate static types for GraphQL queries using the downloaded schema
+yarn app apollo:local:codegen
+
+# setup mswjs for browser
+yarn app msw:init
+
+yarn run dev
 yarn run build
 yarn run preview
 yarn run test # run with vitest
 yarn run coverage # run with vitest
-
-# download the published GraphQL schema from apollo studio (Need to set API_KEY env var,check env.example)
-yarn app download:prod:schema
-#           or
-# download the GraphQL schema from a local development server (eg:http://localhost:4000)
-yarn app download:local:schema
-
-# Generate static types for GraphQL queries. Can use the
-# published schema in the Apollo registry
-yarn app apollo:prod:codegen
-#  or a
-# downloaded schema
-yarn app apollo:local:codegen
 
 ```
 
