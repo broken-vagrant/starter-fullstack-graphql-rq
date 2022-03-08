@@ -19,6 +19,9 @@
 # setup husky to run defined `precommit` script
 npx husky-init && yarn
 npx husky add .husky/pre-commit 'yarn run precommit'
+
+# setup MSW (app)
+yarn app msw:init
 ```
 
 ### [Server](./packages/server)
@@ -63,17 +66,17 @@ yarn server gen:env-types
 
 # download the published GraphQL schema from apollo studio
 # (Need to set API_KEY env var,check env.example)
-yarn app download:prod:schema
+yarn app download:schema
 #           or
 # download the GraphQL schema from a running local development server (eg:http://localhost:4000)
-yarn app download:local:schema
+yarn app download:schema:local
 
 # Generate static types for GraphQL queries using the
 # published schema from Apollo registry
-yarn app apollo:prod:codegen
+yarn app apollo:codegen
 
 # Generate static types for GraphQL queries using the downloaded schema
-yarn app apollo:local:codegen
+yarn app apollo:codegen:local
 
 # setup mswjs for browser
 yarn app msw:init
@@ -89,7 +92,7 @@ yarn run coverage # run with vitest
 ## Future
 
 1. Add e2e tests
-2. Add user auth
+
 
 ## Troubleshoot
 
