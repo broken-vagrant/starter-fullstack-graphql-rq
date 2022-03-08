@@ -5,7 +5,7 @@ const ctx = createTestContext()
 it('ensures that a user and their posts can be created', async () => {
   const newUserResult = await ctx.client.request(`            # 1
   mutation {
-  signupUser(data: { email: "1@gmail.com", name: "one",password: "123", posts: [] }) {
+  signupUser(data: { email: "2@gmail.com", name: "two",password: "123" }) {
   jwt
   refreshToken
   }
@@ -21,7 +21,7 @@ it('ensures that a user and their posts can be created', async () => {
   mutation {
   createDraft(
     data: { title: "First title", content: "This is test content." }
-    authorEmail: "1@gmail.com"
+    authorEmail: "2@gmail.com"
   ) {
     title
     content

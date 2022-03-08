@@ -5,7 +5,7 @@ const ctx = createTestContext()
 it('ensure that a user can be created and logged in/out', async () => {
   const newUserResult = await ctx.client.request(`            # 1
   mutation {
-  signupUser(data: { email: "1@gmail.com", name: "one",password: "123", posts: [] }) {
+  signupUser(data: { email: "1@gmail.com", name: "one",password: "123"}) {
   jwt
   refreshToken
   }
@@ -27,7 +27,7 @@ it('ensure that a user can be created and logged in/out', async () => {
   `,
     {
       data: {
-        email: '2@gmail.com',
+        email: '1@gmail.com',
         password: '123',
       },
     },
@@ -55,8 +55,8 @@ it('ensure that a user can be created and logged in/out', async () => {
   expect(user).toMatchInlineSnapshot(`
     Object {
       "whoami": Object {
-        "email": "2@gmail.com",
-        "name": "two",
+        "email": "1@gmail.com",
+        "name": "one",
       },
     }
   `)
