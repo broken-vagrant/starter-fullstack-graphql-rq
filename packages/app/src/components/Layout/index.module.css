@@ -1,0 +1,29 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+}
+.header a {
+  color: black;
+}
+.main {
+  min-height: 80vh;
+}
+
+.footer {
+  min-height: 5rem;
+  background-color: black;
+  color: white;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile {
+  display: flex;
+}
+.profile > * + * {
+  margin-left: 1rem;
+}

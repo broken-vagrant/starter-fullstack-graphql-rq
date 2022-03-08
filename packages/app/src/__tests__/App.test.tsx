@@ -1,16 +1,10 @@
 import { expect, it } from "vitest";
 
 import ApolloProvider from "@/lib/Apollo";
-import {
-  render,
-  screen,
-  userEvent,
-  waitForElementToBeRemoved,
-} from "@/utils/test-utils";
+import { render, screen, userEvent } from "@/utils/test-utils";
 import App from "@/App";
-import { posts } from "@/mocks/handlers";
 
-it("Should return posts when clicking fetch button", async () => {
+it("Should signup", async () => {
   render(
     <ApolloProvider>
       <App />
@@ -19,45 +13,24 @@ it("Should return posts when clicking fetch button", async () => {
 
   expect(
     screen.getByRole("heading", {
-      name: "MSW Testing Library Example",
+      name: "Auth Demo",
       level: 1,
     })
   ).toBeDefined();
-
-  userEvent.click(screen.getByRole("button", { name: "Fetch Posts" }));
-
-  await waitForElementToBeRemoved(() => screen.queryByLabelText("loading"));
-
-  posts.forEach((post) => {
-    expect(
-      screen.getByRole("heading", { name: post.title, level: 2 })
-    ).toBeDefined();
-    expect(screen.getByText(post.body)).toBeDefined();
-  });
-});
-
-it("Should return posts when clicking fetch with graphql button", async () => {
-  render(
-    <ApolloProvider>
-      <App />
-    </ApolloProvider>
-  );
 
   expect(
     screen.getByRole("heading", {
-      name: "MSW Testing Library Example",
-      level: 1,
+      name: "Login",
+      level: 2,
     })
   ).toBeDefined();
 
-  userEvent.click(screen.getByRole("button", { name: "Fetch Posts GraphQL" }));
+  userEvent.click(screen.getByRole("link", { name: "Sign up" }));
 
-  await waitForElementToBeRemoved(() => screen.queryByLabelText("loading"));
-
-  posts.forEach((post) => {
-    expect(
-      screen.getByRole("heading", { name: post.title, level: 2 })
-    ).toBeDefined();
-    expect(screen.getByText(post.body)).toBeDefined();
-  });
+  expect(
+    screen.getByRole("heading", {
+      name: "SignUp",
+      level: 2,
+    })
+  ).toBeDefined();
 });

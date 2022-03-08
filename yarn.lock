@@ -1521,7 +1521,7 @@ __metadata:
     "@vitejs/plugin-react": 1.2.0
     apollo: ^2.33.9
     apollo-link-token-refresh: ^0.4.0
-    cross-fetch: 3.1.5
+    cross-fetch: ^3.1.5
     deepmerge: ^4.2.2
     graphql-ws: ^5.6.2
     jsdom: latest
@@ -3969,7 +3969,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-fetch@npm:3.1.5, cross-fetch@npm:^3.0.6":
+"cross-fetch@npm:^3.0.6, cross-fetch@npm:^3.1.5":
   version: 3.1.5
   resolution: "cross-fetch@npm:3.1.5"
   dependencies:

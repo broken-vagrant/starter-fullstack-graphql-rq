@@ -8,6 +8,7 @@ import { getErrorMessage } from "@/utils";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
+import classes from "./index.module.css";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -18,6 +19,9 @@ const SignUpPage = () => {
         setUser(data.whoami);
       }
     },
+    onError: (err) => {
+      console.error(err);
+    },
   });
   const [signUp, { loading, error }] = useMutation<SignUp, SignUpVariables>(
     SIGNUP,
@@ -27,6 +31,9 @@ const SignUpPage = () => {
         setRefreshToken(data.signupUser.refreshToken);
         await fetchUser();
         navigate("/demo");
+      },
+      onError: (err) => {
+        console.error(err);
       },
     }
   );
@@ -44,28 +51,39 @@ const SignUpPage = () => {
     });
   };
   return (
-    <div>
+    <div className={classes.container}>
       <h2>SignUp</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="name" autoComplete="name" />
-        <input
-          type="email"
-          name="email"
-          placeholder="email"
-          autoComplete="username"
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="password"
-          autoComplete="current-password"
-        />
+      <form onSubmit={handleSubmit} className={classes.signup_form}>
+        {error && <div className="error">{getErrorMessage(error)}</div>}
+        <div>
+          <input
+            type="text"
+            name="name"
+            placeholder="name"
+            autoComplete="name"
+          />
+        </div>
+        <div>
+          <input
+            type="email"
+            name="email"
+            placeholder="email"
+            autoComplete="username"
+          />
+        </div>
+        <div>
+          <input
+            type="password"
+            name="password"
+            placeholder="password"
+            autoComplete="current-password"
+          />
+        </div>
         <button type="submit">Sign up</button>
       </form>
       {loading && <div>Processing... </div>}
-      {error && <div>{getErrorMessage(error)}</div>}
       <div>
-        <Link to="/">Sign in</Link>
+        Already have an account, <Link to="/">Sign in</Link>
       </div>
     </div>
   );

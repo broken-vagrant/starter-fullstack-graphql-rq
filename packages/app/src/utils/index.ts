@@ -2,12 +2,22 @@ export function getErrorMessage(error: any) {
   if (error.graphQLErrors) {
     for (const graphQLError of error.graphQLErrors) {
       if (
-        graphQLError.extensions &&
-        graphQLError.extensions.code === 'BAD_USER_INPUT'
+        graphQLError.extensions
       ) {
-        return graphQLError.message
+        const { code = '' } = graphQLError.extensions;
+        if (!code) {
+          return 'Something went wrong!';
+        }
+        if (
+          code === 'BAD_USER_INPUT'
+        ) {
+          return 'User Input Error';
+        }
+        if (code === 'UNAUTHENTICATED') {
+          return 'Authentication Error';
+        }
       }
     }
   }
-  return error.message
+  return 'Something went wrong!'
 }
