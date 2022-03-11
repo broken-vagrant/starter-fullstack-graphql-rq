@@ -1965,7 +1965,7 @@ __metadata:
     bcrypt: ^5.0.1
     cookie: ^0.4.2
     dotenv: ^16.0.0
-    gen-env-types: ^1.3.2
+    gen-env-types: 1.3.3
     get-port: 5.1.1
     graphql: 15.8.0
     graphql-request: ^4.0.0
@@ -5406,14 +5406,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gen-env-types@npm:^1.3.2":
-  version: 1.3.2
-  resolution: "gen-env-types@npm:1.3.2"
+"gen-env-types@npm:1.3.3":
+  version: 1.3.3
+  resolution: "gen-env-types@npm:1.3.3"
   dependencies:
     chalk: ^4.0.0
   bin:
     gen-env-types: gen-env-types.js
-  checksum: 5c469437d767894de9189b483ac1d5c668685718499078a902714b6965f21e21d72e6e75e9df1d25fda73e9c34545843bc8442961481727e310595a3c76c5aee
+  checksum: cdb93cfd77d038131971bc3a2e9deb4b6ba674eac5300498e60a7f3775df5aac97485e6423cb234dc5a5c0dd48f97358a6e65967ad9e18732746756838cde708
   languageName: node
   linkType: hard
 
