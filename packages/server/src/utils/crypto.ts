@@ -17,6 +17,7 @@ export async function hashPassword(password: string) {
 export async function checkPassword(plaintextPassword: string, hashedPassword: string) {
   const [salt, key] = hashedPassword.split(":")
   const derivedKey = (await scrypt(plaintextPassword, salt, 64)) as NodeJS.ArrayBufferView
+
   return crypto.timingSafeEqual(Buffer.from(key, "hex"), derivedKey)
 }
 

@@ -10,29 +10,29 @@ type TestContext = {
 export function createTestContext(): TestContext {
   const ctx = {} as TestContext;
   const graphqlCtx = graphqlTestContext();
-  beforeEach(async () => {                                        // 2
-    const client = await graphqlCtx.create();
+  beforeEach(async () => {
+    const client = await graphqlCtx.startServerAndGetClient();
     Object.assign(ctx, {
       client,
     });
   });
-  afterEach(async () => {                                         // 3
-    await graphqlCtx.close();
+  afterEach(async () => {
+    await graphqlCtx.closeServer();
   });
-  return ctx;                                                     // 8
+  return ctx;
 }
 
 function graphqlTestContext() {
   let serverInstance: ServerInfo | null = null;
   return {
-    async create() {
-      const port = await getPort({ port: makeRange(4000, 6000) });  // 4
-      serverInstance = await server.listen({ port });               // 5
-      return new GraphQLClient(`http://localhost:${port}`);         // 6
+    async startServerAndGetClient() {
+      const port = await getPort({ port: makeRange(4000, 6000) });
+      serverInstance = await server.listen({ port });
+      return new GraphQLClient(`http://localhost:${port}`);
     },
-    async close() {
+    async closeServer() {
       serverInstance?.server.unref();
-      serverInstance?.server.close();                               // 7
+      serverInstance?.server.close();
     },
   };
 }

@@ -2,6 +2,12 @@
 ### Do not make changes to this file directly
 
 
+type BaseUser {
+  email: String!
+  id: Int!
+  name: String!
+}
+
 """
 A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
 """
@@ -15,12 +21,15 @@ type Mutation {
   createDraft(authorEmail: String!, data: PostCreateInput!): Post
   deletePost(id: Int!): Post
   incrementPostViewCount(id: Int!): Post
+  login(data: UserLoginInput!): UserAuthResponse
+  logout: LogoutResponse!
+  refreshToken(data: RefreshTokenInput!): RefreshTokenResponse
   signupUser(data: UserCreateWhereInput!): UserAuthResponse!
   togglePublishPost(id: Int!): Post
 }
 
 type Post {
-  author: User
+  author: BaseUser
   content: String
   createdAt: DateTime!
   id: Int!
@@ -40,14 +49,11 @@ input PostOrderByUpdatedAtInput {
 }
 
 type Query {
-  allUsers: [User!]!
+  allUsers: [BaseUser!]!
   draftsByUser(userUniqueInput: UserUniqueInput!): [Post]
   feed(orderBy: PostOrderByUpdatedAtInput, searchString: String, skip: Int, take: Int): [Post!]!
-  login(data: UserLoginInput!): UserAuthResponse
-  logout: LogoutResponse!
   postById(id: Int): Post
-  refreshToken(data: RefreshTokenInput!): RefreshTokenResponse
-  whoami: User
+  whoami: BaseUser
 }
 
 input RefreshTokenInput {
@@ -67,9 +73,9 @@ enum SortOrder {
 type User {
   email: String!
   id: Int!
-  name: String
+  name: String!
   passwordHash: String!
-  posts: [Post!]!
+  posts: [Post]!
   refreshToken: String
   refreshTokenExpiresAt: DateTime
 }

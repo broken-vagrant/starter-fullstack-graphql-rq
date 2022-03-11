@@ -8,7 +8,7 @@
     "build": "npm -s run clean && npm -s run generate && tsc",
     "generate": "npm -s run generate:prisma && npm -s run generate:nexus",
     "generate:prisma": "prisma generate",
-    "generate:nexus": "ts-node --transpile-only src/schema",
+    "generate:nexus": "ts-node src/schema",
     "publish:schema": "rover graph introspect http://localhost:4000 | rover graph publish starter-fullstack@current --schema -",
     "precommit": "yarn run prettier",
     "prettier": "prettier --ignore-path .gitignore --write",
@@ -54,7 +54,7 @@
     "typescript": "4.6.2"
   },
   "prisma": {
-    "seed": "ts-node prisma/seed.ts"
+    "seed": "ts-node -r dotenv/config prisma/seed.ts"
   },
   "jest": {
     "preset": "ts-jest",

@@ -3,14 +3,13 @@ import { createTestContext } from './__helpers'
 const ctx = createTestContext()
 
 it('ensure that a user can be created and logged in/out', async () => {
-  const newUserResult = await ctx.client.request(`            # 1
+  const newUserResult = await ctx.client.request(`           
   mutation {
-  signupUser(data: { email: "1@gmail.com", name: "one",password: "123"}) {
-  jwt
-  refreshToken
+    signupUser(data: { email: "1@gmail.com", name: "one",password: "123"}) {
+      jwt
+      refreshToken
+    }
   }
-}
-
   `)
   expect(newUserResult).toHaveProperty('signupUser');
   expect(newUserResult.signupUser).toHaveProperty('jwt');
@@ -18,12 +17,12 @@ it('ensure that a user can be created and logged in/out', async () => {
 
   const loggedUser = await ctx.client.request(
     `
-  query Login($data: UserLoginInput!) {
-  login(data: $data) {
-    jwt
-    refreshToken
+  mutation Login($data: UserLoginInput!) {
+    login(data: $data) {
+      jwt
+      refreshToken
+    }
   }
-}
   `,
     {
       data: {
@@ -38,8 +37,7 @@ it('ensure that a user can be created and logged in/out', async () => {
   expect(loggedUser.login.jwt).not.toBeNull();
   expect(loggedUser.login).toHaveProperty('refreshToken');
 
-  const user = await ctx.client.request(
-    `
+  const user = await ctx.client.request(`
   query {
     whoami {
       email
