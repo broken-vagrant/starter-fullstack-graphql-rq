@@ -1,7 +1,6 @@
 export function getJwtToken() {
   return sessionStorage.getItem("jwt");
 }
-
 export function setJwtToken(token: string) {
   sessionStorage.setItem("jwt", token)
 }
@@ -13,4 +12,9 @@ export function getRefreshToken() {
 
 export function setRefreshToken(token: string) {
   sessionStorage.setItem("refreshToken", token)
+}
+
+export function removeJwtTokens() {
+  localStorage.removeItem('jwt');
+  localStorage.removeItem('refreshToken');
 }

@@ -64,19 +64,17 @@ yarn server gen:env-types
 
 ```sh
 
-# download the published GraphQL schema from apollo studio
-# (Need to set API_KEY env var,check env.example)
-yarn app download:schema
-#           or
-# download the GraphQL schema from a running local development server (eg:http://localhost:4000)
+# download the published GraphQL schema from apollo studio (Need to login with `rover`)
+# follow docs: https://www.apollographql.com/docs/rover/configuring/#2-provide-the-api-key-to-rover
+npx rover config auth
+npx rover graph fetch [your_graph_id]@[variant] > fetched_schema.graphql
+
+# download the GraphQL schema from a local development server (eg:http://localhost:4000)
 yarn app download:schema:local
 
-# Generate static types for GraphQL queries using the
-# published schema from Apollo registry
-yarn app apollo:codegen
+# Generate static types for GraphQL queries. Use the downloaded schema
+yarn app gql:codegen
 
-# Generate static types for GraphQL queries using the downloaded schema
-yarn app apollo:codegen:local
 
 # setup mswjs for browser
 yarn app msw:init
@@ -92,7 +90,7 @@ yarn run coverage # run with vitest
 ## Future
 
 1. Add e2e tests
-
+2. improve token synchronization between tabs
 
 ## Troubleshoot
 

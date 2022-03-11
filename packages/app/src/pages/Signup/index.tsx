@@ -1,52 +1,35 @@
-import { SIGNUP } from "@/graphql/mutations";
-import { WHO_AM_I } from "@/graphql/queries";
-import { SignUp, SignUpVariables } from "@/graphql/__generated__/SignUp";
-import { WhoAmI } from "@/graphql/__generated__/WhoAmI";
-import { setJwtToken, setRefreshToken } from "@/lib/Apollo/auth";
-import useStore from "@/store/useStore";
-import { getErrorMessage } from "@/utils";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { setJwtToken, setRefreshToken } from "@/utils/jwt";
+import { useSignUpMutation } from "@/__generated__/graphqlTypes";
+import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import classes from "./index.module.css";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
-  const setUser = useStore((state) => state.setUser);
-  const [fetchUser] = useLazyQuery<WhoAmI>(WHO_AM_I, {
-    onCompleted: (data) => {
-      if (data.whoami) {
-        setUser(data.whoami);
-      }
+  const client = useQueryClient();
+  const { mutate, isLoading, error } = useSignUpMutation({
+    onSuccess: (data) => {
+      setJwtToken(data.signupUser.jwt);
+      setRefreshToken(data.signupUser.refreshToken);
+
+      // refresh WhoAmI query after setting tokens
+      client.invalidateQueries(["WhoAmI"]);
+
+      navigate("/demo");
     },
-    onError: (err) => {
+    onError: (err: Error) => {
       console.error(err);
     },
   });
-  const [signUp, { loading, error }] = useMutation<SignUp, SignUpVariables>(
-    SIGNUP,
-    {
-      onCompleted: async (data) => {
-        setJwtToken(data.signupUser.jwt);
-        setRefreshToken(data.signupUser.refreshToken);
-        await fetchUser();
-        navigate("/demo");
-      },
-      onError: (err) => {
-        console.error(err);
-      },
-    }
-  );
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { email, password, name } = e.currentTarget.elements as any;
-    await signUp({
-      variables: {
-        data: {
-          email: email.value,
-          password: password.value,
-          name: name.value,
-        },
+    mutate({
+      data: {
+        email: email.value,
+        password: password.value,
+        name: name.value,
       },
     });
   };
@@ -54,7 +37,7 @@ const SignUpPage = () => {
     <div className={classes.container}>
       <h2>SignUp</h2>
       <form onSubmit={handleSubmit} className={classes.signup_form}>
-        {error && <div className="error">{getErrorMessage(error)}</div>}
+        {error && <div className="error">{error.message}</div>}
         <div>
           <input
             type="text"
@@ -81,7 +64,7 @@ const SignUpPage = () => {
         </div>
         <button type="submit">Sign up</button>
       </form>
-      {loading && <div>Processing... </div>}
+      {isLoading && <div>Processing... </div>}
       <div>
         Already have an account, <Link to="/">Sign in</Link>
       </div>

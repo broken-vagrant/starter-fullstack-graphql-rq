@@ -1,0 +1,15 @@
+### source: https://www.graphql-code-generator.com/plugins/typescript-react-query
+schema: ./schema.graphql
+# documents: "src/**/!(*.d).{ts,tsx}"
+documents: "./src/**/*.graphql"
+generates:
+  ./src/__generated__/graphqlTypes.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-query
+    config:
+      fetcher:
+        func: "@/lib/fetch#fetcher"
+        isReactHook: false # optional, defaults to false, controls the function's signature. Read below
+

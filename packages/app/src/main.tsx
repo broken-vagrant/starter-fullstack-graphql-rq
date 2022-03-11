@@ -4,13 +4,13 @@ import "./index.css";
 import App from "./App";
 
 import reportWebVitals from "./reportWebVitals";
-import CustomApolloProvider from "./lib/Apollo";
+import AppProvider from "./lib/providers";
 
 ReactDOM.render(
   <React.StrictMode>
-    <CustomApolloProvider>
+    <AppProvider>
       <App />
-    </CustomApolloProvider>
+    </AppProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

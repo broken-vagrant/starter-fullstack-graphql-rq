@@ -1,17 +1,12 @@
-import { useApollo } from "@/hooks/useApollo";
-import { ApolloProvider } from "@apollo/client";
+import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactNode } from "react";
 
-interface CustomApolloProviderProps {
-  initialState?: any;
+interface AppProviderProps {
   children: ReactNode;
 }
-const CustomApolloProvider = ({
-  initialState,
-  children,
-}: CustomApolloProviderProps) => {
-  const apolloClient = useApollo(initialState);
+const queryClient = new QueryClient();
 
+const AppProvider = ({ children }: AppProviderProps) => {
   // Taken from https://blog.guya.net/2015/06/12/sharing-sessionstorage-between-tabs-for-secure-multi-tab-authentication/
   // This is a secure way to share sessionStorage between tabs.
   if (typeof window !== "undefined") {
@@ -42,7 +37,9 @@ const CustomApolloProvider = ({
       }
     });
   }
-  return <ApolloProvider client={apolloClient}>{children}</ApolloProvider>;
+  return (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
 };
 
-export default CustomApolloProvider;
+export default AppProvider;

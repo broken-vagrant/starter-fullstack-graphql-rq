@@ -1,24 +1,38 @@
-import { LOGOUT } from "@/graphql/queries";
-import { Logout } from "@/graphql/__generated__/Logout";
-import { setJwtToken, setRefreshToken } from "@/lib/Apollo/auth";
+import { setJwtToken, setRefreshToken } from "@/utils/jwt";
 import useStore from "@/store/useStore";
-import { useApolloClient, useLazyQuery } from "@apollo/client";
-import { ReactNode } from "react";
+import {
+  useLogoutMutation,
+  useWhoAmIQuery,
+} from "@/__generated__/graphqlTypes";
+import { ReactNode, useEffect, useState } from "react";
+import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import classes from "./index.module.css";
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const user = useStore((state) => state.user);
+  const [enableWhoAmI, setEnableWhoAmI] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setEnableWhoAmI(true);
+    }, 200);
+  }, []);
+  const { data } = useWhoAmIQuery(
+    {},
+    {
+      enabled: enableWhoAmI,
+    }
+  );
+
   const clearUser = useStore((state) => state.clearUser);
-  const client = useApolloClient();
   const navigate = useNavigate();
-  const [logout] = useLazyQuery<Logout>(LOGOUT, {
-    onCompleted: async () => {
+  const client = useQueryClient();
+  const { mutate } = useLogoutMutation({
+    onSuccess: () => {
       try {
         setJwtToken("");
         setRefreshToken("");
-        await client.resetStore();
+        client.clear();
         clearUser();
         navigate("/");
       } catch (err) {
@@ -29,8 +43,8 @@ const Layout = ({ children }: { children: ReactNode }) => {
       }
     },
   });
-  const handleLogout = async () => {
-    await logout();
+  const handleLogout = () => {
+    mutate({});
   };
 
   return (
@@ -40,8 +54,10 @@ const Layout = ({ children }: { children: ReactNode }) => {
           <h1>Auth Demo</h1>
         </Link>
         <div className={classes.profile}>
-          <div>Profile: {user?.name || "Guest"}</div>
-          {user?.name && <button onClick={handleLogout}>log out</button>}
+          <div>Profile: {data?.whoami?.name || "Guest"}</div>
+          {data?.whoami?.name && (
+            <button onClick={handleLogout}>log out</button>
+          )}
         </div>
       </header>
       <main className={classes.main}>{children}</main>

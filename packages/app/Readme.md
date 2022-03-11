@@ -13,18 +13,17 @@ yarn run preview
 yarn run test # run with vitest
 yarn run coverage # run with vitest
 
-# download the published GraphQL schema from apollo studio (Need to set API_KEY env var,check env.example)
-yarn app download:prod:schema
-#           or
-# download the GraphQL schema from a local development server (eg:http://localhost:4000)
-yarn app download:local:schema
+# download the published GraphQL schema from apollo studio (Need to login with `rover cli`)
+# follow docs: https://www.apollographql.com/docs/rover/configuring/#2-provide-the-api-key-to-rover
+npx rover config auth
+npx rover graph fetch [your_graph_id]@[variant] > fetched_schema.graphql
 
-# Generate static types for GraphQL queries. Use the
-# published schema from Apollo registry
-yarn app apollo:prod:codegen
+# download the GraphQL schema from a local development server (eg:http://localhost:4000)
+yarn app download:schema:local
 
 # Generate static types for GraphQL queries. Use the downloaded schema
-yarn app apollo:local:codegen
+yarn app gql:codegen
+
 
 # setup mswjs for browser
 yarn app msw:init

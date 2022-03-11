@@ -1,10 +1,12 @@
 export function getErrorMessage(error: any) {
-  if (error.graphQLErrors) {
-    for (const graphQLError of error.graphQLErrors) {
+  if (error.errors) {
+    for (const graphQLError of error.errors) {
       if (
         graphQLError.extensions
       ) {
-        const { code = '' } = graphQLError.extensions;
+        const { code } = graphQLError.extensions;
+        console.log(code);
+
         if (!code) {
           return 'Something went wrong!';
         }

@@ -1,14 +1,14 @@
 import { expect, it } from "vitest";
 
-import ApolloProvider from "@/lib/Apollo";
+import AppProvider from "@/lib/providers";
 import { render, screen, userEvent } from "@/utils/test-utils";
 import App from "@/App";
 
 it("Should signup", async () => {
   render(
-    <ApolloProvider>
+    <AppProvider>
       <App />
-    </ApolloProvider>
+    </AppProvider>
   );
 
   expect(

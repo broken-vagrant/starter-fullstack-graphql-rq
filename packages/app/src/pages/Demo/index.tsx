@@ -1,27 +1,34 @@
-import { GET_ALL_USERS } from "@/graphql/queries";
-import { GetAllUsers } from "@/graphql/__generated__/GetAllUsers";
-import useStore from "@/store/useStore";
-import { getErrorMessage } from "@/utils";
-import { useLazyQuery } from "@apollo/client";
+import {
+  useGetAllUsersQuery,
+  useWhoAmIQuery,
+} from "@/__generated__/graphqlTypes";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import classes from "./index.module.css";
 
 const LoadUsers = () => {
-  const [getAllUsers, { loading, data, error }] = useLazyQuery<GetAllUsers>(
-    GET_ALL_USERS,
+  const [triggerQuery, setTriggerQuery] = useState(false);
+  const { data, error, isLoading } = useGetAllUsersQuery(
+    {},
     {
-      onError: (err) => {
+      enabled: triggerQuery,
+      onError: (err: Error) => {
         console.error(err);
       },
     }
   );
+  const getAllUsers = () => {
+    if (!triggerQuery) {
+      setTriggerQuery(true);
+    }
+  };
   return (
     <div className={classes.container}>
       <i>That's right, this is demo hiding behind authentication.</i>
-      <button onClick={() => getAllUsers()}>Load users</button>
-      {loading && <div>Loading...</div>}
-      {error && <div>{getErrorMessage(error)}</div>}
-      {!loading && !error && (
+      <button onClick={getAllUsers}>Load users</button>
+      {isLoading && <div>Loading...</div>}
+      {error && <div>{error.message}</div>}
+      {!isLoading && !error && (
         <ul>
           {data?.allUsers.map((user) => {
             return (
@@ -36,11 +43,11 @@ const LoadUsers = () => {
   );
 };
 const Demo = () => {
-  const user = useStore((state) => state.user);
+  const { data } = useWhoAmIQuery();
 
   return (
     <div className={classes.container}>
-      {user ? (
+      {data?.whoami?.name ? (
         <LoadUsers />
       ) : (
         <div>

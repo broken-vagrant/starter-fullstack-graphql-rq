@@ -1,0 +1,12 @@
+query GetAllUsers {
+  allUsers {
+    name
+    id
+  }
+}
+query WhoAmI {
+  whoami {
+    id
+    name
+  }
+}
