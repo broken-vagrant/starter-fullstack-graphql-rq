@@ -1,22 +1,30 @@
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SignIn from "./pages/SignIn";
-import Home from "./pages/Home";
-import SignUp from "./pages/SignUp";
-import Layout from "./components/Layout";
+import "./App.css"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import Layout from "./components/Layout"
+import ErrorBoundary from "./components/ErrorBoundary"
+import { lazy, Suspense } from "react"
+import { BubbleLoading } from "./components/Icons"
+
+const Home = lazy(() => import("./pages/Home"))
+const SignUp = lazy(() => import("./pages/SignUp"))
+const SignIn = lazy(() => import("./pages/SignIn"))
 
 const App = () => {
   return (
     <BrowserRouter basename={import.meta.env["VITE_FRONTEND_BASENAME"] || "/"}>
-      <Layout>
-        <Routes>
-          <Route path="/sign-in" element={<SignIn />}></Route>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/sign-up" element={<SignUp />}></Route>
-        </Routes>
-      </Layout>
+      <ErrorBoundary>
+        <Layout>
+          <Suspense fallback={<BubbleLoading />}>
+            <Routes>
+              <Route path="/" element={<Home />}></Route>
+              <Route path="/sign-in" element={<SignIn />}></Route>
+              <Route path="/sign-up" element={<SignUp />}></Route>
+            </Routes>
+          </Suspense>
+        </Layout>
+      </ErrorBoundary>
     </BrowserRouter>
-  );
-};
+  )
+}
 
-export default App;
+export default App

@@ -53,6 +53,8 @@
     "jsdom": "latest",
     "msw": "0.38.1",
     "vite": "latest",
-    "vitest": "latest"
+    "vite-plugin-windicss": "^1.8.3",
+    "vitest": "latest",
+    "windicss": "^3.5.1"
   }
 }
