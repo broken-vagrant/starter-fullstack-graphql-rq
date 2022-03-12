@@ -1,28 +1,17 @@
-import { setJwtToken, setRefreshToken } from "@/utils/jwt";
 import useStore from "@/store/useStore";
+import { setJwtToken, setRefreshToken } from "@/utils/jwt";
 import {
   useLogoutMutation,
-  useWhoAmIQuery,
+  useWhoAmIQuery
 } from "@/__generated__/graphqlTypes";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import { useQueryClient } from "react-query";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import classes from "./index.module.css";
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const [enableWhoAmI, setEnableWhoAmI] = useState(false);
-  useEffect(() => {
-    setTimeout(() => {
-      setEnableWhoAmI(true);
-    }, 200);
-  }, []);
-  const { data } = useWhoAmIQuery(
-    {},
-    {
-      enabled: enableWhoAmI,
-    }
-  );
+  const { data } = useWhoAmIQuery();
 
   const clearUser = useStore((state) => state.clearUser);
   const navigate = useNavigate();
