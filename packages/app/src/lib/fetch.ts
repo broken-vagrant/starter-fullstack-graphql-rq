@@ -76,12 +76,11 @@ class TokenRefresh {
   }
   async refresh() {
     if (this.retryCount === this.currRetryCount) {
-      console.warn('exceeded max token refresh limit');
       return;
     }
     if (!this.isTokenValidOrUndefined()) {
-      await this.fetch()
-      this.retryCount += 1
+      this.currRetryCount += 1
+      await this.fetch();
     }
   }
 }

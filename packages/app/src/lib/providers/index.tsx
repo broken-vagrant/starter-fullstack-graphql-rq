@@ -1,5 +1,6 @@
 import { QueryClientProvider, QueryClient } from "react-query";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 interface AppProviderProps {
   children: ReactNode;
@@ -37,8 +38,15 @@ const AppProvider = ({ children }: AppProviderProps) => {
       }
     });
   }
+  useEffect(() => {
+    setTimeout(() => {
+      queryClient.invalidateQueries(['WhoAmI'])
+    }, 200)
+  }, [])
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>{children}
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 };
 
