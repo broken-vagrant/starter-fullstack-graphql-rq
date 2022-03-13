@@ -1,52 +1,52 @@
-import { setJwtToken, setRefreshToken } from "@/utils/jwt"
-import { useLoginMutation, useWhoAmIQuery } from "@/__generated__/graphqlTypes"
-import { useState } from "react"
-import { useQueryClient } from "react-query"
-import { useNavigate } from "react-router"
-import { Link } from "react-router-dom"
+import { setJwtToken, setRefreshToken } from '@/utils/jwt';
+import { useLoginMutation, useWhoAmIQuery } from '@/__generated__/graphqlTypes';
+import { useState } from 'react';
+import { useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 function App() {
   // GraphQL API
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   useWhoAmIQuery(undefined, {
     onSuccess: (data) => {
       if (data.whoami) {
-        navigate("/")
+        navigate('/');
       }
     },
-  })
-  const client = useQueryClient()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  });
+  const client = useQueryClient();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const { mutate, error, isLoading } = useLoginMutation<Error>({
     onSuccess: async (data) => {
       if (data.login) {
         // set tokens
-        setJwtToken(data.login?.jwt)
-        setRefreshToken(data.login?.refreshToken as string)
+        setJwtToken(data.login?.jwt);
+        setRefreshToken(data.login?.refreshToken as string);
 
         // refresh WhoAmI query after setting tokens
-        client.invalidateQueries(["WhoAmI"])
+        client.invalidateQueries(['WhoAmI']);
 
-        navigate("/")
+        navigate('/');
       }
     },
-  })
+  });
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    client.clear()
+    e.preventDefault();
+    client.clear();
     mutate({
       email,
       password,
-    })
-  }
+    });
+  };
   return (
     <div className="flex flex-col items-center ">
       <h2>Login</h2>
       <form onSubmit={handleSubmit} className="my-8">
         {error && (
           <div className="error">
-            {error.message || "Something went wrong!"}
+            {error.message || 'Something went wrong!'}
           </div>
         )}
         <div>
@@ -74,14 +74,14 @@ function App() {
           />
         </div>
         <button type="submit" className="teal-btn mt-8">
-          {isLoading ? "logging in..." : "Login"}
+          {isLoading ? 'logging in...' : 'Login'}
         </button>
       </form>
       <div>
         Don't have account, <Link to="/sign-up">Sign up</Link>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

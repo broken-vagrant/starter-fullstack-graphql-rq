@@ -1,45 +1,53 @@
-import decodeJWT, { JwtPayload } from "jwt-decode";
-import { getJwtToken, getRefreshToken, removeJwtTokens, setJwtToken } from "@/utils/jwt";
+import decodeJWT, { JwtPayload } from 'jwt-decode';
+import {
+  getJwtToken,
+  getRefreshToken,
+  removeJwtTokens,
+  setJwtToken,
+} from '@/utils/jwt';
 
-export const endpointUrl = import.meta.env['VITE_BACKEND_URL']
+export const endpointUrl = import.meta.env['VITE_BACKEND_URL'];
 
 class TokenRefresh {
-  retryCount: number
-  currRetryCount: number
+  retryCount: number;
+  currRetryCount: number;
   constructor(retryCount: number) {
     this.retryCount = retryCount;
-    this.currRetryCount = 0
+    this.currRetryCount = 0;
   }
 
   isTokenValidOrUndefined() {
-    console.log("isTokenValidOrUndefined")
-    const token = getJwtToken()
+    console.log('isTokenValidOrUndefined');
+    const token = getJwtToken();
 
     // If there is no token, the user is not logged in
     // We return true here, because there is no need to refresh the token
-    if (!token) return true
+    if (!token) return true;
 
     // Otherwise, we check if the token is expired
-    const claims: JwtPayload = decodeJWT(token)
-    const expirationTimeInSeconds = claims.exp ? claims.exp * 1000 : Number.NEGATIVE_INFINITY;
-    const now = new Date()
-    const isValid = expirationTimeInSeconds >= now.getTime()
+    const claims: JwtPayload = decodeJWT(token);
+    const expirationTimeInSeconds = claims.exp
+      ? claims.exp * 1000
+      : Number.NEGATIVE_INFINITY;
+    const now = new Date();
+    const isValid = expirationTimeInSeconds >= now.getTime();
 
     // Return true if the token is still valid, otherwise false and trigger a token refresh
-    return isValid
+    return isValid;
   }
   async fetch() {
     try {
-      const jwt: any = decodeJWT(getJwtToken() || '')
-      console.log("fetchAccessToken jwt:", jwt)
+      const jwt: any = decodeJWT(getJwtToken() || '');
+      console.log('fetchAccessToken jwt:', jwt);
 
-      const refreshToken = getRefreshToken()
-      const fingerPrintHash = jwt?.["https://hasura.io/jwt/claims"]?.["X-User-Fingerprint"]
+      const refreshToken = getRefreshToken();
+      const fingerPrintHash =
+        jwt?.['https://hasura.io/jwt/claims']?.['X-User-Fingerprint'];
 
-      const request = await fetch(import.meta.env["VITE_BACKEND_URL"], {
-        method: "POST",
+      const request = await fetch(import.meta.env['VITE_BACKEND_URL'], {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         // credentials: "include" is REQUIRED for cookies to work
         credentials: 'include',
@@ -54,24 +62,23 @@ class TokenRefresh {
           variables: {
             data: {
               refreshToken,
-              fingerPrintHash
-            }
+              fingerPrintHash,
+            },
           },
         }),
-      })
+      });
 
-      const result = await request.json()
+      const result = await request.json();
       const accessToken = result.data.refreshToken.jwt;
       if (accessToken) {
         // const claims = decodeJWT(accessToken);
-        setJwtToken(accessToken)
-      }
-      else {
-        removeJwtTokens()
+        setJwtToken(accessToken);
+      } else {
+        removeJwtTokens();
       }
     } catch (err) {
       console.warn('Your refresh token is invalid. Try to reauthenticate.');
-      removeJwtTokens()
+      removeJwtTokens();
     }
   }
   async refresh() {
@@ -79,7 +86,7 @@ class TokenRefresh {
       return;
     }
     if (!this.isTokenValidOrUndefined()) {
-      this.currRetryCount += 1
+      this.currRetryCount += 1;
       await this.fetch();
     }
   }
@@ -89,11 +96,11 @@ function getHeaders() {
    * set fetcher default headers
    */
   const headers: HeadersInit = {};
-  const token = getJwtToken()
+  const token = getJwtToken();
 
   if (token) headers['authorization'] = `Bearer ${token}`;
   headers['content-type'] = 'application/json';
-  return headers
+  return headers;
 }
 const tokenRefresh = new TokenRefresh(1);
 
@@ -104,17 +111,20 @@ export const fetchParams = async (): Promise<RequestInit> => {
   await tokenRefresh.refresh();
   return {
     // credentials: "include" is REQUIRED for cookies to work
-    credentials: "include",
+    credentials: 'include',
     headers: {
-      ...getHeaders()
-    }
-  }
-}
+      ...getHeaders(),
+    },
+  };
+};
 
-export function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
+export function fetcher<TData, TVariables>(
+  query: string,
+  variables?: TVariables
+) {
   return async (): Promise<TData> => {
     const res = await fetch(endpointUrl as string, {
-      method: "POST",
+      method: 'POST',
       ...(await fetchParams()),
       body: JSON.stringify({ query, variables }),
     });
@@ -128,5 +138,5 @@ export function fetcher<TData, TVariables>(query: string, variables?: TVariables
     }
 
     return json.data;
-  }
+  };
 }

@@ -1,7 +1,7 @@
-import { ServerInfo } from "apollo-server";
-import getPort, { makeRange } from "get-port";
-import { GraphQLClient } from "graphql-request";
-import server from "../server";
+import { ServerInfo } from 'apollo-server';
+import getPort, { makeRange } from 'get-port';
+import { GraphQLClient } from 'graphql-request';
+import server from '../server';
 
 type TestContext = {
   client: GraphQLClient;

@@ -21,11 +21,6 @@
     "prisma:db:push": "prisma db push",
     "gen:env-types": "gen-env-types .env -o src/types/env.d.ts -e ."
   },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "all"
-  },
   "dependencies": {
     "@prisma/client": "3.10.0",
     "apollo-server": "3.6.3",

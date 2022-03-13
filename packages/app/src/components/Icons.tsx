@@ -1,4 +1,4 @@
-import { SVGProps } from "react"
+import { SVGProps } from 'react';
 
 export function PlaySVG(props: SVGProps<SVGSVGElement>) {
   return (
@@ -8,7 +8,7 @@ export function PlaySVG(props: SVGProps<SVGSVGElement>) {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 
 export function PauseSVG(props: SVGProps<SVGSVGElement>) {
@@ -19,7 +19,7 @@ export function PauseSVG(props: SVGProps<SVGSVGElement>) {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 
 export function StepForwardSVG(props: SVGProps<SVGSVGElement>) {
@@ -27,7 +27,7 @@ export function StepForwardSVG(props: SVGProps<SVGSVGElement>) {
     <svg width="1em" height="1em" viewBox="0 0 24 24" {...props}>
       <path d="M5 5v14h3V5m2 0v14l11-7" fill="currentColor"></path>
     </svg>
-  )
+  );
 }
 
 export function Reset(props: SVGProps<SVGSVGElement>) {
@@ -38,7 +38,7 @@ export function Reset(props: SVGProps<SVGSVGElement>) {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 
 export function Random(props: SVGProps<SVGSVGElement>) {
@@ -50,7 +50,7 @@ export function Random(props: SVGProps<SVGSVGElement>) {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 
 export function Help(props: SVGProps<SVGSVGElement>) {
@@ -61,7 +61,7 @@ export function Help(props: SVGProps<SVGSVGElement>) {
         fill="currentColor"
       ></path>
     </svg>
-  )
+  );
 }
 
 export function BubbleLoading(props: SVGProps<SVGSVGElement>) {
@@ -198,5 +198,5 @@ export function BubbleLoading(props: SVGProps<SVGSVGElement>) {
         ></animate>
       </circle>
     </svg>
-  )
+  );
 }

@@ -1,13 +1,13 @@
-import "./App.css"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import Layout from "./components/Layout"
-import ErrorBoundary from "./components/ErrorBoundary"
-import { lazy, Suspense } from "react"
-import { BubbleLoading } from "./components/Icons"
+import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Layout from './components/Layout';
+import ErrorBoundary from './components/ErrorBoundary';
+import { lazy, Suspense } from 'react';
+import { BubbleLoading } from './components/Icons';
 
-const Home = lazy(() => import("./pages/Home"))
-const SignUp = lazy(() => import("./pages/SignUp"))
-const SignIn = lazy(() => import("./pages/SignIn"))
+const Home = lazy(() => import('./pages/Home'));
+const SignUp = lazy(() => import('./pages/SignUp'));
+const SignIn = lazy(() => import('./pages/SignIn'));
 
 const App = () => {
   return (
@@ -24,7 +24,7 @@ const App = () => {
         </Layout>
       </ErrorBoundary>
     </BrowserRouter>
-  )
-}
+  );
+};
 
-export default App
+export default App;

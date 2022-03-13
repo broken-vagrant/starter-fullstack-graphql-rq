@@ -7,19 +7,19 @@ export const getUser = (token: string) => {
 
     return {
       id: claims['X-Hasura-User-Id'],
-      ...claims
-    }
-  }
-  catch (err) {
+      ...claims,
+    };
+  } catch (err) {
     return null;
   }
-}
-
+};
 
 export const getCookie = (cookieStr: string | undefined, key: string) => {
-  const cookie = cookieStr?.split(';').filter((x) => x.trim().split('=')[0] === key)[0];
+  const cookie = cookieStr
+    ?.split(';')
+    .filter((x) => x.trim().split('=')[0] === key)[0];
   if (!cookie) {
     return '';
   }
   return cookie.split('=')[1];
-}
+};
