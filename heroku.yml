@@ -1,0 +1,2 @@
+run:
+  server: yarn server start
