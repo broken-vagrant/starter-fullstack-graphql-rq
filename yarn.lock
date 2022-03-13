@@ -1967,6 +1967,7 @@ __metadata:
   dependencies:
     "@prisma/client": 3.10.0
     "@types/bcrypt": ^5.0.0
+    "@types/cookie": ^0.4.1
     "@types/jest": ^27.4.1
     "@types/jsonwebtoken": ^8.5.8
     "@types/node": 16.11.26

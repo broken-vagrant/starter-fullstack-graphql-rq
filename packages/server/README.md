@@ -510,6 +510,8 @@ yarn publish:schema
 
 ## Switch to another database
 
+> check prisma migrate [ limitations ](https://www.prisma.io/docs/concepts/components/prisma-migrate/prisma-migrate-limitations-issues).
+
 **Examples:** PostgreSQL, MySQL, SQL Server, MongoDB
 
 If you want to try this example with another database than SQLite, you can adjust the the database connection in [`prisma/schema.prisma`](./prisma/schema.prisma) by reconfiguring the `datasource` block.
@@ -526,6 +528,7 @@ For PostgreSQL, the connection URL has the following structure:
 datasource db {
   provider = "postgresql"
   url      = "postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA"
+  shadowDatabaseUrl = "postgresql://USER:PASSWORD@HOST:PORT/SHADOW_DATABASE?schema=SCHEMA"
 }
 ```
 
