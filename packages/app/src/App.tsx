@@ -11,7 +11,7 @@ const SignIn = lazy(() => import("./pages/SignIn"))
 
 const App = () => {
   return (
-    <BrowserRouter basename={import.meta.env["VITE_FRONTEND_BASENAME"] || "/"}>
+    <BrowserRouter basename="/starter-fullstack-graphql-rq/">
       <ErrorBoundary>
         <Layout>
           <Suspense fallback={<BubbleLoading />}>

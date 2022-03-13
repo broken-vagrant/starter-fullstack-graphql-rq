@@ -23,6 +23,7 @@
     "lint": "eslint  --quiet --fix --ignore-path .gitignore",
     "prettier": "prettier --ignore-path .gitignore --write",
     "precommit": "yarn run prettier",
+    "deploy": "bash ./deploy.sh",
     "msw:init": "msw init public/ --save"
   },
   "browserslist": {
