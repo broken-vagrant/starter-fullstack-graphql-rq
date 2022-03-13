@@ -4,3 +4,5 @@ dist
 # Ignore all HTML files:
 *.html
 *.graphql
+
+__generated__
