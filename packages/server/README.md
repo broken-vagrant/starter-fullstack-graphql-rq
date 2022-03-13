@@ -123,7 +123,7 @@ mutation {
 }
 ```
 
-### Publish/unpublish an existing post
+### Publish/un-publish an existing post
 
 ```graphql
 mutation {
@@ -406,6 +406,7 @@ export default function userMutationDef(t: ObjectDefinitionBlock<'Mutation'>) {
 ```
 
 Don't forget to include the new Mutation definitions in the `@/schema/mutations/index.ts` like 👇:
+
 ```diff
 // @/schema/mutations/index.ts
 
@@ -508,6 +509,7 @@ yarn publish:schema
 ```
 
 ## Switch to another database
+
 **Examples:** PostgreSQL, MySQL, SQL Server, MongoDB
 
 If you want to try this example with another database than SQLite, you can adjust the the database connection in [`prisma/schema.prisma`](./prisma/schema.prisma) by reconfiguring the `datasource` block.
@@ -532,7 +534,7 @@ Here is an example connection string with a local PostgreSQL database:
 ```prisma
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://janedoe:mypassword@localhost:5432/notesapi?schema=public"
+  url      = "postgresql://janedoe:my-password@localhost:5432/notesapi?schema=public"
 }
 ```
 
@@ -552,7 +554,7 @@ Here is an example connection string with a local MySQL database:
 ```prisma
 datasource db {
   provider = "mysql"
-  url      = "mysql://janedoe:mypassword@localhost:3306/notesapi"
+  url      = "mysql://janedoe:my-password@localhost:3306/notesapi"
 }
 ```
 
@@ -563,7 +565,7 @@ Here is an example connection string with a local Microsoft SQL Server database:
 ```prisma
 datasource db {
   provider = "sqlserver"
-  url      = "sqlserver://localhost:1433;initial catalog=sample;user=sa;password=mypassword;"
+  url      = "sqlserver://localhost:1433;initial catalog=sample;user=sa;password=my-password;"
 }
 ```
 
