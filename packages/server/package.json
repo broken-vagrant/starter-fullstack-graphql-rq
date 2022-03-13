@@ -75,5 +75,9 @@
       "ts-jest": {}
     },
     "testEnvironment": "node"
+  },
+  "engines": {
+    "node": "15.x",
+    "yarn": "3.x"
   }
 }
