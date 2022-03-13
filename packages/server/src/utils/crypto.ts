@@ -45,6 +45,8 @@ export function uuidv4(): string {
     // @ts-ignore
     (
       c ^
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       (crypto.webcrypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
     ).toString(16)
   );
@@ -62,6 +64,7 @@ export function setFingerprintCookieAndSignJwt(
       maxAge: FINGERPRINT_COOKIE_MAX_AGE,
       httpOnly: true,
       secure: IS_PROD,
+      sameSite: "none"
     })
   );
 
