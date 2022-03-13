@@ -3,7 +3,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --no-notify --respawn --transpile-only -r tsconfig-paths/register src/index",
-    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register dist/index.js",
+    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register src/index.ts",
     "clean": "rm -rf dist",
     "build": "npm -s run clean && npm -s run generate",
     "generate": "npm -s run generate:prisma && npm -s run generate:nexus",
