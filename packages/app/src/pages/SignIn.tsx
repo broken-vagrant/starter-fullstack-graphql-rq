@@ -14,6 +14,7 @@ function App() {
         navigate('/');
       }
     },
+    staleTime: 30 * 1000
   });
   const client = useQueryClient();
   const [email, setEmail] = useState('');
@@ -42,7 +43,7 @@ function App() {
   };
   return (
     <div className="flex flex-col items-center ">
-      <h2>Login</h2>
+      <h2 className='m-1 text-2xl font-extrabold'>Login</h2>
       <form onSubmit={handleSubmit} className="my-8">
         {error && (
           <div className="error">

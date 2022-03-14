@@ -20,8 +20,8 @@ const LoadUsers = () => {
   };
   return (
     <div className="flex flex-col items-center">
-      <i className="m-1">Welcome to Demo!</i>
-      <button onClick={getAllUsers}>Load users</button>
+      <h2 className="m-1 text-2xl font-extrabold">Welcome to Demo!</h2>
+      <button onClick={getAllUsers} className="teal-btn">Load users</button>
       {isLoading && <div>Loading...</div>}
       {error && <div>{error.message}</div>}
       {!isLoading && !error && (
@@ -46,12 +46,13 @@ const Demo = () => {
         navigate('/sign-in');
       }
     },
+    staleTime: 30*1000 ,
     onError: () => {
       navigate('/sign-in');
     },
   });
 
-  return <div>{user?.whoami?.name && <LoadUsers />}</div>;
+  return <section>{user?.whoami?.name && <LoadUsers />}</section>;
 };
 
 export default Demo;

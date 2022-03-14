@@ -8,7 +8,7 @@ import {
 
 export const endpointUrl = import.meta.env['VITE_BACKEND_URL'];
 
-class TokenRefresh {
+class TokenRefresher {
   retryCount: number;
   currRetryCount: number;
   constructor(retryCount: number) {
@@ -93,7 +93,7 @@ class TokenRefresh {
 }
 function getHeaders() {
   /**
-   * set fetcher default headers
+   * set fetcher's default headers in this function
    */
   const headers: HeadersInit = {};
   const token = getJwtToken();
@@ -102,13 +102,15 @@ function getHeaders() {
   headers['content-type'] = 'application/json';
   return headers;
 }
-const tokenRefresh = new TokenRefresh(1);
+const tokenRefresher = new TokenRefresher(1);
 
 export const fetchParams = async (): Promise<RequestInit> => {
-  /**
-   * set default fetch request params in return {...params}
-   */
-  await tokenRefresh.refresh();
+
+  // info: set default fetch request params in return {...params}
+
+  // refresh token
+  await tokenRefresher.refresh();
+
   return {
     // credentials: "include" is REQUIRED for cookies to work
     credentials: 'include',
@@ -132,8 +134,10 @@ export function fetcher<TData, TVariables>(
     const json = await res.json();
 
     if (json.errors) {
-      const { message } = json.errors[0];
-
+      const { message,extensions } = json.errors[0];
+      if (extensions && extensions.code === 'INTERNAL_SERVER_ERROR') {
+        throw new Error('Something went wrong!');
+      }
       throw new Error(message);
     }
 
