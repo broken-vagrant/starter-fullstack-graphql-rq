@@ -1,16 +1,24 @@
-import { arg, extendType, inputObjectType, intArg, nonNull, objectType, stringArg } from "nexus"
-import { Context } from "@/context";
+import {
+  arg,
+  extendType,
+  inputObjectType,
+  intArg,
+  nonNull,
+  objectType,
+  stringArg,
+} from 'nexus';
+import { Context } from '../../context';
 
 export const Post = objectType({
   name: 'Post',
   definition(t) {
-    t.nonNull.int('id')
-    t.nonNull.field('createdAt', { type: 'DateTime' })
-    t.nonNull.field('updatedAt', { type: 'DateTime' })
-    t.nonNull.string('title')
-    t.string('content')
-    t.nonNull.boolean('published')
-    t.nonNull.int('viewCount')
+    t.nonNull.int('id');
+    t.nonNull.field('createdAt', { type: 'DateTime' });
+    t.nonNull.field('updatedAt', { type: 'DateTime' });
+    t.nonNull.string('title');
+    t.string('content');
+    t.nonNull.boolean('published');
+    t.nonNull.int('viewCount');
     t.field('author', {
       type: 'BaseUser',
       resolve: (parent, _, context: Context) => {
@@ -22,34 +30,32 @@ export const Post = objectType({
             select: {
               id: true,
               name: true,
-              email: true
-            }
-          })
+              email: true,
+            },
+          });
       },
-    })
+    });
   },
-})
+});
 
 export const PostCreateInput = inputObjectType({
   name: 'PostCreateInput',
   definition(t) {
-    t.nonNull.string('title')
-    t.string('content')
+    t.nonNull.string('title');
+    t.string('content');
   },
-})
+});
 
 export const PostOrderByUpdatedAtInput = inputObjectType({
   name: 'PostOrderByUpdatedAtInput',
   definition(t) {
-    t.nonNull.field('updatedAt', { type: 'SortOrder' })
+    t.nonNull.field('updatedAt', { type: 'SortOrder' });
   },
-})
-
+});
 
 export const postQueries = extendType({
   type: 'Query',
   definition: (t) => {
-
     t.nullable.field('postById', {
       type: 'Post',
       args: {
@@ -58,9 +64,9 @@ export const postQueries = extendType({
       resolve: (_parent, args, context: Context) => {
         return context.prisma.post.findUnique({
           where: { id: args.id || undefined },
-        })
+        });
       },
-    })
+    });
 
     t.nonNull.list.nonNull.field('feed', {
       type: 'Post',
@@ -75,12 +81,12 @@ export const postQueries = extendType({
       resolve: (_parent, args, context: Context) => {
         const or = args.searchString
           ? {
-            OR: [
-              { title: { contains: args.searchString } },
-              { content: { contains: args.searchString } },
-            ],
-          }
-          : {}
+              OR: [
+                { title: { contains: args.searchString } },
+                { content: { contains: args.searchString } },
+              ],
+            }
+          : {};
 
         return context.prisma.post.findMany({
           where: {
@@ -90,9 +96,9 @@ export const postQueries = extendType({
           take: args.take || undefined,
           skip: args.skip || undefined,
           orderBy: args.orderBy || undefined,
-        })
+        });
       },
-    })
+    });
 
     t.list.field('draftsByUser', {
       type: 'Post',
@@ -100,7 +106,7 @@ export const postQueries = extendType({
         userUniqueInput: nonNull(
           arg({
             type: 'UserUniqueInput',
-          }),
+          })
         ),
       },
       resolve: (_parent, args, context: Context) => {
@@ -115,24 +121,22 @@ export const postQueries = extendType({
             where: {
               published: false,
             },
-          })
+          });
       },
-    })
-
-  }
-})
+    });
+  },
+});
 
 export const postMutations = extendType({
-  type: "Mutation",
+  type: 'Mutation',
   definition: (t) => {
-
     t.field('createDraft', {
       type: 'Post',
       args: {
         data: nonNull(
           arg({
             type: 'PostCreateInput',
-          }),
+          })
         ),
         authorEmail: nonNull(stringArg()),
       },
@@ -145,9 +149,9 @@ export const postMutations = extendType({
               connect: { email: args.authorEmail },
             },
           },
-        })
+        });
       },
-    })
+    });
 
     t.field('togglePublishPost', {
       type: 'Post',
@@ -161,18 +165,18 @@ export const postMutations = extendType({
             select: {
               published: true,
             },
-          })
+          });
           return context.prisma.post.update({
             where: { id: args.id || undefined },
             data: { published: !post?.published },
-          })
+          });
         } catch (e) {
           throw new Error(
-            `Post with ID ${args.id} does not exist in the database.`,
-          )
+            `Post with ID ${args.id} does not exist in the database.`
+          );
         }
       },
-    })
+    });
 
     t.field('incrementPostViewCount', {
       type: 'Post',
@@ -187,9 +191,9 @@ export const postMutations = extendType({
               increment: 1,
             },
           },
-        })
+        });
       },
-    })
+    });
 
     t.field('deletePost', {
       type: 'Post',
@@ -199,8 +203,8 @@ export const postMutations = extendType({
       resolve: (_, args, context: Context) => {
         return context.prisma.post.delete({
           where: { id: args.id },
-        })
+        });
       },
-    })
-  }
-})
+    });
+  },
+});

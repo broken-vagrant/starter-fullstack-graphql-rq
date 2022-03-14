@@ -1,48 +1,52 @@
-import { setJwtToken, setRefreshToken } from "@/utils/jwt"
-import { useSignUpMutation, useWhoAmIQuery } from "@/__generated__/graphqlTypes"
-import { useQueryClient } from "react-query"
-import { useNavigate } from "react-router"
-import { Link } from "react-router-dom"
+import { setJwtToken, setRefreshToken } from '@/utils/jwt';
+import {
+  useSignUpMutation,
+  useWhoAmIQuery,
+} from '@/__generated__/graphqlTypes';
+import { useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const SignUpPage = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   useWhoAmIQuery(undefined, {
     onSuccess: (data) => {
       if (data.whoami) {
-        navigate("/")
+        navigate('/');
       }
     },
-  })
-  const client = useQueryClient()
+    staleTime: 30 * 1000,
+  });
+  const client = useQueryClient();
   const { mutate, isLoading, error } = useSignUpMutation<Error>({
     onSuccess: (data) => {
-      setJwtToken(data.signupUser.jwt)
-      setRefreshToken(data.signupUser.refreshToken)
+      setJwtToken(data.signupUser.jwt);
+      setRefreshToken(data.signupUser.refreshToken);
 
       // refresh WhoAmI query after setting tokens
-      client.invalidateQueries(["WhoAmI"])
+      client.invalidateQueries(['WhoAmI']);
 
-      navigate("/")
+      navigate('/');
     },
-  })
+  });
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const { email, password, name } = e.currentTarget.elements as any
+    e.preventDefault();
+    const { email, password, name } = e.currentTarget.elements as any;
     mutate({
       data: {
         email: email.value,
         password: password.value,
         name: name.value,
       },
-    })
-  }
+    });
+  };
   return (
     <div className="flex flex-col items-center">
       <h2 className="text-2xl font-bold">SignUp</h2>
       <form onSubmit={handleSubmit} className="my-8">
         {error && (
           <div className="mt-8 error">
-            {error.message || "Something went wrong!"}
+            {error.message || 'Something went wrong!'}
           </div>
         )}
         <div>
@@ -81,7 +85,7 @@ const SignUpPage = () => {
         Already have an account, <Link to="/sign-in">Sign in</Link>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SignUpPage
+export default SignUpPage;

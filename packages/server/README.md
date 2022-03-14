@@ -14,6 +14,7 @@ This example shows how to implement a **GraphQL server with TypeScript** with th
 - [Using the GraphQL API](#using-the-graphql-api)
 - [Evolving the app](#evolving-the-app)
 - [Switch to another database (e.g. PostgreSQL, MySQL, SQL Server)](#switch-to-another-database)
+- [Deploy to Heroku](#deploy-to-heroku)
 - [Next steps](#next-steps)
 
 ## Getting started
@@ -460,7 +461,7 @@ const profile = await prisma.profile.create({
       connect: { email: 'alice@prisma.io' },
     },
   },
-})
+});
 ```
 
 ##### Create a new user with a new profile
@@ -476,7 +477,7 @@ const user = await prisma.user.create({
       },
     },
   },
-})
+});
 ```
 
 ##### Update the profile of an existing user
@@ -491,7 +492,7 @@ const userWithUpdatedProfile = await prisma.user.update({
       },
     },
   },
-})
+});
 ```
 
 </details>
@@ -593,6 +594,33 @@ generator client {
 ```
 
 </details>
+
+## Deploy to Heroku
+
+> ensure `packages/server/package.json` have basic(`build, start`) script commands.
+
+```sh
+
+# add `Procfile` (check packages/server)
+
+heroku login
+
+# create heroku app
+heroku create -a <app_name>
+
+# configure buildpack
+# more info: https://devcenter.heroku.com/articles/using-multiple-buildpacks-for-an-app
+heroku buildpacks:add -a <app_name> -i 1 https://github.com/lstoll/heroku-buildpack-monorepo
+heroku config:set -a <app_name> APP_BASE=/packages/server
+heroku buildpacks:add -a <app_name> heroku/nodejs
+
+git push https://git.heroku.com/<app_name>.git main
+
+```
+
+**References:**
+
+1. [Preparing a Codebase for Heroku Deployment](https://devcenter.heroku.com/articles/preparing-a-codebase-for-heroku-deployment)
 
 ## Next steps
 

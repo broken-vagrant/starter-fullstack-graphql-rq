@@ -1,18 +1,14 @@
 export function getErrorMessage(error: any) {
   if (error.errors) {
     for (const graphQLError of error.errors) {
-      if (
-        graphQLError.extensions
-      ) {
+      if (graphQLError.extensions) {
         const { code } = graphQLError.extensions;
         console.log(code);
 
         if (!code) {
           return 'Something went wrong!';
         }
-        if (
-          code === 'BAD_USER_INPUT'
-        ) {
+        if (code === 'BAD_USER_INPUT') {
           return 'User Input Error';
         }
         if (code === 'UNAUTHENTICATED') {
@@ -21,5 +17,5 @@ export function getErrorMessage(error: any) {
       }
     }
   }
-  return 'Something went wrong!'
+  return 'Something went wrong!';
 }

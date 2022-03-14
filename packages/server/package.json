@@ -3,9 +3,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --no-notify --respawn --transpile-only -r tsconfig-paths/register src/index",
-    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register dist/index.js",
+    "start": "node dist/index.js",
     "clean": "rm -rf dist",
-    "build": "npm -s run clean && npm -s run generate",
+    "build": "npm -s run clean && npm -s run generate && tsc",
     "generate": "npm -s run generate:prisma && npm -s run generate:nexus",
     "generate:prisma": "prisma generate",
     "generate:nexus": "ts-node src/schema",
@@ -21,11 +21,6 @@
     "prisma:db:push": "prisma db push",
     "gen:env-types": "gen-env-types .env -o src/types/env.d.ts -e ."
   },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "all"
-  },
   "dependencies": {
     "@prisma/client": "3.10.0",
     "apollo-server": "3.6.3",
@@ -35,7 +30,6 @@
     "graphql": "15.8.0",
     "graphql-scalars": "1.14.1",
     "jsonwebtoken": "^8.5.1",
-    "module-alias": "^2.2.2",
     "nexus": "1.2.0"
   },
   "devDependencies": {
@@ -50,9 +44,9 @@
     "jest": "^27.5.1",
     "prisma": "3.10.0",
     "ts-jest": "^27.1.3",
-    "ts-node": "10.6.0",
+    "ts-node": "^10.7.0",
     "ts-node-dev": "1.1.8",
-    "tsconfig-paths": "^3.13.0",
+    "tsconfig-paths": "^3.14.0",
     "typescript": "4.6.2"
   },
   "prisma": {
@@ -75,5 +69,9 @@
       "ts-jest": {}
     },
     "testEnvironment": "node"
+  },
+  "engines": {
+    "node": "15.x",
+    "yarn": "1.x"
   }
 }

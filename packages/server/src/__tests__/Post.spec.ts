@@ -1,6 +1,6 @@
-import { createTestContext } from './__helpers'
+import { createTestContext } from './__helpers';
 
-const ctx = createTestContext()
+const ctx = createTestContext();
 
 it('ensures that a user and their posts can be created', async () => {
   const newUserResult = await ctx.client.request(`            
@@ -10,10 +10,10 @@ it('ensures that a user and their posts can be created', async () => {
       refreshToken
     }
   }
-  `)
-  expect(newUserResult).toHaveProperty('signupUser')
-  expect(newUserResult.signupUser).toHaveProperty('jwt')
-  expect(newUserResult.signupUser).toHaveProperty('refreshToken')
+  `);
+  expect(newUserResult).toHaveProperty('signupUser');
+  expect(newUserResult.signupUser).toHaveProperty('jwt');
+  expect(newUserResult.signupUser).toHaveProperty('refreshToken');
 
   const publishResult = await ctx.client.request(`
   mutation {
@@ -25,7 +25,7 @@ it('ensures that a user and their posts can be created', async () => {
       content
     }
   }
-  `)
+  `);
   // Snapshot the published draft and expect `published` to be true
   expect(publishResult).toMatchInlineSnapshot(`
     Object {
@@ -34,5 +34,5 @@ it('ensures that a user and their posts can be created', async () => {
         "title": "First title",
       },
     }
-  `)
-})
+  `);
+});

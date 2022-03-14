@@ -1,10 +1,21 @@
-import { useMutation, UseMutationOptions, useQuery, UseQueryOptions } from 'react-query';
+import {
+  useMutation,
+  UseMutationOptions,
+  useQuery,
+  UseQueryOptions,
+} from 'react-query';
 import { fetcher } from '@/lib/fetch';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -40,37 +51,30 @@ export type Mutation = {
   togglePublishPost?: Maybe<Post>;
 };
 
-
 export type MutationCreateDraftArgs = {
   authorEmail: Scalars['String'];
   data: PostCreateInput;
 };
 
-
 export type MutationDeletePostArgs = {
   id: Scalars['Int'];
 };
-
 
 export type MutationIncrementPostViewCountArgs = {
   id: Scalars['Int'];
 };
 
-
 export type MutationLoginArgs = {
   data: UserLoginInput;
 };
-
 
 export type MutationRefreshTokenArgs = {
   data: RefreshTokenInput;
 };
 
-
 export type MutationSignupUserArgs = {
   data: UserCreateWhereInput;
 };
-
 
 export type MutationTogglePublishPostArgs = {
   id: Scalars['Int'];
@@ -106,11 +110,9 @@ export type Query = {
   whoami?: Maybe<BaseUser>;
 };
 
-
 export type QueryDraftsByUserArgs = {
   userUniqueInput: UserUniqueInput;
 };
-
 
 export type QueryFeedArgs = {
   orderBy?: InputMaybe<PostOrderByUpdatedAtInput>;
@@ -118,7 +120,6 @@ export type QueryFeedArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
 };
-
 
 export type QueryPostByIdArgs = {
   id?: InputMaybe<Scalars['Int']>;
@@ -136,7 +137,7 @@ export type RefreshTokenResponse = {
 
 export enum SortOrder {
   Asc = 'asc',
-  Desc = 'desc'
+  Desc = 'desc',
 }
 
 export type User = {
@@ -176,39 +177,58 @@ export type SignUpMutationVariables = Exact<{
   data: UserCreateWhereInput;
 }>;
 
+export type SignUpMutation = {
+  __typename?: 'Mutation';
+  signupUser: {
+    __typename?: 'UserAuthResponse';
+    jwt: string;
+    refreshToken: string;
+  };
+};
 
-export type SignUpMutation = { __typename?: 'Mutation', signupUser: { __typename?: 'UserAuthResponse', jwt: string, refreshToken: string } };
+export type LogoutMutationVariables = Exact<{ [key: string]: never }>;
 
-export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type LogoutMutation = { __typename?: 'Mutation', logout: { __typename?: 'LogoutResponse', ok: boolean } };
+export type LogoutMutation = {
+  __typename?: 'Mutation';
+  logout: { __typename?: 'LogoutResponse'; ok: boolean };
+};
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
 }>;
 
-
-export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'UserAuthResponse', jwt: string, refreshToken: string } | null };
+export type LoginMutation = {
+  __typename?: 'Mutation';
+  login?: {
+    __typename?: 'UserAuthResponse';
+    jwt: string;
+    refreshToken: string;
+  } | null;
+};
 
 export type RefreshJwtTokenMutationVariables = Exact<{
   data: RefreshTokenInput;
 }>;
 
+export type RefreshJwtTokenMutation = {
+  __typename?: 'Mutation';
+  refreshToken?: { __typename?: 'RefreshTokenResponse'; jwt: string } | null;
+};
 
-export type RefreshJwtTokenMutation = { __typename?: 'Mutation', refreshToken?: { __typename?: 'RefreshTokenResponse', jwt: string } | null };
+export type GetAllUsersQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetAllUsersQuery = {
+  __typename?: 'Query';
+  allUsers: Array<{ __typename?: 'BaseUser'; name: string; id: number }>;
+};
 
+export type WhoAmIQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetAllUsersQuery = { __typename?: 'Query', allUsers: Array<{ __typename?: 'BaseUser', name: string, id: number }> };
-
-export type WhoAmIQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type WhoAmIQuery = { __typename?: 'Query', whoami?: { __typename?: 'BaseUser', id: number, name: string } | null };
-
+export type WhoAmIQuery = {
+  __typename?: 'Query';
+  whoami?: { __typename?: 'BaseUser'; id: number; name: string } | null;
+};
 
 export const SignUpDocument = `
     mutation SignUp($data: UserCreateWhereInput!) {
@@ -218,15 +238,23 @@ export const SignUpDocument = `
   }
 }
     `;
-export const useSignUpMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<SignUpMutation, TError, SignUpMutationVariables, TContext>) =>
-    useMutation<SignUpMutation, TError, SignUpMutationVariables, TContext>(
-      ['SignUp'],
-      (variables?: SignUpMutationVariables) => fetcher<SignUpMutation, SignUpMutationVariables>(SignUpDocument, variables)(),
-      options
-    );
+export const useSignUpMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    SignUpMutation,
+    TError,
+    SignUpMutationVariables,
+    TContext
+  >
+) =>
+  useMutation<SignUpMutation, TError, SignUpMutationVariables, TContext>(
+    ['SignUp'],
+    (variables?: SignUpMutationVariables) =>
+      fetcher<SignUpMutation, SignUpMutationVariables>(
+        SignUpDocument,
+        variables
+      )(),
+    options
+  );
 export const LogoutDocument = `
     mutation Logout {
   logout {
@@ -234,15 +262,23 @@ export const LogoutDocument = `
   }
 }
     `;
-export const useLogoutMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<LogoutMutation, TError, LogoutMutationVariables, TContext>) =>
-    useMutation<LogoutMutation, TError, LogoutMutationVariables, TContext>(
-      ['Logout'],
-      (variables?: LogoutMutationVariables) => fetcher<LogoutMutation, LogoutMutationVariables>(LogoutDocument, variables)(),
-      options
-    );
+export const useLogoutMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    LogoutMutation,
+    TError,
+    LogoutMutationVariables,
+    TContext
+  >
+) =>
+  useMutation<LogoutMutation, TError, LogoutMutationVariables, TContext>(
+    ['Logout'],
+    (variables?: LogoutMutationVariables) =>
+      fetcher<LogoutMutation, LogoutMutationVariables>(
+        LogoutDocument,
+        variables
+      )(),
+    options
+  );
 export const LoginDocument = `
     mutation Login($email: String!, $password: String!) {
   login(data: {email: $email, password: $password}) {
@@ -251,15 +287,23 @@ export const LoginDocument = `
   }
 }
     `;
-export const useLoginMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<LoginMutation, TError, LoginMutationVariables, TContext>) =>
-    useMutation<LoginMutation, TError, LoginMutationVariables, TContext>(
-      ['Login'],
-      (variables?: LoginMutationVariables) => fetcher<LoginMutation, LoginMutationVariables>(LoginDocument, variables)(),
-      options
-    );
+export const useLoginMutation = <TError = unknown, TContext = unknown>(
+  options?: UseMutationOptions<
+    LoginMutation,
+    TError,
+    LoginMutationVariables,
+    TContext
+  >
+) =>
+  useMutation<LoginMutation, TError, LoginMutationVariables, TContext>(
+    ['Login'],
+    (variables?: LoginMutationVariables) =>
+      fetcher<LoginMutation, LoginMutationVariables>(
+        LoginDocument,
+        variables
+      )(),
+    options
+  );
 export const RefreshJwtTokenDocument = `
     mutation RefreshJwtToken($data: RefreshTokenInput!) {
   refreshToken(data: $data) {
@@ -268,14 +312,30 @@ export const RefreshJwtTokenDocument = `
 }
     `;
 export const useRefreshJwtTokenMutation = <
-      TError = unknown,
-      TContext = unknown
-    >(options?: UseMutationOptions<RefreshJwtTokenMutation, TError, RefreshJwtTokenMutationVariables, TContext>) =>
-    useMutation<RefreshJwtTokenMutation, TError, RefreshJwtTokenMutationVariables, TContext>(
-      ['RefreshJwtToken'],
-      (variables?: RefreshJwtTokenMutationVariables) => fetcher<RefreshJwtTokenMutation, RefreshJwtTokenMutationVariables>(RefreshJwtTokenDocument, variables)(),
-      options
-    );
+  TError = unknown,
+  TContext = unknown
+>(
+  options?: UseMutationOptions<
+    RefreshJwtTokenMutation,
+    TError,
+    RefreshJwtTokenMutationVariables,
+    TContext
+  >
+) =>
+  useMutation<
+    RefreshJwtTokenMutation,
+    TError,
+    RefreshJwtTokenMutationVariables,
+    TContext
+  >(
+    ['RefreshJwtToken'],
+    (variables?: RefreshJwtTokenMutationVariables) =>
+      fetcher<RefreshJwtTokenMutation, RefreshJwtTokenMutationVariables>(
+        RefreshJwtTokenDocument,
+        variables
+      )(),
+    options
+  );
 export const GetAllUsersDocument = `
     query GetAllUsers {
   allUsers {
@@ -284,18 +344,18 @@ export const GetAllUsersDocument = `
   }
 }
     `;
-export const useGetAllUsersQuery = <
-      TData = GetAllUsersQuery,
-      TError = unknown
-    >(
-      variables?: GetAllUsersQueryVariables,
-      options?: UseQueryOptions<GetAllUsersQuery, TError, TData>
-    ) =>
-    useQuery<GetAllUsersQuery, TError, TData>(
-      variables === undefined ? ['GetAllUsers'] : ['GetAllUsers', variables],
-      fetcher<GetAllUsersQuery, GetAllUsersQueryVariables>(GetAllUsersDocument, variables),
-      options
-    );
+export const useGetAllUsersQuery = <TData = GetAllUsersQuery, TError = unknown>(
+  variables?: GetAllUsersQueryVariables,
+  options?: UseQueryOptions<GetAllUsersQuery, TError, TData>
+) =>
+  useQuery<GetAllUsersQuery, TError, TData>(
+    variables === undefined ? ['GetAllUsers'] : ['GetAllUsers', variables],
+    fetcher<GetAllUsersQuery, GetAllUsersQueryVariables>(
+      GetAllUsersDocument,
+      variables
+    ),
+    options
+  );
 export const WhoAmIDocument = `
     query WhoAmI {
   whoami {
@@ -304,15 +364,12 @@ export const WhoAmIDocument = `
   }
 }
     `;
-export const useWhoAmIQuery = <
-      TData = WhoAmIQuery,
-      TError = unknown
-    >(
-      variables?: WhoAmIQueryVariables,
-      options?: UseQueryOptions<WhoAmIQuery, TError, TData>
-    ) =>
-    useQuery<WhoAmIQuery, TError, TData>(
-      variables === undefined ? ['WhoAmI'] : ['WhoAmI', variables],
-      fetcher<WhoAmIQuery, WhoAmIQueryVariables>(WhoAmIDocument, variables),
-      options
-    );
+export const useWhoAmIQuery = <TData = WhoAmIQuery, TError = unknown>(
+  variables?: WhoAmIQueryVariables,
+  options?: UseQueryOptions<WhoAmIQuery, TError, TData>
+) =>
+  useQuery<WhoAmIQuery, TError, TData>(
+    variables === undefined ? ['WhoAmI'] : ['WhoAmI', variables],
+    fetcher<WhoAmIQuery, WhoAmIQueryVariables>(WhoAmIDocument, variables),
+    options
+  );

@@ -1,6 +1,6 @@
-import { createTestContext } from './__helpers'
+import { createTestContext } from './__helpers';
 
-const ctx = createTestContext()
+const ctx = createTestContext();
 
 it('ensure that a user can be created and logged in/out', async () => {
   const newUserResult = await ctx.client.request(`           
@@ -10,7 +10,7 @@ it('ensure that a user can be created and logged in/out', async () => {
       refreshToken
     }
   }
-  `)
+  `);
   expect(newUserResult).toHaveProperty('signupUser');
   expect(newUserResult.signupUser).toHaveProperty('jwt');
   expect(newUserResult.signupUser).toHaveProperty('refreshToken');
@@ -29,15 +29,16 @@ it('ensure that a user can be created and logged in/out', async () => {
         email: '1@gmail.com',
         password: '123',
       },
-    },
-  )
+    }
+  );
 
   expect(loggedUser).toHaveProperty('login');
   expect(loggedUser.login).toHaveProperty('jwt');
   expect(loggedUser.login.jwt).not.toBeNull();
   expect(loggedUser.login).toHaveProperty('refreshToken');
 
-  const user = await ctx.client.request(`
+  const user = await ctx.client.request(
+    `
   query {
     whoami {
       email
@@ -48,8 +49,8 @@ it('ensure that a user can be created and logged in/out', async () => {
     {},
     {
       Authorization: `Bearer ${loggedUser.login.jwt}`,
-    },
-  )
+    }
+  );
   expect(user).toMatchInlineSnapshot(`
     Object {
       "whoami": Object {
@@ -57,5 +58,5 @@ it('ensure that a user can be created and logged in/out', async () => {
         "name": "one",
       },
     }
-  `)
-})
+  `);
+});

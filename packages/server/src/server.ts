@@ -1,12 +1,13 @@
 import 'dotenv/config';
-import { ApolloServer } from 'apollo-server'
-import schema from './schema'
-import { Context, context } from './context'
+import { ApolloServer } from 'apollo-server';
+import schema from './schema';
+import { Context, context } from './context';
 import {
-  ApolloServerPluginLandingPageGraphQLPlayground, ApolloServerPluginLandingPageProductionDefault,
-  ApolloServerPluginUsageReportingDisabled
-} from "apollo-server-core";
-import { IS_PROD } from './constants'
+  ApolloServerPluginLandingPageGraphQLPlayground,
+  ApolloServerPluginLandingPageProductionDefault,
+  ApolloServerPluginUsageReportingDisabled,
+} from 'apollo-server-core';
+import { IS_PROD } from './constants';
 import { getUser } from './utils';
 
 const server = new ApolloServer({
@@ -23,13 +24,13 @@ const server = new ApolloServer({
   },
   cors: {
     origin: process.env.FRONTEND_URL,
-    credentials: true
+    credentials: true,
   },
   plugins: [
-    IS_PROD ?
-      ApolloServerPluginLandingPageProductionDefault() : ApolloServerPluginLandingPageGraphQLPlayground(),
-    !IS_PROD ? ApolloServerPluginUsageReportingDisabled() : {}
+    IS_PROD
+      ? ApolloServerPluginLandingPageProductionDefault()
+      : ApolloServerPluginLandingPageGraphQLPlayground(),
+    !IS_PROD ? ApolloServerPluginUsageReportingDisabled() : {},
   ],
-})
+});
 export default server;
-
