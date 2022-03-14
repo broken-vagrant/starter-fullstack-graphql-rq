@@ -7,7 +7,7 @@ import {
   objectType,
   stringArg,
 } from 'nexus';
-import { Context } from '@/context';
+import { Context } from '../../context';
 
 export const Post = objectType({
   name: 'Post',

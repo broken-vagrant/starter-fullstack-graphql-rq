@@ -6,9 +6,6 @@
     "lib": ["esnext"],
     "strict": true,
     "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"]
-    }
   },
   "include": ["src/**/*"],
   "ts-node": {

@@ -4,7 +4,7 @@ import {
   FINGERPRINT_COOKIE_NAME,
   IS_PROD,
   JWT_TOKEN_EXPIRES_IN,
-} from '@/constants';
+} from '../constants';
 import { serialize } from 'cookie';
 import crypto from 'crypto';
 import { Response } from 'express';

@@ -1,15 +1,15 @@
 import { arg, extendType, inputObjectType, nonNull, objectType } from 'nexus';
-import { Context } from '@/context';
-import { FINGERPRINT_COOKIE_NAME } from '@/constants';
-import { getCookie } from '@/utils';
+import { Context } from '../../context';
+import { FINGERPRINT_COOKIE_NAME } from '../../constants';
+import { getCookie } from '../../utils';
 import {
   uuidv4,
   hashPassword,
   setFingerprintCookieAndSignJwt,
   checkPassword,
   sha256,
-} from '@/utils/crypto';
-import tokenGenerator from '@/utils/TokenGenerator';
+} from '../../utils/crypto';
+import tokenGenerator from '../../utils/TokenGenerator';
 import { AuthenticationError } from 'apollo-server';
 import { serialize } from 'cookie';
 import crypto from 'crypto';
