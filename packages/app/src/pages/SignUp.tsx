@@ -3,20 +3,22 @@ import {
   useSignUpMutation,
   useWhoAmIQuery,
 } from '@/__generated__/graphqlTypes';
+import { useEffect } from 'react';
 import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
-  useWhoAmIQuery(undefined, {
-    onSuccess: (data) => {
-      if (data.whoami) {
-        navigate('/');
-      }
-    },
+  const {data:user} = useWhoAmIQuery(undefined, {
     staleTime: 30 * 1000,
   });
+  useEffect(() => {
+    if (user?.whoami) {
+      navigate('/')
+    }
+  },[user])
+
   const client = useQueryClient();
   const { mutate, isLoading, error } = useSignUpMutation<Error>({
     onSuccess: (data) => {
