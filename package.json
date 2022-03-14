@@ -11,7 +11,8 @@
     "app": "yarn workspace @starter/app",
     "server": "yarn workspace @starter/server",
     "prepare": "husky install",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "prettier:all": "prettier --write ."
   },
   "devDependencies": {
     "@apollo/rover": "^0.4.3",

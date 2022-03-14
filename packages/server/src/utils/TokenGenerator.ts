@@ -1,9 +1,6 @@
 // source: https://gist.github.com/ziluvatar/a3feb505c4c0ec37059054537b38fc48
 import jwt, { Secret, SignOptions, VerifyOptions } from 'jsonwebtoken';
-import {
-  JWT_SECRET,
-  JWT_TOKEN_EXPIRES_IN,
-} from '../constants';
+import { JWT_SECRET, JWT_TOKEN_EXPIRES_IN } from '../constants';
 
 interface RefreshOptions {
   verify?: Exclude<VerifyOptions, 'jwtid'>;
@@ -19,10 +16,7 @@ interface JWTParams {
 class TokenGenerator {
   secret;
   options; //algorithm + keyid + noTimestamp + expiresIn + notBefore
-  constructor(
-    secret: Secret,
-    options: SignOptions
-  ) {
+  constructor(secret: Secret, options: SignOptions) {
     this.secret = secret;
     if (!options.expiresIn) {
       throw new Error('Token Expiration Time is not provided');
@@ -76,9 +70,10 @@ class TokenGenerator {
   }
 }
 
-const tokenGenerator = new TokenGenerator(
-  Buffer.from(JWT_SECRET,'base64'),
-  { algorithm: 'HS256', noTimestamp: false, expiresIn: JWT_TOKEN_EXPIRES_IN }
-);
+const tokenGenerator = new TokenGenerator(Buffer.from(JWT_SECRET, 'base64'), {
+  algorithm: 'HS256',
+  noTimestamp: false,
+  expiresIn: JWT_TOKEN_EXPIRES_IN,
+});
 
 export default tokenGenerator;

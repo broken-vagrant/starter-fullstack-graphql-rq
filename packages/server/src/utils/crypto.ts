@@ -64,7 +64,7 @@ export function setFingerprintCookieAndSignJwt(
       maxAge: FINGERPRINT_COOKIE_MAX_AGE,
       httpOnly: true,
       secure: IS_PROD,
-      sameSite: IS_PROD ? "none": "lax"
+      sameSite: IS_PROD ? 'none' : 'lax',
     })
   );
 

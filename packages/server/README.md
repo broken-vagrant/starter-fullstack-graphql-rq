@@ -596,7 +596,9 @@ generator client {
 </details>
 
 ## Deploy to Heroku
+
 > ensure `packages/server/package.json` have basic(`build, start`) script commands.
+
 ```sh
 
 # add `Procfile` (check packages/server)
@@ -615,7 +617,9 @@ heroku buildpacks:add -a <app_name> heroku/nodejs
 git push https://git.heroku.com/<app_name>.git main
 
 ```
+
 **References:**
+
 1. [Preparing a Codebase for Heroku Deployment](https://devcenter.heroku.com/articles/preparing-a-codebase-for-heroku-deployment)
 
 ## Next steps

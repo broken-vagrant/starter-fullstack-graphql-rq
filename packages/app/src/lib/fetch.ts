@@ -105,7 +105,6 @@ function getHeaders() {
 const tokenRefresher = new TokenRefresher(1);
 
 export const fetchParams = async (): Promise<RequestInit> => {
-
   // info: set default fetch request params in return {...params}
 
   // refresh token
@@ -134,7 +133,7 @@ export function fetcher<TData, TVariables>(
     const json = await res.json();
 
     if (json.errors) {
-      const { message,extensions } = json.errors[0];
+      const { message, extensions } = json.errors[0];
       if (extensions && extensions.code === 'INTERNAL_SERVER_ERROR') {
         throw new Error('Something went wrong!');
       }

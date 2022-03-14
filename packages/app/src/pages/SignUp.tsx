@@ -15,7 +15,7 @@ const SignUpPage = () => {
         navigate('/');
       }
     },
-    staleTime: 30*1000
+    staleTime: 30 * 1000,
   });
   const client = useQueryClient();
   const { mutate, isLoading, error } = useSignUpMutation<Error>({

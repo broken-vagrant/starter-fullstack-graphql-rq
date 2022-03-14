@@ -11,8 +11,8 @@ import { Link } from 'react-router-dom';
 import classes from './index.module.css';
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const { data } = useWhoAmIQuery(undefined,{
-    staleTime: 30*1000
+  const { data } = useWhoAmIQuery(undefined, {
+    staleTime: 30 * 1000,
   });
   const clearUser = useStore((state) => state.clearUser);
   const navigate = useNavigate();
@@ -46,7 +46,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
           </h1>
         </Link>
         <div className="flex items-center">
-          <div >Profile: <strong>{data?.whoami?.name || 'Guest'}</strong></div>
+          <div>
+            Profile: <strong>{data?.whoami?.name || 'Guest'}</strong>
+          </div>
           {data?.whoami?.name && (
             <button onClick={handleLogout} className="ml-4 teal-btn">
               log out
