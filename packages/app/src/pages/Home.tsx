@@ -2,7 +2,7 @@ import {
   useGetAllUsersQuery,
   useWhoAmIQuery,
 } from '@/__generated__/graphqlTypes';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const LoadUsers = () => {
@@ -42,19 +42,19 @@ const LoadUsers = () => {
 };
 const Demo = () => {
   const navigate = useNavigate();
-  const { data: user } = useWhoAmIQuery(undefined, {
-    onSuccess: (data) => {
-      if (!data?.whoami) {
-        navigate('/sign-in');
-      }
-    },
+  const { data } = useWhoAmIQuery(undefined, {
     staleTime: 30 * 1000,
     onError: () => {
       navigate('/sign-in');
     },
   });
+  useEffect(() => {
+    if (!data?.whoami) {
+      navigate('/sign-in');
+    }
+  },[data])
 
-  return <section>{user?.whoami?.name && <LoadUsers />}</section>;
+  return <section>{data?.whoami?.name && <LoadUsers />}</section>;
 };
 
 export default Demo;
