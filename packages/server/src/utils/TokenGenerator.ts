@@ -1,8 +1,7 @@
 // source: https://gist.github.com/ziluvatar/a3feb505c4c0ec37059054537b38fc48
-import jwt, { SignOptions, VerifyOptions } from 'jsonwebtoken';
+import jwt, { Secret, SignOptions, VerifyOptions } from 'jsonwebtoken';
 import {
-  JWT_SECRET_OR_PRIVATE_KEY,
-  JWT_SECRET_OR_PUBLIC_KEY,
+  JWT_SECRET,
   JWT_TOKEN_EXPIRES_IN,
 } from '../constants';
 
@@ -10,7 +9,7 @@ interface RefreshOptions {
   verify?: Exclude<VerifyOptions, 'jwtid'>;
   jwtid?: string;
 }
-interface GenerateJWTParams {
+interface JWTParams {
   allowedRoles: string[];
   defaultRole: string;
   otherClaims?: Record<string, string>;
@@ -18,16 +17,13 @@ interface GenerateJWTParams {
 }
 
 class TokenGenerator {
-  secretOrPrivateKey;
-  secretOrPublicKey;
+  secret;
   options; //algorithm + keyid + noTimestamp + expiresIn + notBefore
   constructor(
-    secretOrPrivateKey: string,
-    secretOrPublicKey: string,
+    secret: Secret,
     options: SignOptions
   ) {
-    this.secretOrPrivateKey = secretOrPrivateKey;
-    this.secretOrPublicKey = secretOrPublicKey;
+    this.secret = secret;
     if (!options.expiresIn) {
       throw new Error('Token Expiration Time is not provided');
     }
@@ -36,15 +32,15 @@ class TokenGenerator {
   sign(payload: string | object | Buffer, signOptions: SignOptions) {
     // priority: signOptions > this.options
     const jwtSignOptions = Object.assign({}, this.options, signOptions);
-    return jwt.sign(payload, this.secretOrPrivateKey, jwtSignOptions);
+    return jwt.sign(payload, this.secret, jwtSignOptions);
   }
   verify(token: string, options?: VerifyOptions & { complete?: boolean }) {
-    return jwt.verify(token, this.secretOrPublicKey, options);
+    return jwt.verify(token, this.secret, options);
   }
   refresh(token: string, refreshOptions?: RefreshOptions) {
     const verified = jwt.verify(
       token,
-      this.secretOrPublicKey,
+      this.secret,
       refreshOptions?.verify || {}
     );
     if (typeof verified !== 'string') {
@@ -64,9 +60,9 @@ class TokenGenerator {
       jwtid: refreshOptions?.jwtid,
     });
     // The first signing converted all needed options into claims, they are already in the payload
-    return jwt.sign(verified, this.secretOrPrivateKey, jwtSignOptions);
+    return jwt.sign(verified, this.secret, jwtSignOptions);
   }
-  signWithClaims(params: GenerateJWTParams) {
+  signWithClaims(params: JWTParams) {
     const payload = {
       'https://hasura.io/jwt/claims': {
         'x-hasura-allowed-roles': params.allowedRoles,
@@ -81,8 +77,7 @@ class TokenGenerator {
 }
 
 const tokenGenerator = new TokenGenerator(
-  JWT_SECRET_OR_PRIVATE_KEY,
-  JWT_SECRET_OR_PUBLIC_KEY,
+  Buffer.from(JWT_SECRET,'base64'),
   { algorithm: 'HS256', noTimestamp: false, expiresIn: JWT_TOKEN_EXPIRES_IN }
 );
 

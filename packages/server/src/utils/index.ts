@@ -10,6 +10,7 @@ export const getUser = (token: string) => {
       ...claims,
     };
   } catch (err) {
+    console.log(`Error: verify JWT token!`);
     return null;
   }
 };

@@ -1,8 +1,7 @@
 export const IS_PROD = process.env.NODE_ENV === 'production';
 
 // JWT
-export const JWT_SECRET_OR_PRIVATE_KEY = process.env.JWT_SECRET_OR_PRIVATE_KEY;
-export const JWT_SECRET_OR_PUBLIC_KEY = process.env.JWT_SECRET_OR_PUBLIC_KEY;
+export const JWT_SECRET = process.env.JWT_SECRET;
 export const JWT_TOKEN_EXPIRES_IN = process.env.JWT_TOKEN_EXPIRES_IN;
 export const JWT_REFRESH_TOKEN_EXPIRES_IN =
   process.env.JWT_REFRESH_TOKEN_EXPIRES_IN;
