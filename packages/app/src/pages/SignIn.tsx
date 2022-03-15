@@ -14,7 +14,6 @@ function App() {
         navigate('/');
       }
     },
-    staleTime: 30 * 1000,
   });
   const client = useQueryClient();
   const [email, setEmail] = useState('');
@@ -27,7 +26,7 @@ function App() {
         setRefreshToken(data.login?.refreshToken as string);
 
         // refresh WhoAmI query after setting tokens
-        client.invalidateQueries(['WhoAmI']);
+        await client.invalidateQueries(['WhoAmI']);
 
         navigate('/');
       }

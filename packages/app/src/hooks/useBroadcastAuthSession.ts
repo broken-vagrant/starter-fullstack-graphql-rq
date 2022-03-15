@@ -8,7 +8,7 @@ const useBroadcastAuthSession = ({
   queryClient: QueryClient;
 }) => {
   const handleChannel = useCallback(
-    (msg: SessionChannelActions) => {
+    async (msg: SessionChannelActions) => {
       {
         console.log({ msg });
 
@@ -26,7 +26,7 @@ const useBroadcastAuthSession = ({
                 for (const key in data) {
                   sessionStorage.setItem(key, data[key]);
                 }
-                queryClient.invalidateQueries(['WhoAmI']);
+                await queryClient.invalidateQueries(['WhoAmI']);
               }
             } catch (err) {
               console.error(err);
@@ -34,11 +34,11 @@ const useBroadcastAuthSession = ({
             break;
           case 'set-jwt':
             sessionStorage.setItem('jwt', msg.payload);
-            queryClient.invalidateQueries(['WhoAmI']);
+            await queryClient.invalidateQueries(['WhoAmI']);
             break;
           case 'set-refreshToken':
             sessionStorage.setItem('refreshToken', msg.payload);
-            queryClient.invalidateQueries(['WhoAmI']);
+            await queryClient.invalidateQueries(['WhoAmI']);
             break;
           case 'logout':
             sessionStorage.clear();

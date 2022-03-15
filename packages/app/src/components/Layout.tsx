@@ -54,7 +54,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
           )}
         </div>
       </header>
-      <main className="min-h-[80vh] ">{children}</main>
+      <main className="min-h-[80vh]">{children}</main>
       <footer className="min-h-[5rem] bg-black text-white flex justify-center items-center text-center">
         Footer
       </footer>

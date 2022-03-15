@@ -3,30 +3,29 @@ import {
   useSignUpMutation,
   useWhoAmIQuery,
 } from '@/__generated__/graphqlTypes';
-import { useEffect } from 'react';
 import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
 const SignUpPage = () => {
   const navigate = useNavigate();
-  const {data:user} = useWhoAmIQuery(undefined, {
-    staleTime: 30 * 1000,
+
+  useWhoAmIQuery(undefined, {
+    onSuccess: (data) => {
+      if (data?.whoami) {
+        navigate('/');
+      }
+    },
   });
-  useEffect(() => {
-    if (user?.whoami) {
-      navigate('/')
-    }
-  },[user])
 
   const client = useQueryClient();
   const { mutate, isLoading, error } = useSignUpMutation<Error>({
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       setJwtToken(data.signupUser.jwt);
       setRefreshToken(data.signupUser.refreshToken);
 
       // refresh WhoAmI query after setting tokens
-      client.invalidateQueries(['WhoAmI']);
+      await client.invalidateQueries(['WhoAmI']);
 
       navigate('/');
     },

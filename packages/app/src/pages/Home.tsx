@@ -1,9 +1,10 @@
+import LoadingSpinner from '@/components/LoadingSpinner';
 import {
   useGetAllUsersQuery,
   useWhoAmIQuery,
 } from '@/__generated__/graphqlTypes';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoadUsers = () => {
   const [triggerQuery, setTriggerQuery] = useState(false);
@@ -43,17 +44,21 @@ const LoadUsers = () => {
 const Demo = () => {
   const navigate = useNavigate();
   const { data, isLoading } = useWhoAmIQuery(undefined, {
-    staleTime: 30 * 1000,
     onError: () => {
       navigate('/sign-in');
     },
+    refetchOnMount: true,
   });
-  useEffect(() => {
-    if (!data?.whoami && !isLoading) {
-      navigate('/sign-in');
-    }
-  }, [data]);
-
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+  if (!data?.whoami) {
+    return (
+      <div className="flex justify-center items-center">
+        Please &nbsp; <Link to="/sign-in">sign in</Link>.
+      </div>
+    );
+  }
   return <section>{data?.whoami?.name && <LoadUsers />}</section>;
 };
 
