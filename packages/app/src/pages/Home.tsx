@@ -42,7 +42,7 @@ const LoadUsers = () => {
 };
 const Demo = () => {
   const navigate = useNavigate();
-  const { data,isLoading } = useWhoAmIQuery(undefined, {
+  const { data, isLoading } = useWhoAmIQuery(undefined, {
     staleTime: 30 * 1000,
     onError: () => {
       navigate('/sign-in');
@@ -50,9 +50,9 @@ const Demo = () => {
   });
   useEffect(() => {
     if (!data?.whoami && !isLoading) {
-          navigate('/sign-in');
+      navigate('/sign-in');
     }
-  },[data])
+  }, [data]);
 
   return <section>{data?.whoami?.name && <LoadUsers />}</section>;
 };
