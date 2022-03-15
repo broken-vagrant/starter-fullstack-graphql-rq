@@ -90,7 +90,7 @@ yarn run coverage # run with vitest
 ## Future
 
 1. Add e2e tests
-2. improve token synchronization between tabs
+2. ~~improve token synchronization between tabs~~ ✅️
 
 ## Troubleshoot
 
