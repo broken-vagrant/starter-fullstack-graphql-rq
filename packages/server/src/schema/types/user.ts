@@ -120,6 +120,9 @@ export const userQueries = extendType({
     t.nonNull.list.nonNull.field('allUsers', {
       type: 'BaseUser',
       resolve: (_parent, _args, context: Context) => {
+        if (!context.user) {
+          throw new AuthenticationError('Invalid Credentials');
+        }
         return context.prisma.user.findMany({
           select: {
             email: true,
