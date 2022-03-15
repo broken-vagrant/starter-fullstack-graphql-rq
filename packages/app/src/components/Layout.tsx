@@ -1,4 +1,4 @@
-import useStore from '@/store/useStore';
+import { sessionChannel } from '@/lib/broadcast';
 import { setJwtToken, setRefreshToken } from '@/utils/jwt';
 import {
   useLogoutMutation,
@@ -8,13 +8,11 @@ import { ReactNode } from 'react';
 import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import classes from './index.module.css';
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const { data } = useWhoAmIQuery(undefined, {
     staleTime: 30 * 1000,
   });
-  const clearUser = useStore((state) => state.clearUser);
   const navigate = useNavigate();
   const client = useQueryClient();
   const { mutate } = useLogoutMutation({
@@ -23,12 +21,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
         setJwtToken('');
         setRefreshToken('');
         client.clear();
-        clearUser();
+        sessionStorage.clear();
+        sessionChannel.postMessage({ type: 'logout' });
         navigate('/');
       } catch (err) {
         console.error(err);
       } finally {
-        clearUser();
         navigate('/');
       }
     },
