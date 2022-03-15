@@ -1,7 +1,7 @@
 {
   "name": "@starter/app",
   "version": "0.1.0",
-  "homepage": "https://zkindest.github.io/react-starter",
+  "homepage": "https://zkindest.github.io/starter-fullstack-graphql-rq/",
   "dependencies": {
     "broadcast-channel": "^4.10.0",
     "graphql": "^16.3.0",

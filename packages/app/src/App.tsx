@@ -9,9 +9,13 @@ const Home = lazy(() => import('./pages/Home'));
 const SignUp = lazy(() => import('./pages/SignUp'));
 const SignIn = lazy(() => import('./pages/SignIn'));
 
-const App = () => {
+const App = ({
+  basename = '/starter-fullstack-graphql-rq/',
+}: {
+  basename?: string;
+}) => {
   return (
-    <BrowserRouter basename="/starter-fullstack-graphql-rq/">
+    <BrowserRouter basename={basename}>
       <ErrorBoundary>
         <Layout>
           <Suspense fallback={<LoadingSpinner />}>

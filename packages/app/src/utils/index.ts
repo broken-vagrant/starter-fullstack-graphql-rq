@@ -3,8 +3,6 @@ export function getErrorMessage(error: any) {
     for (const graphQLError of error.errors) {
       if (graphQLError.extensions) {
         const { code } = graphQLError.extensions;
-        console.log(code);
-
         if (!code) {
           return 'Something went wrong!';
         }
