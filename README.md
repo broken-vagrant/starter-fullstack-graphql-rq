@@ -15,11 +15,6 @@
 ### Init
 
 ```sh
-
-# setup husky to run defined `precommit` script
-npx husky-init && yarn
-npx husky add .husky/pre-commit 'yarn run precommit'
-
 # setup MSW (app)
 yarn app msw:init
 ```
