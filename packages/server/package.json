@@ -10,7 +10,6 @@
     "generate:prisma": "prisma generate",
     "generate:nexus": "ts-node src/schema",
     "publish:schema": "rover graph introspect http://localhost:4000 | rover graph publish starter-fullstack@current --schema -",
-    "precommit": "yarn run prettier",
     "prettier": "prettier --ignore-path .gitignore --write",
     "lint": "tsc --noEmit && eslint  --quiet --fix --ignore-path .gitignore",
     "test": "rm -rf prisma/dev.db && prisma db push && jest",

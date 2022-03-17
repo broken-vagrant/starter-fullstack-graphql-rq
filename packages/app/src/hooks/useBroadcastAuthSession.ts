@@ -58,9 +58,9 @@ const useBroadcastAuthSession = ({
         type: 'new-user',
       });
     }
-    async () => {
+    return () => {
       sessionChannel.removeEventListener('message', handleChannel);
-      await sessionChannel.close();
+      sessionChannel.close();
     };
   }, []);
 };
