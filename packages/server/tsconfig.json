@@ -1,15 +1,16 @@
 {
+  "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
-    "outDir": "dist",
+    "outDir": "dist/src",
     "rootDir": "src",
-    "esModuleInterop": true,
-    "lib": ["esnext"],
-    "strict": true,
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src/**/*"],
   "ts-node": {
     "transpileOnly": true,
-    "require": ["tsconfig-paths/register", "dotenv/config"] //`tsconfig-paths/register` to make path aliases work with ts-node
+    "require": ["tsconfig-paths/register", "dotenv/config"]
   }
 }

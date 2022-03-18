@@ -3,21 +3,21 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --no-notify --respawn --transpile-only -r tsconfig-paths/register src/index",
-    "start": "node dist/index.js",
+    "start": "node -r ./scripts/prod-loader.js dist/src/index.js",
     "clean": "rm -rf dist",
-    "build": "npm -s run clean && npm -s run generate && tsc",
-    "generate": "npm -s run generate:prisma && npm -s run generate:nexus",
-    "generate:prisma": "prisma generate",
-    "generate:nexus": "ts-node src/schema",
-    "publish:schema": "rover graph introspect http://localhost:4000 | rover graph publish starter-fullstack@current --schema -",
-    "prettier": "prettier --ignore-path .gitignore --write",
     "lint": "tsc --noEmit && eslint  --quiet --fix --ignore-path .gitignore",
     "test": "rm -rf prisma/dev.db && prisma db push && jest",
-    "prisma:migrate:init": "prisma migrate dev --name init",
-    "prisma:migrate:dev": "prisma migrate dev",
-    "prisma:migrate:reset": "prisma migrate reset",
-    "prisma:migrate:deploy": "prisma migrate deploy",
+    "build": "npm -s run clean && npm -s run generate && tsc",
+    "prettier": "prettier --ignore-path .gitignore --write",
+    "generate": "npm -s run nexus:gen && npm -s run prisma:gen",
+    "nexus:gen": "ts-node src/schema",
+    "prisma:gen": "prisma generate",
+    "prisma:mig:init": "prisma migrate dev --name init",
+    "prisma:mig:dev": "prisma migrate dev",
+    "prisma:mig:reset": "prisma migrate reset",
+    "prisma:mig:deploy": "prisma migrate deploy",
     "prisma:db:push": "prisma db push",
+    "publish:schema": "rover graph introspect http://localhost:4000 | rover graph publish starter-fullstack@current --schema -",
     "gen:env-types": "gen-env-types .env -o src/types/env.d.ts -e ."
   },
   "dependencies": {
@@ -32,6 +32,7 @@
     "nexus": "1.2.0"
   },
   "devDependencies": {
+    "@tsconfig/node16": "^1.0.2",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie": "^0.4.1",
     "@types/jest": "^27.4.1",
@@ -49,7 +50,7 @@
     "typescript": "4.6.2"
   },
   "prisma": {
-    "seed": "ts-node -r dotenv/config prisma/seed.ts"
+    "seed": "ts-node prisma/seed.ts"
   },
   "jest": {
     "preset": "ts-jest",
@@ -70,7 +71,7 @@
     "testEnvironment": "node"
   },
   "engines": {
-    "node": "15.x",
+    "node": "16.10",
     "yarn": "1.x"
   }
 }

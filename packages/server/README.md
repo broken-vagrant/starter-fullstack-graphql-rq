@@ -6,7 +6,7 @@ This example shows how to implement a **GraphQL server with TypeScript** with th
 - [**GraphQL Nexus**](https://nexusjs.org/docs/): GraphQL schema definition and resolver implementation
 - [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)
 - [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations
-- [**SQLite**](https://www.sqlite.org/index.html): Local, file-based SQL database
+- [**mysql**](https://hub.docker.com/_/mysql): Free trial provided by `planetscaledata`.
 
 ## Contents
 
@@ -14,7 +14,7 @@ This example shows how to implement a **GraphQL server with TypeScript** with th
 - [Using the GraphQL API](#using-the-graphql-api)
 - [Evolving the app](#evolving-the-app)
 - [Switch to another database (e.g. PostgreSQL, MySQL, SQL Server)](#switch-to-another-database)
-- [Deploy to Heroku](#deploy-to-heroku)
+  i- [Deploy Server to Heroku](#deploy-server-to-heroku)
 - [Next steps](#next-steps)
 
 ## Getting started
@@ -26,15 +26,15 @@ Run the following command to create your SQLite database file. This also creates
 ```sh
 #----- DB (managed by Prisma) ----- #
 # apply/create intial db migration
-yarn prisma:migrate:init
+yarn prisma:mig:init
 # apply latest prisma schema to db
 yarn prisma:db:push
 # reset the database && undo manual changes or db push experiments
-yarn prisma:migrate:reset
+yarn prisma:mig:reset
 # made changes to schema,run migrate
-yarn prisma:migrate:dev
+yarn prisma:mig:dev
 # deploy migrations (in production)
-yarn prisma:migrate:deploy
+yarn prisma:mig:deploy
 
 ```
 
@@ -124,7 +124,7 @@ mutation {
 }
 ```
 
-### Publish/un-publish an existing post
+### Publish/unpublish an existing post
 
 ```graphql
 mutation {
@@ -248,7 +248,8 @@ mutation {
 Evolving the application typically requires two steps:
 
 1. Migrate your database using Prisma Migrate
-1. Update your application code
+2. Update your application code
+3. Publish schema to Apollo registry (optional)
 
 For the following example scenario, assume you want to add a "profile" feature to the app where users can create a profile and write a short bio about themselves.
 
@@ -290,7 +291,7 @@ model Post {
 Once you've updated your data model, you can execute the changes against your database with the following command:
 
 ```sh
-yarn run prisma:migrate:dev
+yarn run prisma:mig:dev
 # give a name when prompts (eg: "add profile")
 ```
 
@@ -300,14 +301,14 @@ This adds another migration to the `prisma/migrations` directory and creates the
 
 You can now use your `PrismaClient` instance to perform operations against the new `Profile` table. Those operations can be used to implement queries and mutations in the GraphQL API.
 
-#### 2.1. Add the `Profile` type to your GraphQL schema
+#### 2.1. Add the `Profile` type and definitions to your GraphQL schema
 
 First, add a new GraphQL type via Nexus' `objectType` function:
 
 ```diff
-// create ./src/schema/entities/Profile.ts
+// create ./src/schema/types/profile.ts
 
-+const Profile = objectType({
++export const Profile = objectType({
 +  name: 'Profile',
 +  definition(t) {
 +    t.nonNull.int('id')
@@ -324,61 +325,11 @@ First, add a new GraphQL type via Nexus' `objectType` function:
 +    })
 +  },
 +})
-```
 
-```diff
-// update relations with existing types if any (eg: in `./src/schema/entities/User.ts`)
-const User = objectType({
-  name: 'User',
-  definition(t) {
-    t.nonNull.int('id')
-    t.string('name')
-    t.nonNull.string('email')
-    t.nonNull.list.nonNull.field('posts', {
-      type: 'Post',
-      resolve: (parent, _, context) => {
-        return context.prisma.user
-          .findUnique({
-            where: { id: parent.id || undefined },
-          })
-          .posts()
-      },
-+   t.field('profile', {
-+     type: 'Profile',
-+     resolve: (parent, _, context) => {
-+       return context.prisma.user.findUnique({
-+         where: { id: parent.id }
-+       }).profile()
-+     }
-+   })
-  },
-})
-export default User;
-
-```
-
-Don't forget to include the new type in the `@/schema/entities/index.ts` like 👇:
-
-```diff
-import User from "./User";
-import Post from "./Post";
-+ import Profile from "./Profile";
-
-+ export default { User, Post ,Profile};
-
-```
-
-Note that in order to resolve any type errors, your development server needs to be running so that the Nexus types can be generated. If it's not running, you can start it with `yarn run dev`.
-
-#### 2.2. Add a `createProfile` GraphQL mutation
-
-```diff
-// create ./src/schema/mutations/profile.ts
-
-+import { arg, nonNull, ObjectDefinitionBlock } from "nexus/dist/core"
-+import { Context } from "../../context"
-
-export default function userMutationDef(t: ObjectDefinitionBlock<'Mutation'>) {
++export const profileMutations = extendType({
++  type: "Mutation",
++  definition: (t) => {
++
 +   t.field('addProfileForUser', {
 +     type: 'Profile',
 +     args: {
@@ -403,31 +354,59 @@ export default function userMutationDef(t: ObjectDefinitionBlock<'Mutation'>) {
 +       })
 +     }
 +   })
-+}
++
++  }
++})
+
+
 ```
 
-Don't forget to include the new Mutation definitions in the `@/schema/mutations/index.ts` like 👇:
+#### 2.2. Update relations with existing entities (optional)
 
 ```diff
-// @/schema/mutations/index.ts
-
-import { objectType } from "nexus";
-import postMutationDef from "./post";
-import userMutationDef from "./user";
-+import profileMutationDef from "./profile";
-
-
-const Mutation = objectType({
-  name: 'Mutation',
+// update relations with existing types if any (eg: in `./src/schema/types/user.ts`)
+export const User = objectType({
+  name: 'User',
   definition(t) {
-    userMutationDef(t)
-    postMutationDef(t)
-+   profileMutationDef(t)
-  }
+    t.nonNull.int('id')
+    t.string('name')
+    t.nonNull.string('email')
+    t.nonNull.list.nonNull.field('posts', {
+      type: 'Post',
+      resolve: (parent, _, context) => {
+        return context.prisma.user
+          .findUnique({
+            where: { id: parent.id || undefined },
+          })
+          .posts()
+      },
++   t.field('profile', {
++     type: 'Profile',
++     resolve: (parent, _, context) => {
++       return context.prisma.user.findUnique({
++         where: { id: parent.id }
++       }).profile()
++     }
++   })
+  },
 })
+// ...other types
 
-+export default Mutation;
 ```
+
+#### 2.3 Mandatory step
+
+Don't forget to include the new type in the `@/schema/types/index.ts` like 👇:
+
+```diff
+export * from './user';
+export * from './post';
+export * from './common';
++ export * from './profile';
+
+```
+
+Note that in order to resolve any type errors, your development server needs to be running so that the Nexus types can be generated. If it's not running, you can start it with `yarn run dev`.
 
 Finally, you can test the new mutation like this:
 
@@ -497,7 +476,7 @@ const userWithUpdatedProfile = await prisma.user.update({
 
 </details>
 
-### 3. Publish updated schema to registry (optional)
+### 3. Publish updated schema to Apollo registry (optional)
 
 ```sh
 # setup account on apollo studio
@@ -538,7 +517,7 @@ Here is an example connection string with a local PostgreSQL database:
 ```prisma
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://janedoe:my-password@localhost:5432/notesapi?schema=public"
+  url      = "postgresql://janedoe:mypassword@localhost:5432/notesapi?schema=public"
 }
 ```
 
@@ -558,7 +537,7 @@ Here is an example connection string with a local MySQL database:
 ```prisma
 datasource db {
   provider = "mysql"
-  url      = "mysql://janedoe:my-password@localhost:3306/notesapi"
+  url      = "mysql://janedoe:mypassword@localhost:3306/notesapi"
 }
 ```
 
@@ -569,7 +548,7 @@ Here is an example connection string with a local Microsoft SQL Server database:
 ```prisma
 datasource db {
   provider = "sqlserver"
-  url      = "sqlserver://localhost:1433;initial catalog=sample;user=sa;password=my-password;"
+  url      = "sqlserver://localhost:1433;initial catalog=sample;user=sa;password=mypassword;"
 }
 ```
 
@@ -595,7 +574,7 @@ generator client {
 
 </details>
 
-## Deploy to Heroku
+## Deploy Server to Heroku
 
 > ensure `packages/server/package.json` have basic(`build, start`) script commands.
 
