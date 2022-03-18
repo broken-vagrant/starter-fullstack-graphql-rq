@@ -25,20 +25,21 @@ yarn app msw:init
 
 #----- DB (managed by Prisma) ----- #
 # apply/create intial db migration
-yarn server prisma:migrate:init
+yarn server prisma:mig:init
 # apply latest prisma schema to db
 yarn server prisma:db:push
 # reset the database && undo manual changes or db push experiments
-yarn server prisma:migrate:reset
+yarn server prisma:mig:reset
 # made changes to schema,run migrate
-yarn server prisma:migrate:dev
+yarn server prisma:mig:dev
 # deploy migrations (in productsion)
-yarn server prisma:migrate:deploy
+yarn server prisma:mig:deploy
 
 # Generate artifacts (Prisma Client & Nexus Types)
 yarn server run generate
 
 # Publish schema to Apollo schema registry (Needs Development server running)
+# change `starter-fullstack@current` with your `graph-id@variant`
 # source: https://studio.apollographql.com/sandbox/explorer
 yarn server run publish:schema
 
@@ -62,7 +63,7 @@ yarn server gen:env-types
 # download the published GraphQL schema from apollo studio (Need to login with `rover`)
 # follow docs: https://www.apollographql.com/docs/rover/configuring/#2-provide-the-api-key-to-rover
 npx rover config auth
-npx rover graph fetch [your_graph_id]@[variant] > fetched_schema.graphql
+npx rover graph fetch [your_graph_id]@[variant] > src/__generated__/schema.graphql
 
 # download the GraphQL schema from a local development server (eg:http://localhost:4000)
 yarn app download:schema:local

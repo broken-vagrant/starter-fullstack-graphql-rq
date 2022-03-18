@@ -1,5 +1,5 @@
 ### source: https://www.graphql-code-generator.com/plugins/typescript-react-query
-schema: ./schema.graphql
+schema: ./src/__generated__/schema.graphql
 # documents: "src/**/!(*.d).{ts,tsx}"
 documents: './src/**/*.graphql'
 generates:
