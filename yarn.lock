@@ -1949,7 +1949,7 @@ __metadata:
     "@testing-library/react": 12.1.3
     "@testing-library/user-event": 13.5.0
     "@tsconfig/vite-react": ^1.0.0
-    "@types/react": 17.0.39
+    "@types/react": 17.0.41
     "@types/react-dom": 17.0.12
     "@vitejs/plugin-react": 1.2.0
     broadcast-channel: ^4.10.0
@@ -2426,7 +2426,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:17.0.39":
+"@types/react@npm:*":
   version: 17.0.39
   resolution: "@types/react@npm:17.0.39"
   dependencies:
@@ -2434,6 +2434,17 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: bf04d3c2894559012710d595553e12b422d3b91cd8f4f7e122d8cb044ba9c2ba17f6e8a4e09581359cc5509ddc59cd8c8fabd6774f3505a40a45393f074d6e6e
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:17.0.41":
+  version: 17.0.41
+  resolution: "@types/react@npm:17.0.41"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: 1b086ec0ea5d666f05e19e0724e41278d27a2ca29a2cd71b9d9ab3fe27dba233806eb728d744e092c9fe9637ac738d8c5a05983cde84d215342949b47ecba2ef
   languageName: node
   linkType: hard
 
