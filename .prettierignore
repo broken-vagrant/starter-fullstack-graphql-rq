@@ -6,3 +6,5 @@ dist
 *.graphql
 
 __generated__
+
+.yarn
