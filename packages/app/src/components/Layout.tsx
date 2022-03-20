@@ -16,18 +16,19 @@ const Layout = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const client = useQueryClient();
   const { mutate } = useLogoutMutation({
-    onSuccess: () => {
+    onSuccess: async () => {
       try {
         setJwtToken('');
         setRefreshToken('');
         client.clear();
         sessionStorage.clear();
-        sessionChannel.postMessage({ type: 'logout' });
-        navigate('/');
+        await sessionChannel.postMessage({ type: 'logout' });
+        client.refetchQueries(['WhoAmI']);
+        navigate('/sign-in');
       } catch (err) {
         console.error(err);
       } finally {
-        navigate('/');
+        navigate('/sign-in');
       }
     },
   });

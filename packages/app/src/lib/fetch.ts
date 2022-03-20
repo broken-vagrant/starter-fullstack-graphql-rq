@@ -82,7 +82,7 @@ class TokenRefresher {
     }
   }
   async refresh() {
-    if (this.retryCount === this.currRetryCount) {
+    if (this.currRetryCount === this.retryCount) {
       return;
     }
     if (!this.isTokenValidOrUndefined()) {
