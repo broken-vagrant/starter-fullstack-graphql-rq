@@ -24,7 +24,6 @@ This example shows how to implement a **GraphQL server with TypeScript** with th
 Run the following command to create your SQLite database file. This also creates the `User` and `Post` tables that are defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
 
 ```sh
-#----- DB (managed by Prisma) ----- #
 # apply/create intial db migration
 yarn prisma:mig:init
 # apply latest prisma schema to db

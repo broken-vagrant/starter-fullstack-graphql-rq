@@ -7,12 +7,6 @@
 ## Usage
 
 ```sh
-yarn run dev
-yarn run build
-yarn run preview
-yarn run test # run with vitest
-yarn run coverage # run with vitest
-
 # download the published GraphQL schema from apollo studio (Need to login with `rover cli`)
 # follow docs: https://www.apollographql.com/docs/rover/configuring/#2-provide-the-api-key-to-rover
 npx rover config auth
@@ -23,6 +17,12 @@ yarn download:schema:local
 
 # Generate static types for GraphQL queries. Use the downloaded schema
 yarn gql:codegen
+
+yarn dev
+yarn test
+yarn coverage
+yarn preview
+yarn build
 
 # setup mswjs for browser
 yarn msw:init
