@@ -102,7 +102,7 @@ export const userQueries = extendType({
 
         const user = await context.prisma.user.findUnique({
           where: {
-            id: Number(context.user.id),
+            id: context.user.id,
           },
           select: {
             email: true,

@@ -1,6 +1,5 @@
 import { ApolloServer } from 'apollo-server';
 import schema from './schema';
-import { Context, context } from './context';
 import {
   ApolloServerPluginLandingPageGraphQLPlayground,
   ApolloServerPluginLandingPageProductionDefault,
@@ -14,12 +13,13 @@ const server = new ApolloServer({
   context: ({ req, res }) => {
     const rawToken = req.headers['authorization'] || '';
     const token = rawToken.split(' ')[1];
-    const user = getUser(token) as Context['user'];
+    const user = getUser(token);
 
-    context.user = user;
-    context.req = req;
-    context.res = res;
-    return context;
+    return {
+      user,
+      req,
+      res,
+    };
   },
   cors: {
     origin: process.env.FRONTEND_URL,

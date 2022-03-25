@@ -1,6 +1,7 @@
+import { DecodedUser } from '@/types';
 import tokenGenerator from './TokenGenerator';
 
-export const getUser = (token: string) => {
+export const getUser = (token: string): DecodedUser | null => {
   try {
     const decoded: any = tokenGenerator.verify(token);
     const claims = decoded['https://hasura.io/jwt/claims'];
