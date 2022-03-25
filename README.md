@@ -10,6 +10,10 @@
 
 1. `node>=15` for `crypto.webcrypto`
 
+## Recomended
+
+1. [mysql vscode extension](https://marketplace.visualstudio.com/items?itemName=cweijan.vscode-mysql-client2&ssr=false#review-details)
+
 ## Available Scripts
 
 ### Init
