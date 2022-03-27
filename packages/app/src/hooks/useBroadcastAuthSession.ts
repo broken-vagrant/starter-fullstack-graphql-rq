@@ -13,7 +13,7 @@ const useBroadcastAuthSession = ({
         console.log({ msg });
 
         switch (msg.type) {
-          case 'new-user':
+          case 'new-tab':
             sessionChannel.postMessage({
               type: 'session-data',
               payload: JSON.stringify(sessionStorage),
@@ -26,7 +26,7 @@ const useBroadcastAuthSession = ({
                 for (const key in data) {
                   sessionStorage.setItem(key, data[key]);
                 }
-                await queryClient.invalidateQueries(['WhoAmI']);
+                await queryClient.refetchQueries(['WhoAmI']);
               }
             } catch (err) {
               console.error(err);
@@ -34,11 +34,11 @@ const useBroadcastAuthSession = ({
             break;
           case 'set-jwt':
             sessionStorage.setItem('jwt', msg.payload);
-            await queryClient.invalidateQueries(['WhoAmI']);
+            await queryClient.refetchQueries(['WhoAmI']);
             break;
           case 'set-refreshToken':
             sessionStorage.setItem('refreshToken', msg.payload);
-            await queryClient.invalidateQueries(['WhoAmI']);
+            await queryClient.refetchQueries(['WhoAmI']);
             break;
           case 'logout':
             sessionStorage.clear();
@@ -55,7 +55,7 @@ const useBroadcastAuthSession = ({
 
     if (!sessionStorage.length) {
       sessionChannel.postMessage({
-        type: 'new-user',
+        type: 'new-tab',
       });
     }
     return () => {

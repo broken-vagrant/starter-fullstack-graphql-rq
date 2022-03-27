@@ -1,8 +1,10 @@
+import { tokenRefresher } from '@/lib/auth';
 import { setJwtToken, setRefreshToken } from '@/utils/jwt';
 import {
   useSignUpMutation,
   useWhoAmIQuery,
 } from '@/__generated__/graphqlTypes';
+import { useEffect } from 'react';
 import { useQueryClient } from 'react-query';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
@@ -10,21 +12,22 @@ import { Link } from 'react-router-dom';
 const SignUpPage = () => {
   const navigate = useNavigate();
 
-  useWhoAmIQuery(undefined, {
-    onSuccess: (data) => {
-      if (data?.whoami) {
-        navigate('/');
-      }
-    },
-  });
+  const { data } = useWhoAmIQuery(undefined);
+  useEffect(() => {
+    if (data?.whoami) {
+      navigate('/');
+    }
+  }, [data]);
 
   const client = useQueryClient();
   const { mutate, isLoading, error } = useSignUpMutation<Error>({
     onSuccess: async (data) => {
+      // reset tokenRefresher data
+      tokenRefresher.reset();
+
       setJwtToken(data.signupUser.jwt);
       setRefreshToken(data.signupUser.refreshToken);
 
-      // refresh WhoAmI query after setting tokens
       await client.invalidateQueries(['WhoAmI']);
 
       navigate('/');
@@ -42,9 +45,9 @@ const SignUpPage = () => {
     });
   };
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center mx-auto md:max-w-[300px]">
       <h2 className="text-2xl font-bold">SignUp</h2>
-      <form onSubmit={handleSubmit} className="my-8">
+      <form onSubmit={handleSubmit} className="my-8 w-full">
         {error && (
           <div className="mt-8 error">
             {error.message || 'Something went wrong!'}
@@ -78,12 +81,14 @@ const SignUpPage = () => {
           />
         </div>
         <button className="teal-btn mt-8" type="submit">
-          Sign up
+          {isLoading ? 'processing...' : 'Sign Up'}
         </button>
       </form>
-      {isLoading && <div>Processing... </div>}
       <div>
-        Already have an account, <Link to="/sign-in">Sign in</Link>
+        Already have an account,{' '}
+        <Link to="/sign-in" className="link">
+          Sign in
+        </Link>
       </div>
     </div>
   );

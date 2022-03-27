@@ -10,6 +10,6 @@ generates:
       - typescript-react-query
     config:
       fetcher:
-        func: '@/lib/fetcher'
+        func: '@/lib/fetcher#fetcher'
         isReactHook: false # optional, defaults to false, controls the function's signature. Read below
 

@@ -4,6 +4,7 @@ import './App.css';
 import ErrorBoundary from './components/ErrorBoundary';
 import Layout from './components/Layout';
 import LoadingSpinner from './components/LoadingSpinner';
+import About from './pages/About';
 
 const Home = lazy(() => import('./pages/Home'));
 const SignUp = lazy(() => import('./pages/SignUp'));
@@ -23,6 +24,7 @@ const App = ({
               <Route path="/" element={<Home />}></Route>
               <Route path="/sign-in" element={<SignIn />}></Route>
               <Route path="/sign-up" element={<SignUp />}></Route>
+              <Route path="/about" element={<About />}></Route>
             </Routes>
           </Suspense>
         </Layout>

@@ -30,11 +30,12 @@ export default class TokenRefresher {
       : Number.NEGATIVE_INFINITY;
     const now = new Date();
     const isValid = expirationTimeInSeconds >= now.getTime();
+    console.log({ isValid, retry: this.currRetryCount });
 
     // Return true if the token is still valid, otherwise false and trigger a token refresh
     return isValid;
   }
-  private async fetch() {
+  private async fetchToken() {
     try {
       const jwt: any = decodeJWT(getJwtToken() || '');
       console.log('fetchAccessToken jwt:', jwt);
@@ -81,12 +82,15 @@ export default class TokenRefresher {
     }
   }
   async refresh() {
-    if (this.currRetryCount >= this.retryCount) {
-      return;
-    }
     if (!this.isTokenValidOrUndefined()) {
+      if (this.currRetryCount >= this.retryCount) {
+        return;
+      }
       this.currRetryCount += 1;
-      await this.fetch();
+      await this.fetchToken();
     }
+  }
+  reset() {
+    this.currRetryCount = 0;
   }
 }

@@ -135,9 +135,13 @@ pre {
 }
 @layer utilities {
   .base-input {
-    @apply border-2 border-gray-200 rounded-md text-base p-2;
+    @apply border-2 border-gray-200 rounded-md text-base p-2 w-full;
   }
   .teal-btn {
     @apply py-2 px-4 rounded-sm bg-teal-700 text-white hover:bg-teal-600;
   }
+}
+.link {
+  text-decoration: underline;
+  color: darkorange;
 }

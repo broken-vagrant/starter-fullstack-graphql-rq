@@ -1,3 +1,4 @@
+import { tokenRefresher } from '@/lib/auth';
 import { sessionChannel } from '@/lib/broadcast';
 import { setJwtToken, setRefreshToken } from '@/utils/jwt';
 import {
@@ -10,9 +11,7 @@ import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const { data } = useWhoAmIQuery(undefined, {
-    staleTime: 30 * 1000,
-  });
+  const { data } = useWhoAmIQuery(undefined);
   const navigate = useNavigate();
   const client = useQueryClient();
   const { mutate } = useLogoutMutation({
@@ -23,12 +22,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
         client.clear();
         sessionStorage.clear();
         await sessionChannel.postMessage({ type: 'logout' });
-        client.refetchQueries(['WhoAmI']);
-        navigate('/sign-in');
+        navigate('/');
+        tokenRefresher.reset();
       } catch (err) {
         console.error(err);
       } finally {
-        navigate('/sign-in');
+        navigate('/');
       }
     },
   });
@@ -44,7 +43,22 @@ const Layout = ({ children }: { children: ReactNode }) => {
             Auth Demo
           </h1>
         </Link>
-        <div className="flex items-center">
+        <div className="flex items-center gap-4">
+          <div>
+            <Link to="/about" className="underline">
+              about
+            </Link>
+          </div>
+          <div>
+            <Link to="/sign-in" className="underline">
+              sign-in
+            </Link>
+          </div>
+          <div>
+            <Link to="/sign-up" className="underline">
+              sign-up
+            </Link>
+          </div>
           <div>
             Profile: <strong>{data?.whoami?.name || 'Guest'}</strong>
           </div>

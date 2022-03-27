@@ -7,25 +7,25 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const LoadUsers = () => {
-  const [triggerQuery, setTriggerQuery] = useState(false);
+  const [enabled, setEnabled] = useState(false);
   const { data, error, isLoading } = useGetAllUsersQuery(undefined, {
-    enabled: triggerQuery,
+    enabled,
     onError: (err: Error) => {
       console.error(err);
     },
+    staleTime: 2 * 60000, // 2 minutes
   });
   const getAllUsers = () => {
-    if (!triggerQuery) {
-      setTriggerQuery(true);
+    if (!enabled) {
+      setEnabled(true);
     }
   };
   return (
     <div className="flex flex-col items-center">
       <h2 className="m-1 text-2xl font-extrabold">Welcome to Demo!</h2>
       <button onClick={getAllUsers} className="teal-btn">
-        Load users
+        {isLoading ? 'loading...' : 'Load users'}
       </button>
-      {isLoading && <div>Loading...</div>}
       {error && <div>{error.message}</div>}
       {!isLoading && !error && (
         <ul className="mt-8">
@@ -47,7 +47,6 @@ const Demo = () => {
     onError: () => {
       navigate('/sign-in');
     },
-    refetchOnMount: true,
   });
   if (isLoading) {
     return <LoadingSpinner />;
@@ -55,7 +54,11 @@ const Demo = () => {
   if (!data?.whoami) {
     return (
       <div className="flex justify-center items-center">
-        Please &nbsp; <Link to="/sign-in">sign in</Link>.
+        Please &nbsp;{' '}
+        <Link to="/sign-in" className="link">
+          sign in
+        </Link>
+        .
       </div>
     );
   }
