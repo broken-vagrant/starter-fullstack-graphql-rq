@@ -6,13 +6,12 @@
     "start": "node -r ./scripts/prod-loader.js dist/src/index.js",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit && eslint  --quiet --fix --ignore-path .gitignore",
-    "test": "rm -rf prisma/dev.db && prisma db push && jest",
+    "test": "rm -rf prisma/dev.db && prisma db push && jest --setupFiles dotenv/config",
     "build": "npm -s run clean && npm -s run generate && tsc",
     "prettier": "prettier --ignore-path .gitignore --write",
     "generate": "npm -s run nexus:gen && npm -s run prisma:gen",
     "nexus:gen": "ts-node src/schema",
-    "prisma:gen": "prisma generate",
-    "prisma:mig:init": "prisma migrate dev --name init",
+    "prisma:gen": "prisma migrate dev && prisma generate",
     "prisma:mig:dev": "prisma migrate dev",
     "prisma:mig:reset": "prisma migrate reset",
     "prisma:mig:deploy": "prisma migrate deploy",
@@ -32,6 +31,7 @@
     "nexus": "1.2.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^6.0.0",
     "@tsconfig/node16": "^1.0.2",
     "@types/bcrypt": "^5.0.0",
     "@types/cookie": "^0.4.1",

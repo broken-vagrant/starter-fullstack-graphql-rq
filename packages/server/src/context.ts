@@ -10,10 +10,4 @@ export interface Context {
   res: Response;
 }
 
-const prisma = new PrismaClient();
-
-export const context: Context = {
-  prisma: prisma,
-  req: {} as Request,
-  res: {} as Response,
-};
+export const prisma = new PrismaClient();

@@ -25,7 +25,7 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   title     String
-  content   String?
+  content   String?  @db.LongText
   published Boolean  @default(false)
   viewCount Int      @default(0)
   authorId  Int?

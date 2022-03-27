@@ -912,6 +912,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@faker-js/faker@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "@faker-js/faker@npm:6.0.0"
+  checksum: 099f712ad6c323847ffe10cd522861eccd81c80812b59ae5e0011ee2fa4881a50ff1183686e9c1bb043fd0b2ff4fac291c776093ccab7a38c4baafa71fa39198
+  languageName: node
+  linkType: hard
+
 "@gar/promisify@npm:^1.0.1":
   version: 1.1.3
   resolution: "@gar/promisify@npm:1.1.3"
@@ -1976,6 +1983,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@starter/server@workspace:packages/server"
   dependencies:
+    "@faker-js/faker": ^6.0.0
     "@prisma/client": 3.10.0
     "@tsconfig/node16": ^1.0.2
     "@types/bcrypt": ^5.0.0

@@ -10,13 +10,13 @@ type TestContext = {
 export function createTestContext(): TestContext {
   const ctx = {} as TestContext;
   const graphqlCtx = graphqlTestContext();
-  beforeEach(async () => {
+  beforeAll(async () => {
     const client = await graphqlCtx.startServerAndGetClient();
     Object.assign(ctx, {
       client,
     });
   });
-  afterEach(async () => {
+  afterAll(async () => {
     await graphqlCtx.closeServer();
   });
   return ctx;
@@ -36,3 +36,17 @@ function graphqlTestContext() {
     },
   };
 }
+
+import faker from '@faker-js/faker';
+import { NexusGenInputs } from '@/__generated__/nexus';
+
+export const createFakeUser = (): NexusGenInputs['UserCreateWhereInput'] => ({
+  email: faker.internet.email(faker.random.word()),
+  password: faker.internet.password(8),
+  name: faker.name.firstName(),
+});
+
+export const createFakePostData = (): NexusGenInputs['PostCreateInput'] => ({
+  title: faker.lorem.words(5),
+  content: faker.lorem.paragraphs(2),
+});

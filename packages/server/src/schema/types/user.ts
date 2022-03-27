@@ -1,6 +1,10 @@
 import { arg, extendType, inputObjectType, nonNull, objectType } from 'nexus';
 import { Context } from '@/context';
-import { FINGERPRINT_COOKIE_NAME } from '@/constants';
+import {
+  FINGERPRINT_COOKIE_NAME,
+  getRefreshTokenExpiryTime,
+  JWT_REFRESH_TOKEN_EXPIRES_IN,
+} from '@/constants';
 import { getCookie } from '@/utils';
 import {
   uuidv4,
@@ -241,9 +245,8 @@ export const userMutations = extendType({
           },
           data: {
             refreshToken,
-            // 1 hour, UTC time in ISO format
             refreshTokenExpiresAt: new Date(
-              Date.now() + 1000 * 60 * 60 * 1
+              Date.now() + getRefreshTokenExpiryTime()
             ).toISOString(),
           },
         });
@@ -308,12 +311,12 @@ export const userMutations = extendType({
           data: {
             refreshToken: uuidv4(),
             refreshTokenExpiresAt: new Date(
-              Date.now() + 1000 * 60 * 60 * 1
+              Date.now() + getRefreshTokenExpiryTime()
             ).toISOString(),
           },
         });
         const jwt = tokenGenerator.signWithClaims({
-          expiresIn: '5m',
+          expiresIn: JWT_REFRESH_TOKEN_EXPIRES_IN,
           allowedRoles: ['user'],
           defaultRole: 'user',
           otherClaims: {

@@ -7,6 +7,7 @@ import {
 } from 'apollo-server-core';
 import { IS_PROD } from './constants';
 import { getUser } from './utils';
+import { prisma } from './context';
 
 const server = new ApolloServer({
   schema: schema,
@@ -19,6 +20,7 @@ const server = new ApolloServer({
       user,
       req,
       res,
+      prisma,
     };
   },
   cors: {

@@ -7,7 +7,7 @@ export const getUser = (token: string): DecodedUser | null => {
     const claims = decoded['https://hasura.io/jwt/claims'];
 
     return {
-      id: claims['X-Hasura-User-Id'],
+      id: Number(claims['X-Hasura-User-Id']),
       ...claims,
     };
   } catch (err) {
