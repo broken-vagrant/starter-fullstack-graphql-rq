@@ -18,7 +18,6 @@ export function setJwtToken(token: string) {
   });
 }
 
-// Longer duration refresh token (30-60 min)
 export function getRefreshToken() {
   return sessionStorage.getItem('refreshToken');
 }
