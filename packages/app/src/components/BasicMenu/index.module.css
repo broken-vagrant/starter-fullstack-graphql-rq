@@ -1,0 +1,64 @@
+.menu-item {
+  position: relative;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  vertical-align: middle;
+  overflow: hidden;
+  transition: color 0.3s ease;
+  margin: 0.3em;
+  border-radius: 4px;
+  border: 0;
+  width: auto;
+  padding: 0.4em 1em;
+  font: inherit;
+  user-select: none;
+  white-space: nowrap;
+  text-decoration: none;
+  text-align: left;
+  background-color: var(--clr-white);
+  color: var(--clr-text);
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
+.menu-item:hover {
+  background-color: var(--clr-white-1);
+}
+.menu-item.selected {
+  background-color: var(--clr-white-1);
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: rgba(0, 0, 0, 0.6);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.menu {
+  position: fixed;
+  inset: 0;
+  z-index: 1300;
+  visibility: hidden;
+}
+.menu.open {
+  visibility: visible;
+}
+.menu__children {
+  position: absolute;
+  visibility: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  outline: none;
+  border: 1px solid var(--clr-gray-1);
+  border-radius: 4px;
+  background-color: var(--clr-white);
+  color: var(--clr-text);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.menu.open .menu__children {
+  visibility: visible;
+  opacity: 1;
+}

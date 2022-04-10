@@ -31,10 +31,23 @@ const Modal = ({
   autoFocus,
   children,
   maxWidth,
-  classes,
+  classes = {},
   ...rest
 }: ModalProps) => {
   const [isMounted, setIsMounted] = useState(false);
+  const { ref, modalRoot } = useModal<HTMLDivElement>({
+    autoFocus,
+    focusFirst,
+    focusAfterClosed,
+    onClose,
+    overlayModal: true,
+  });
+  const {
+    root = '',
+    backDrop = '',
+    childrenOuter = '',
+    childrenContainer = '',
+  } = classes;
 
   useEffect(() => {
     setIsMounted(true);
@@ -43,36 +56,21 @@ const Modal = ({
     };
   }, [isMounted]);
 
-  const { ref, modalRoot } = useModal<HTMLDivElement>({
-    autoFocus,
-    focusFirst,
-    focusAfterClosed,
-    onClose,
-    overlayModal: true,
-  });
-
   const modal = (
-    <div
-      role="presentation"
-      className={`${defaultStyles.modal} ${classes ? classes?.root : ''}`}
-    >
+    <div role="presentation" className={`${defaultStyles.modal} ${root}`}>
       <div
         className={`${defaultStyles.backdrop} ${
           isMounted ? defaultStyles.mounted : ''
-        } ${classes ? classes?.backDrop : ''}`}
+        } ${backDrop}`}
       >
         <div tabIndex={0}></div>
         <div
           role="presentation"
           tabIndex={-1}
-          className={`${defaultStyles.children__outer} ${
-            classes?.childrenOuter ? classes.childrenOuter : ''
-          }`}
+          className={`${defaultStyles.children__outer} ${childrenOuter}`}
         >
           <div
-            className={`${defaultStyles.children__container} ${
-              classes?.childrenContainer ? classes.childrenContainer : ''
-            }`}
+            className={`${defaultStyles.children__container} ${childrenContainer}`}
             ref={ref}
             role="dialog"
             style={maxWidth ? { maxWidth } : {}}
