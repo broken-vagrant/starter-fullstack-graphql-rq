@@ -12,7 +12,9 @@
     "server": "yarn workspace @starter/server",
     "precommit": "lint-staged",
     "prettier:all": "prettier --write .",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "start": "yarn server start",
+    "build": "yarn server build"
   },
   "devDependencies": {
     "@apollo/rover": "^0.4.3",
