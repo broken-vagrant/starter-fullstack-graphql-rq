@@ -1,6 +1,8 @@
 import { ServerInfo } from 'apollo-server';
 import getPort, { makeRange } from 'get-port';
 import { GraphQLClient } from 'graphql-request';
+import faker from '@faker-js/faker';
+import { NexusGenInputs } from '@/__generated__/nexus';
 import server from '../server';
 
 type TestContext = {
@@ -36,10 +38,6 @@ function graphqlTestContext() {
     },
   };
 }
-
-import faker from '@faker-js/faker';
-import { NexusGenInputs } from '@/__generated__/nexus';
-
 export const createFakeUser = (): NexusGenInputs['UserCreateWhereInput'] => ({
   email: faker.internet.email(faker.random.word()),
   password: faker.internet.password(8),

@@ -14,7 +14,7 @@ import {
   sha256,
 } from '@/utils/crypto';
 import tokenGenerator from '@/utils/TokenGenerator';
-import { AuthenticationError } from 'apollo-server';
+import { AuthenticationError, UserInputError } from 'apollo-server';
 import { serialize } from 'cookie';
 import crypto from 'crypto';
 
@@ -133,6 +133,7 @@ export const userQueries = extendType({
             id: true,
             name: true,
           },
+          take: 5,
         });
       },
     });
@@ -157,7 +158,7 @@ export const userMutations = extendType({
           },
         });
         if (user) {
-          throw new Error(`User with Email: ${args.data.email} already Exists`);
+          throw new UserInputError(`user already exists`);
         }
         const { email, name, password } = args.data;
 
