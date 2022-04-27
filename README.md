@@ -1,5 +1,5 @@
 # Typescript Full stack starter (Graphql)
-It includes user authentication flow based on JWT, refreshTokens and uses React, Graphql, Apollo server, Express, Nexus, React-query, jest, vite, vitest (improved testing for vite).
+It includes user authentication flow based on JWT, refreshTokens, tab synchronization using broadcast channel. It uses React, Graphql, Apollo server, Express, Nexus, React-query, jest, vite, vitest (improved testing for vite).
 
 ## Requirements
 
