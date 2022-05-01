@@ -38,7 +38,7 @@
     "@types/cookie": "^0.4.1",
     "@types/jest": "^27.4.1",
     "@types/jsonwebtoken": "^8.5.8",
-    "@types/node": "16.11.26",
+    "@types/node": "16.11.33",
     "gen-env-types": "1.3.3",
     "get-port": "5.1.1",
     "graphql-request": "4.1.0",
@@ -72,7 +72,7 @@
     "testEnvironment": "node"
   },
   "engines": {
-    "node": "16.10",
+    "node": "16.15",
     "yarn": "1.x"
   }
 }
