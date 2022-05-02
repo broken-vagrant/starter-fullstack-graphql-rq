@@ -1989,7 +1989,7 @@ __metadata:
     get-port: 5.1.1
     graphql: 15.8.0
     graphql-request: 4.1.0
-    graphql-scalars: 1.14.1
+    graphql-scalars: 1.17.0
     jest: ^27.5.1
     jsonwebtoken: ^8.5.1
     nexus: 1.2.0
@@ -5686,14 +5686,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graphql-scalars@npm:1.14.1":
-  version: 1.14.1
-  resolution: "graphql-scalars@npm:1.14.1"
+"graphql-scalars@npm:1.17.0":
+  version: 1.17.0
+  resolution: "graphql-scalars@npm:1.17.0"
   dependencies:
     tslib: ~2.3.0
   peerDependencies:
     graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-  checksum: b7bdddc49fbd305d18da47b00f2a6e910d5b4e017cb62b61045e138f308348f5c53a7bba3912d2ae6e7e292971b5195c3a8d197f4eee60da60e7cc32756c8848
+  checksum: 4ac8f2ef7a387bac85e32381fc73067e7dd4ad4c1bef4cda3b5de4eb907ef9bc258372e1dcf225547390b5798a476073e6d83eb36ecdf6c3c06669c13d021962
   languageName: node
   linkType: hard
 
