@@ -1785,31 +1785,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@prisma/client@npm:3.10.0":
-  version: 3.10.0
-  resolution: "@prisma/client@npm:3.10.0"
+"@prisma/client@npm:3.13.0":
+  version: 3.13.0
+  resolution: "@prisma/client@npm:3.13.0"
   dependencies:
-    "@prisma/engines-version": 3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86
+    "@prisma/engines-version": 3.13.0-17.efdf9b1183dddfd4258cd181a72125755215ab7b
   peerDependencies:
     prisma: "*"
   peerDependenciesMeta:
     prisma:
       optional: true
-  checksum: c9fe863abfbcecff6b26c2fc4c93de77fd11c8209e91b8e2cba13ba3f0866d228eb5e92fac43e1f75497b652db54cb5e309320c3d51e603a4ecb4125dbf3a872
+  checksum: 8c1e6c91208158b71684a9b03a27d8240315002340ca3ad5c298beaedf4ca29fda949e934a55e1f238ff215388c77348acf05f0cea7636f3236d66d6510d0c56
   languageName: node
   linkType: hard
 
-"@prisma/engines-version@npm:3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86":
-  version: 3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86
-  resolution: "@prisma/engines-version@npm:3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86"
-  checksum: ddcb3bfdab61ac74e2df9e57562ccc7f0eb863955c8cf711f52f45572168f65e030e5070dfc9fc2e37d916b97b236576006b5cd56c813257a96b825c598e79fa
+"@prisma/engines-version@npm:3.13.0-17.efdf9b1183dddfd4258cd181a72125755215ab7b":
+  version: 3.13.0-17.efdf9b1183dddfd4258cd181a72125755215ab7b
+  resolution: "@prisma/engines-version@npm:3.13.0-17.efdf9b1183dddfd4258cd181a72125755215ab7b"
+  checksum: 80238c778333eb0d9bc993e933cb83ed82488d53980d2cdc68ff25ef719de1a63ec05a32bb2af505115e4c179ea43389c8650c297c2f8dbda0c122e9c00197ee
   languageName: node
   linkType: hard
 
-"@prisma/engines@npm:3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86":
-  version: 3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86
-  resolution: "@prisma/engines@npm:3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86"
-  checksum: 7faa8659dd72e70f9b24be291e3660d086d5b2ee1b6557bf783100a2efaf4f7087882196191c845f96c3953a55ea8bcb03110af98a18e803b90084c0c2211444
+"@prisma/engines@npm:3.13.0-17.efdf9b1183dddfd4258cd181a72125755215ab7b":
+  version: 3.13.0-17.efdf9b1183dddfd4258cd181a72125755215ab7b
+  resolution: "@prisma/engines@npm:3.13.0-17.efdf9b1183dddfd4258cd181a72125755215ab7b"
+  checksum: 045e08c6c72891a6e0028357d261ca5995ca5bdc2c6466b294141e37605ec1f1eb72f4d49301adc76680bedcf82d9671221befe40d4746f3e679a4406767adb5
   languageName: node
   linkType: hard
 
@@ -1974,7 +1974,7 @@ __metadata:
   resolution: "@starter/server@workspace:packages/server"
   dependencies:
     "@faker-js/faker": ^6.0.0
-    "@prisma/client": 3.10.0
+    "@prisma/client": 3.13.0
     "@tsconfig/node16": ^1.0.2
     "@types/bcrypt": ^5.0.0
     "@types/cookie": ^0.4.1
@@ -1993,7 +1993,7 @@ __metadata:
     jest: ^27.5.1
     jsonwebtoken: ^8.5.1
     nexus: 1.2.0
-    prisma: 3.10.0
+    prisma: 3.13.0
     ts-jest: ^27.1.3
     ts-node: ^10.7.0
     ts-node-dev: 1.1.8
@@ -8562,15 +8562,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prisma@npm:3.10.0":
-  version: 3.10.0
-  resolution: "prisma@npm:3.10.0"
+"prisma@npm:3.13.0":
+  version: 3.13.0
+  resolution: "prisma@npm:3.13.0"
   dependencies:
-    "@prisma/engines": 3.10.0-50.73e60b76d394f8d37d8ebd1f8918c79029f0db86
+    "@prisma/engines": 3.13.0-17.efdf9b1183dddfd4258cd181a72125755215ab7b
+    ts-pattern: ^4.0.1
   bin:
     prisma: build/index.js
     prisma2: build/index.js
-  checksum: da693ebd69ec5f5a8132a86f1c6e300033a5ea869016e19364f514fdda6143f0d6236982a26b431313f06fecfaa2d1bd82eac3ebbf5b58082271f1a65c8a683d
+  checksum: cbd59f53eea125cdb14722d16bf21e38a5eb82ed4e5f42f3732c33884158fe014eb576aa8580f670ece403706dfb64e2d6e741f50f3320b7bf08c7e8ec44a4b4
   languageName: node
   linkType: hard
 
@@ -10048,6 +10049,13 @@ __metadata:
     ts-node-transpile-only: dist/bin-transpile.js
     ts-script: dist/bin-script-deprecated.js
   checksum: 356e2647b8b1e6ab00380c0537fa569b63bd9b6f006cc40fd650f81fae1817bd8fecc075300036950d8f45c1d85b95be33cd1e48a1a424a7d86c3dbb42bf60e5
+  languageName: node
+  linkType: hard
+
+"ts-pattern@npm:^4.0.1":
+  version: 4.0.2
+  resolution: "ts-pattern@npm:4.0.2"
+  checksum: 1156c3dea42b9b9373d1c7c96bcd24d82a37701ab7fdd399178d58c350153c2322455d27459c8cb0d8fa445958632ffa776ed612fd656ffd35a94c79d5d3d5b8
   languageName: node
   linkType: hard
 
