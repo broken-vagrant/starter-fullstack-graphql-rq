@@ -11,22 +11,30 @@
   <meta name="theme-color" content="#90cdf4">
   <meta name="image" content="">
   <title>React starter</title>
+  <style>
+    body {
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   The website has been moved.
-        <script type = "text/javascript">
-            function Redirect() {
-               window.location = "https://zkindest.github.io/fs-gql-rq-frontend";
-            }
-      </script>
       <form>
         <button type = "submit" onclick = "Redirect();" >
           Take Me there
         </button>
       </form>
-
+    <script type = "text/javascript">
+            function Redirect(e) {
+              e.preventDefault();
+               window.location = "https://zkindest.github.io/fs-gql-rq-frontend";
+            }
+      </script>
 </body>
 
 </html>
