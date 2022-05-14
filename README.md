@@ -1,6 +1,7 @@
+> I **moved** this repo to poly repo structure, here are links([frontend](https://github.com/zkindest/fs-gql-rq-frontend),[backend](https://github.com/zkindest/fs-gql-rq-backend)).
+> 
 > **NOTE:** This Mono repo **isn't being updated** anymore because I don't want to use build systems like Nx,Bazel. checkout this [website](https://monorepo.tools/) on why these tools are required.
 
-> I moved to poly repo structure, here are links([frontend](https://github.com/zkindest/fs-gql-rq-frontend),[backend](https://github.com/zkindest/fs-gql-rq-backend)).
 # Typescript Full stack starter (Graphql)
 It includes user authentication flow based on JWT, refreshTokens, tab synchronization using broadcast channel. It uses React, Graphql, Apollo server, Express, Nexus, React-query, jest, vite, vitest (improved testing for vite).
 ## Requirements
